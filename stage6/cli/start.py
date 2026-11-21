@@ -32,11 +32,18 @@ for _p in (_HERE, os.path.join(_HERE, "..", "host"), os.path.join(_HERE, "..", "
         sys.path.insert(0, _p)
 
 
+def _offline() -> bool:
+    """EX_REAL=0 即离线模式：不建网络连接，不需要 API key。"""
+    return os.environ.get("EX_REAL", "1") == "0"
+
+
 def _resolve_key() -> str:
     """返回 key（来自 env 或用户输入）。只存内存，不落盘。"""
     env_key = os.environ.get("DEEPSEEK_API") or os.environ.get("OPENAI_API_KEY") or ""
     if env_key.strip():
         return env_key.strip()
+    if _offline():
+        return ""
     print("没有检测到已配置的 DeepSeek API Key。")
     print("请输入你的 Key（输入不会显示，回车确认；不会保存到任何文件）：")
     key = getpass.getpass("DeepSeek API Key: ").strip()
@@ -48,8 +55,10 @@ def _resolve_key() -> str:
 
 def _apply_defaults(key: str) -> None:
     """把 key + 默认 provider/model 配置到当前进程（仅内存）。"""
-    os.environ["DEEPSEEK_API"] = key
-    os.environ.setdefault("OPENAI_API_KEY", key)          # real_llm_adapter 读 OPENAI_API_KEY
+    # 离线模式（EX_REAL=0）没有 key，不要写入空串污染 DEEPSEEK_API / OPENAI_API_KEY
+    if key:
+        os.environ["DEEPSEEK_API"] = key
+        os.environ.setdefault("OPENAI_API_KEY", key)      # real_llm_adapter 读 OPENAI_API_KEY
     os.environ.setdefault("OPENAI_BASE_URL", "https://api.deepseek.com")
     os.environ.setdefault("EX_PROVIDER", "openai")
     os.environ.setdefault("EX_MODEL", "deepseek-chat")
@@ -153,6 +162,8 @@ def main(argv=None) -> int:
             user = argv[i + 1]
     key = _resolve_key()
     _apply_defaults(key)
+    if _offline():
+        print("（离线模式：EX_REAL=0，不联网、不发请求；回复是固定占位文本）")
     # 启动现有 MVP CLI（pilot_recorder 引导；同一进程 → key 只在此进程内存）
     import pilot_recorder
     pilot_recorder.run_pilot(user_id=user)

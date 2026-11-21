@@ -52,7 +52,8 @@ def run_pilot(user_id: str | None = None):
     sess = os.path.join(sessions_dir(), user_id)
     os.environ["EX_BASE_DIR"] = base
     os.environ["EX_SESSION_DIR"] = sess
-    os.environ["EX_REAL"] = "1"
+    # 默认真实模型；外部显式 EX_REAL=0 时保留离线（不联网、不需要 key）
+    os.environ.setdefault("EX_REAL", "1")
     os.makedirs(base, exist_ok=True); os.makedirs(sess, exist_ok=True)
 
     print("=== Ex Pilot 引导 ===")
