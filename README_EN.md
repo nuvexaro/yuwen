@@ -55,6 +55,49 @@ For personal reflection and emotional healing only. **Not for harassment, stalki
 
 ---
 
+## Architecture
+
+```mermaid
+flowchart LR
+    subgraph IMP["① Import pipeline (offline, one-off)"]
+        A1["Chat export<br/>txt / json"] --> A2["parser<br/>wechat_parser / qq_parser"]
+        A2 --> A3["Message<br/>message.schema v1.2"]
+        A3 --> A4["Evidence extraction<br/>evidence_extractor"]
+        A4 --> A5["Evidence merge<br/>evidence_merge"]
+        A5 --> A6["Resolve<br/>resolve_bundle"]
+        A6 --> A7[("persona_memory.json<br/>v1.2")]
+    end
+
+    subgraph CHAT["② Chat loop (online, per turn)"]
+        B1["User input"] --> B2["Reality pre-check<br/>reality_boundary"]
+        B2 --> B3["Memory retrieval<br/>memory_retrieval"]
+        B3 --> B4["Context assembly<br/>context_assembly"]
+        B4 --> B5["LLM gateway<br/>llm_gateway"]
+        B5 --> B6["Reply"]
+    end
+
+    subgraph FIX["③ Correction branch"]
+        C1["Detect correction<br/>correction_runtime"] --> C2["Conflict check<br/>correction_conflicts"]
+        C2 --> C3["User confirms"]
+        C3 --> C4["Backup & write back<br/>instance_persistence"]
+    end
+
+    A7 -. load persona/memory .-> B3
+    B1 -. "that's not right…" .-> C1
+    C4 -. revision + 1 .-> A7
+```
+
+The core idea is one sentence: **every item in the persona is traceable to an original message**.
+A memory item carries `evidence_ids` pointing at evidence candidates; each candidate carries
+`supporting_message_ids` pointing at the original `Message`. The model therefore cannot invent a
+memory on the other person's behalf — anything it claims has to land on a sourced record, and if it
+can't, it is supposed to say "I'm not sure".
+
+The two pipelines are decoupled: the import pipeline only writes `persona_memory.json`, the chat loop
+only reads it. A JSON Schema sits in between, so changing one side cannot silently break the other.
+
+---
+
 ## Privacy & data flow (read this first)
 
 All data lives on your own machine (CLI/EXE: `~/.ex_ai/`; skill mode: `./exes/` in your project).

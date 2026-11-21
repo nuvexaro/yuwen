@@ -54,6 +54,44 @@
 
 ---
 
+## 架构
+
+```mermaid
+flowchart LR
+    subgraph IMP["① 导入链（离线、一次性）"]
+        A1["聊天记录<br/>txt / json"] --> A2["parser<br/>wechat_parser / qq_parser"]
+        A2 --> A3["Message<br/>message.schema v1.2"]
+        A3 --> A4["证据抽取<br/>evidence_extractor"]
+        A4 --> A5["证据合并<br/>evidence_merge"]
+        A5 --> A6["裁决<br/>resolve_bundle"]
+        A6 --> A7[("persona_memory.json<br/>v1.2")]
+    end
+
+    subgraph CHAT["② 对话链（在线、每轮一次）"]
+        B1["用户输入"] --> B2["现实预检<br/>reality_boundary"]
+        B2 --> B3["记忆检索<br/>memory_retrieval"]
+        B3 --> B4["组装上下文<br/>context_assembly"]
+        B4 --> B5["LLM 网关<br/>llm_gateway"]
+        B5 --> B6["回复"]
+    end
+
+    subgraph FIX["③ 纠正分支"]
+        C1["识别纠正<br/>correction_runtime"] --> C2["冲突检查<br/>correction_conflicts"]
+        C2 --> C3["用户确认"]
+        C3 --> C4["备份并写回<br/>instance_persistence"]
+    end
+
+    A7 -. 加载人格/记忆 .-> B3
+    B1 -. 说"不对…" .-> C1
+    C4 -. revision + 1 .-> A7
+```
+
+核心设计只有一条：**人格里的每一条内容都能追溯到原始消息**。记忆条目身上带着 `evidence_ids`，指向证据候选；候选带着 `supporting_message_ids`，指向原始 `Message`。所以模型不能凭空替对方"回忆"——它想说的话必须能落到某条有出处的记录上，落不到就该说"我不太确定"。
+
+另外两条链是解耦的：导入链只写 `persona_memory.json`，对话链只读它。中间靠 JSON Schema 卡住格式，改一边不会悄悄破坏另一边。
+
+---
+
 ## 隐私与数据流向（请先读这段）
 
 所有数据默认存在你自己的电脑上（CLI/EXE 版在 `~/.ex_ai/`，Skill 版在你项目的 `./exes/`）。
