@@ -247,6 +247,51 @@ Key 只在当前进程内存里，不写盘。也可以用 `python mvp_cli.py ch
 
 ---
 
+## 使用本地模型（免费、无需 API Key、数据不出本机）
+
+不想申请 API Key、或者不想让对话内容离开本机，可以用 **Ollama + Qwen3.5-4B** 在本机跑。
+启动时选「2) 本地模型」即可，两种后端并存，随时切回云端。
+
+### 硬件建议
+
+| 显存 | 建议 | 说明 |
+|---|---|---|
+| ≥ 8 GB | `yuwen-4b-q8`（Q8_0，约 4.3 GB） | 质量最好；4096 上下文下显存占用约 5.5 GB，8 GB 卡（系统占 2 GB）会比较紧 |
+| ≥ 6 GB | `yuwen-4b-q4`（Q4_K_M，约 2.6 GB） | **默认值**，4096 上下文约 4.1 GB，最稳 |
+| 4 GB 左右 | `yuwen-4b-q4` | 可能需要降低上下文（`PARAMETER num_ctx 2048`） |
+| 无独显 | 换成 Qwen3.5-2B 之类的更小模型 | **未实测**，纯 CPU 会很慢（每轮几十秒量级） |
+
+> 上表的显存是按「模型体积 + 4096 上下文的 KV cache（约 1.1 GB）+ 计算缓冲」估的，不是实测值。
+
+### 步骤
+
+```bash
+# 1. 安装 Ollama（只需一次）  https://ollama.com/download
+#    装完确认它在后台运行：ollama list 能正常输出
+
+# 2. 拉取模型（约 2.6 GB，只需一次）
+ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q4_K_M
+
+# 3. 建一个 4096 上下文的别名（只需一次）
+#    新建文本文件 Modelfile，写上两行：
+#      FROM modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q4_K_M
+#      PARAMETER num_ctx 4096
+ollama create yuwen-4b-q4 -f Modelfile
+
+# 4. 启动 yuwen，在菜单里选「2) 本地模型」
+```
+
+想用 Q8_0 就先 `ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q8_0`、用同样的方式建别名 `yuwen-4b-q8`，
+然后设环境变量 `EX_MODEL=yuwen-4b-q8`（`set EX_MODEL=yuwen-4b-q8` 或 `$env:EX_MODEL='yuwen-4b-q8'`）。
+
+### 说明
+
+- 本地模式**不需要 API Key**，也不会向外发任何请求；所有推理都在你的机器上完成。
+- **效果会比云端大模型弱**：4B 模型在长对话里更容易忘记设定、语气更平。
+- 生成速度与显存峰值的本机实测数据：模型下载完成后补充（当前只确认了模型体积：Q4_K_M 2.6 GB、Q8_0 4.3 GB）。
+
+---
+
 ## 获取 DeepSeek API Key
 
 yuwen 默认走 DeepSeek。你需要自己的 key（不共享、按量计费）。

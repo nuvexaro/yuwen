@@ -10,6 +10,15 @@
 
 ## 版本
 
+### 未发布（v0.2.0）
+
+- 新增**本地模型后端**：`YUWEN_BACKEND=local` 时改用本机 Ollama（OpenAI 兼容接口），不需要 API key，数据不出本机；默认仍是 `deepseek`，两种后端并存
+- 本地模式复用已有变量（`OPENAI_BASE_URL` / `EX_MODEL` / `OPENAI_API_KEY`），一律 `setdefault`，**不覆盖用户手动设置**；换模型只需 `EX_MODEL=yuwen-4b-q8`
+- `start.py` 增加后端选择菜单（`--backend` / `YUWEN_BACKEND` / 交互三种方式），选本地时检查 Ollama 服务与模型是否存在；不满足时打印安装与拉取步骤并正常退出（退出码 3，不崩溃）
+- 网关新增 `<think>…</think>` 剥离，作为「关不掉思考模式」的兜底；本地模式下同时尝试用 `chat_template_kwargs.enable_thinking=false` 从接口层关闭
+- 新增 `runtime/tests/test_local_backend.py`（36 断言）：后端选择、setdefault 语义、local 不要求 key、去 think、Ollama 健康检查；全部用假 SDK / 假 urllib，不依赖真实 Ollama，CI 可跑
+- README / README_EN 新增「使用本地模型」章节（硬件建议、步骤、限制）；COMPLIANCE 新增 5.1 节说明本地模式的数据流向
+
 ### v0.1.1（2026-11-21）
 
 - 新增 **Windows 安装程序**（Inno Setup，`packaging/installer.iss`）：当前用户安装、无需管理员权限、默认装到 `%LOCALAPPDATA%\Programs\yuwen`、开始菜单快捷方式 + 可选桌面快捷方式、简体中文 / 英文界面、带卸载程序并出现在「设置 → 应用」里；**卸载不删除用户数据**，卸载完成时会提示数据位置与手动删除方法

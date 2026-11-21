@@ -261,6 +261,54 @@ The key stays in process memory only and is never written to disk. You can also 
 
 ---
 
+## Use a local model (free, no API key, data never leaves your machine)
+
+If you'd rather not get an API key — or don't want your conversations leaving the machine — run
+**Ollama + Qwen3.5-4B** locally. Pick "2) local model" at launch; both backends coexist and you can
+switch back to the cloud at any time.
+
+### Hardware guidance
+
+| VRAM | Recommended | Notes |
+|---|---|---|
+| ≥ 8 GB | `yuwen-4b-q8` (Q8_0, ~4.3 GB) | Best quality; ~5.5 GB at 4096 ctx, tight on an 8 GB card (2 GB used by the desktop) |
+| ≥ 6 GB | `yuwen-4b-q4` (Q4_K_M, ~2.6 GB) | **Default**; ~4.1 GB at 4096 ctx, the safest option |
+| ~4 GB | `yuwen-4b-q4` | May need a shorter context (`PARAMETER num_ctx 2048`) |
+| No dGPU | A smaller model such as Qwen3.5-2B | **Not measured**; pure CPU is slow (tens of seconds per turn) |
+
+> VRAM figures are estimates: model size + KV cache for 4096 ctx (~1.1 GB) + compute buffers. Not measured.
+
+### Steps
+
+```bash
+# 1. Install Ollama (once)  https://ollama.com/download
+#    Make sure it's running: `ollama list` should print something
+
+# 2. Pull the model (~2.6 GB, once)
+ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q4_K_M
+
+# 3. Create a 4096-context alias (once)
+#    Create a text file named Modelfile with two lines:
+#      FROM modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q4_K_M
+#      PARAMETER num_ctx 4096
+ollama create yuwen-4b-q4 -f Modelfile
+
+# 4. Launch yuwen and choose "2) local model"
+```
+
+To use Q8_0, `ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q8_0`, create the alias
+`yuwen-4b-q8` the same way, then set `EX_MODEL=yuwen-4b-q8`
+(`set EX_MODEL=yuwen-4b-q8` or `$env:EX_MODEL='yuwen-4b-q8'`).
+
+### Notes
+
+- Local mode **needs no API key** and sends nothing off-device; all inference runs on your machine.
+- **Quality is lower than a large cloud model**: a 4B model forgets context more easily and sounds flatter.
+- Throughput and VRAM peak on this machine will be added once the model download finishes
+  (only sizes are confirmed so far: Q4_K_M 2.6 GB, Q8_0 4.3 GB).
+
+---
+
 ## Get a DeepSeek API key
 
 yuwen talks to DeepSeek by default. You need your own key (not shared, billed by usage).

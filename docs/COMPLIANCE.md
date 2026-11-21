@@ -100,6 +100,21 @@ Skill 模式没有本项目自己的网络请求。但当你在 Claude Code 里�
 
 ---
 
+## 5.1 本地模型模式（`YUWEN_BACKEND=local`）
+
+设置 `YUWEN_BACKEND=local`（在启动菜单里选「2) 本地模型」等价）后，模型调用改为本机 Ollama：
+
+- 请求发往 `http://localhost:11434/v1`（可用 `OPENAI_BASE_URL` 覆盖），**不出本机**。
+- 不要求 API key；`OPENAI_API_KEY` 只是给 openai SDK 的占位串 `local-no-key`，不参与任何网络认证。
+- 提示词内容（人格块 + 命中的记忆 + 当前消息）仍然会组成一次请求，只是收件方变成了本机的 Ollama 进程。
+- 因此**数据不离开本机**：没有第三方服务器参与，也没有遥测。
+- 注意：Ollama 自身会读你本机的模型文件；它的行为不在本项目控制范围内。
+
+代码位置：`benchmark/real_llm_adapter.py` 的 `backend()` / `apply_local_defaults()` / `openai_adapter`，
+`stage6/cli/start.py` 的 `_choose_backend()` / `_ollama_ready()`。
+
+---
+
 ## 6. 明确不会发生的事
 
 - 不上传原始聊天记录导出文件、照片、截图到任何服务器
