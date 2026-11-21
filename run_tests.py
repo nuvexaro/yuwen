@@ -22,6 +22,14 @@ import subprocess
 import sys
 import time
 
+# Windows 非中文 locale（如 cp1252）下，print 中文会抛 UnicodeEncodeError 并中断汇总。
+# 强制把本进程的 stdout/stderr 切到 UTF-8；子进程另有 PYTHONIOENCODING 兜底。
+for _s in (sys.stdout, sys.stderr):
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
 ROOT = os.path.dirname(os.path.abspath(__file__))
 
 # 28 个测试套件（相对 ROOT 的路径，统一用正斜杠，跨平台）
