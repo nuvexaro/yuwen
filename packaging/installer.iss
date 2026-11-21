@@ -12,7 +12,7 @@
 
 #define AppName "yuwen"
 #define AppNameCN "余温"
-#define AppVersion "0.1.1"
+#define AppVersion "0.2.0"
 #define AppPublisher "nuvexaro"
 #define AppURL "https://github.com/nuvexaro/yuwen"
 #define AppExeName "ex-ai-pilot.exe"
