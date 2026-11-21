@@ -158,10 +158,11 @@ def t_local_no_key():
              str(_FakeClient.init_kwargs.get("api_key")))
         C.ok("adapter: 构造 adapter 不抛错", isinstance(rla.make_provider_adapter("openai"), object))
 
-        # 关思考：local 模式必须带 chat_template_kwargs
-        body = _FakeClient.call_kwargs.get("extra_body")
-        C.ok("adapter: local 关闭 thinking",
-             body == {"chat_template_kwargs": {"enable_thinking": False}}, str(body))
+        # 关思考：local 模式在 prompt 末尾追加 Qwen 的软开关 /no_think
+        sent = _FakeClient.call_kwargs["messages"][0]["content"]
+        C.ok("adapter: local 追加 /no_think", sent.endswith("/no_think"), repr(sent[-20:]))
+        C.ok("adapter: local 不额外塞 chat_template_kwargs",
+             "extra_body" not in _FakeClient.call_kwargs, str(list(_FakeClient.call_kwargs)))
 
         # deepseek 模式：缺 key 必须抛（保持原行为）
         os.environ.pop("OPENAI_API_KEY", None)
@@ -175,12 +176,14 @@ def t_local_no_key():
             raised = False
         C.ok("adapter: deepseek 缺 key 抛 RealLLMUnavailable", raised)
 
-        # deepseek 模式不应带关闭思考的参数
+        # deepseek 模式不应带 /no_think，也不带额外参数
         os.environ["OPENAI_API_KEY"] = "sk-test"
         rla.openai_adapter("hi")
         C.ok("adapter: deepseek 不带 thinking 参数",
              _FakeClient.call_kwargs.get("extra_body") is None,
              str(_FakeClient.call_kwargs.get("extra_body")))
+        C.ok("adapter: deepseek 不加 /no_think",
+             not _FakeClient.call_kwargs["messages"][0]["content"].endswith("/no_think"))
     finally:
         _restore(snap)
         if had is not None:
@@ -295,6 +298,57 @@ def t_choose_backend():
         _restore(snap)
 
 
+def t_local_native():
+    """local 后端走 Ollama 原生 /api/chat：必须带 think=false，并解析 content/usage。"""
+    import urllib.request as ureq
+    snap = _snapshot()
+    orig = ureq.urlopen
+    seen = {}
+
+    class _Resp:
+        def __init__(self, payload):
+            self._p = payload
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return self._p
+
+    def _fake(req, timeout=None):
+        import json as _json
+        seen["url"] = req.full_url
+        seen["body"] = _json.loads(req.data.decode("utf-8"))
+        payload = {"message": {"content": "好呀"}, "eval_count": 7,
+                   "prompt_eval_count": 11, "eval_duration": 500000000}
+        return _Resp(_json.dumps(payload).encode("utf-8"))
+
+    try:
+        _clear()
+        os.environ["YUWEN_BACKEND"] = "local"
+        os.environ["OPENAI_BASE_URL"] = "http://localhost:11434/v1"
+        ureq.urlopen = _fake
+        r = rla.local_chat("你好", model="yuwen-4b-q4", max_tokens=64)
+        C.ok("native: 走 /api/chat", seen["url"] == "http://localhost:11434/api/chat", seen.get("url"))
+        C.ok("native: think=false", seen["body"].get("think") is False, str(seen["body"].get("think")))
+        C.ok("native: 传 num_predict", seen["body"]["options"]["num_predict"] == 64)
+        C.ok("native: 解析 content", r["text"] == "好呀")
+        C.ok("native: 解析 usage", r["usage"] == {"input": 11, "output": 7}, str(r["usage"]))
+        C.ok("native: eval_duration 秒", abs(r["eval_duration_s"] - 0.5) < 1e-6, str(r["eval_duration_s"]))
+
+        # make_provider_adapter 在 local 下必须路由到原生接口，而不是 openai SDK
+        adapter = rla.make_provider_adapter("openai")
+        C.ok("native: local 下 provider adapter 可用", callable(adapter))
+        out = adapter("你好", model="yuwen-4b-q4", max_tokens=32)
+        C.ok("native: 返回值是文本", out == "好呀", repr(out))
+    finally:
+        ureq.urlopen = orig
+        _restore(snap)
+
+
 def main():
     print("=== 本地模型后端测试 ===")
     for name, fn in [("backend selection", t_backend_selection),
@@ -302,6 +356,7 @@ def main():
                      ("local no key", t_local_no_key),
                      ("strip think", t_strip_think),
                      ("gateway strips", t_gateway_strips),
+                     ("local native", t_local_native),
                      ("ollama ready", t_ollama_ready),
                      ("choose backend", t_choose_backend)]:
         print(f"\n▶ {name}")

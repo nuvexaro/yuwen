@@ -32,6 +32,7 @@ LOCAL_BASE_URL_DEFAULT = "http://localhost:11434/v1"
 LOCAL_MODEL_DEFAULT = "yuwen-4b-q4"
 # openai SDK 要求 api_key 非空；本地 Ollama 不校验 key，用占位串满足构造条件。
 LOCAL_KEY_PLACEHOLDER = "local-no-key"
+LOCAL_TIMEOUT_S = 180
 
 
 def backend() -> str:
@@ -177,6 +178,48 @@ def anthropic_adapter(prompt: str, *, model: Optional[str] = None, max_tokens: i
             "latency_ms": (time.time() - t0) * 1000}
 
 
+def local_chat(prompt: str, *, model: Optional[str] = None, max_tokens: int = 512,
+               temperature: float = 0.7) -> dict:
+    """Ollama 原生 /api/chat（think=false）。
+
+    为什么不用 OpenAI 兼容端点：Ollama 0.40.6 的 /v1 关不掉 Qwen 的思考模式
+    （chat_template_kwargs 无效且会污染输入，think:false 被忽略），实测会有回复
+    被思考过程吃光 max_tokens、content 为空。原生的 think:false 稳定有效。
+    顺带拿到 eval_count / eval_duration，便于统计 token/s。
+    """
+    import json
+    import urllib.request
+
+    base = (os.environ.get("OPENAI_BASE_URL") or LOCAL_BASE_URL_DEFAULT).rstrip("/")
+    api = (base[:-3] if base.endswith("/v1") else base) + "/api/chat"
+    body = {
+        "model": model or os.environ.get("EX_MODEL") or LOCAL_MODEL_DEFAULT,
+        "messages": [{"role": "user", "content": prompt}],
+        "stream": False,
+        "think": False,
+        "options": {"num_predict": max_tokens, "temperature": temperature},
+    }
+    req = urllib.request.Request(
+        api, data=json.dumps(body).encode("utf-8"),
+        headers={"Content-Type": "application/json"},
+    )
+    t0 = time.time()
+    try:
+        with urllib.request.urlopen(req, timeout=LOCAL_TIMEOUT_S) as resp:
+            data = json.loads(resp.read().decode("utf-8", "replace"))
+    except Exception as e:  # noqa: BLE001
+        raise RealLLMError(f"本地模型调用失败: {type(e).__name__}: {_scrub(str(e))}") from e
+    msg = data.get("message") or {}
+    text = msg.get("content") or ""
+    dt = (time.time() - t0) * 1000
+    usage = {"input": data.get("prompt_eval_count"), "output": data.get("eval_count")}
+    _diag_log("local", base_url=base, model=body["model"], ok=True,
+              exc_msg=f"text_len={len(text)}")
+    return {"text": text, "usage": usage, "model": body["model"], "model_version": None,
+            "latency_ms": dt,
+            "eval_duration_s": (data.get("eval_duration") or 0) / 1e9}
+
+
 def openai_adapter(prompt: str, *, model: Optional[str] = None, max_tokens: int = 512,
                    temperature: float = 0.7):
     """OpenAI 兼容 adapter。key=OPENAI_API_KEY（local 后端用占位串，Ollama 不校验）。"""
@@ -197,15 +240,16 @@ def openai_adapter(prompt: str, *, model: Optional[str] = None, max_tokens: int 
         base_url=_base,
     )
     mdl = model or "gpt-4o-mini"
-    # local：先尝试从接口层关掉 Qwen 的思考模式（Ollama 支持 chat_template_kwargs 透传）。
-    # 关不掉时由 LLMGateway 的 strip_think 兜底。
-    extra = {"extra_body": {"chat_template_kwargs": {"enable_thinking": False}}} if _local else {}
+    # local：Ollama 0.40 的 OpenAI 兼容接口关不掉 Qwen 的思考模式
+    # （chat_template_kwargs 无效且会污染输入，think:false 被忽略），
+    # 实测有效的是 Qwen 的软开关 /no_think（原生 /api/chat 的 think:false 也有效）。
+    # 关不掉时还有 LLMGateway.strip_think 兜底。
+    _prompt = prompt + "\n/no_think" if _local else prompt
     t0 = time.time()
     try:
         resp = client.chat.completions.create(
             model=mdl, max_tokens=max_tokens, temperature=temperature,
-            messages=[{"role": "user", "content": prompt}],
-            **extra,
+            messages=[{"role": "user", "content": _prompt}],
         )
     except Exception as e:
         _record_error(e)
@@ -245,9 +289,16 @@ def make_provider_adapter(provider: str):
             return r["text"]
         return _a
     if provider == "openai":
-        # local 后端不要求 key（Ollama 不校验），其它情况仍然 eager 校验
-        if not is_local():
-            _require_env("OPENAI_API_KEY")
+        if is_local():
+            # 本地后端走 Ollama 原生接口（唯一能可靠关掉思考的方式），不需要 key
+            def _l(prompt, *, model=None, max_tokens=512, temperature=0.7):
+                r = local_chat(prompt, model=model, max_tokens=max_tokens,
+                               temperature=temperature)
+                _register(provider, r)
+                return r["text"]
+            return _l
+        # eager key 校验：构造 adapter 即检查 key/SDK，避免"无 key 却静默 fallback 成 PASS"
+        _require_env("OPENAI_API_KEY")
         try:
             import openai  # noqa: WPS433
         except ImportError as e:
