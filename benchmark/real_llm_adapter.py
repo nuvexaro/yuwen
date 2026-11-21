@@ -222,12 +222,12 @@ def local_chat(prompt: str, *, model: Optional[str] = None, max_tokens: int = 51
 
 def openai_adapter(prompt: str, *, model: Optional[str] = None, max_tokens: int = 512,
                    temperature: float = 0.7):
-    """OpenAI 兼容 adapter。key=OPENAI_API_KEY（local 后端用占位串，Ollama 不校验）。"""
-    _local = is_local()
-    if _local:
-        api_key = os.environ.get("OPENAI_API_KEY") or LOCAL_KEY_PLACEHOLDER
-    else:
-        api_key = _require_env("OPENAI_API_KEY")
+    """OpenAI 兼容 adapter（云端路径）。key=OPENAI_API_KEY。
+
+    本地后端不走这里：Ollama 0.40 的 /v1 关不掉 Qwen 的思考模式，会出现回复被
+    思考吃光、content 为空。local 一律用 local_chat()（原生 /api/chat + think=false）。
+    """
+    api_key = _require_env("OPENAI_API_KEY")
     try:
         import openai  # noqa: WPS433
     except ImportError as e:
@@ -240,16 +240,11 @@ def openai_adapter(prompt: str, *, model: Optional[str] = None, max_tokens: int 
         base_url=_base,
     )
     mdl = model or "gpt-4o-mini"
-    # local：Ollama 0.40 的 OpenAI 兼容接口关不掉 Qwen 的思考模式
-    # （chat_template_kwargs 无效且会污染输入，think:false 被忽略），
-    # 实测有效的是 Qwen 的软开关 /no_think（原生 /api/chat 的 think:false 也有效）。
-    # 关不掉时还有 LLMGateway.strip_think 兜底。
-    _prompt = prompt + "\n/no_think" if _local else prompt
     t0 = time.time()
     try:
         resp = client.chat.completions.create(
             model=mdl, max_tokens=max_tokens, temperature=temperature,
-            messages=[{"role": "user", "content": _prompt}],
+            messages=[{"role": "user", "content": prompt}],
         )
     except Exception as e:
         _record_error(e)

@@ -138,33 +138,50 @@ def _install_fake_openai():
     sys.modules["openai"] = mod
 
 
-def t_local_no_key():
+def t_backend_key_routing():
+    """local 不需要 key；且 local 绝不经过 openai SDK（只走原生 /api/chat）。"""
     snap = _snapshot()
     had = sys.modules.get("openai")
     try:
         _clear()
-        _install_fake_openai()
         os.environ["YUWEN_BACKEND"] = "local"
         rla.apply_local_defaults()
 
-        # 关键：没有真实 key，也只有占位串，不应抛 RealLLMUnavailable
-        r = rla.openai_adapter("hi", model="yuwen-4b-q4")
-        C.ok("adapter: local 缺 key 可调用", r["text"] == "你好")
-        C.ok("adapter: base_url 指向本机",
-             _FakeClient.init_kwargs.get("base_url") == "http://localhost:11434/v1",
-             str(_FakeClient.init_kwargs.get("base_url")))
-        C.ok("adapter: key 用占位串",
-             _FakeClient.init_kwargs.get("api_key") == "local-no-key",
-             str(_FakeClient.init_kwargs.get("api_key")))
-        C.ok("adapter: 构造 adapter 不抛错", isinstance(rla.make_provider_adapter("openai"), object))
+        # local：没有真实 key，`make_provider_adapter` 也必须能构造
+        adapter = rla.make_provider_adapter("openai")
+        C.ok("routing: local 无 key 也能构造 adapter", callable(adapter))
 
-        # 关思考：local 模式在 prompt 末尾追加 Qwen 的软开关 /no_think
-        sent = _FakeClient.call_kwargs["messages"][0]["content"]
-        C.ok("adapter: local 追加 /no_think", sent.endswith("/no_think"), repr(sent[-20:]))
-        C.ok("adapter: local 不额外塞 chat_template_kwargs",
-             "extra_body" not in _FakeClient.call_kwargs, str(list(_FakeClient.call_kwargs)))
+        # local：一旦创建 openai 客户端就说明走错了路径 → 让它爆炸
+        class _BoomClient:
+            def __init__(self, **kwargs):
+                raise AssertionError("local 模式不应构造 openai client")
 
-        # deepseek 模式：缺 key 必须抛（保持原行为）
+        boom = type(sys)("openai")
+        boom.OpenAI = _BoomClient
+        sys.modules["openai"] = boom
+
+        import urllib.request as ureq
+        orig_open = ureq.urlopen
+
+        class _R:
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+            def read(self):
+                import json as _j
+                return _j.dumps({"message": {"content": "好"}, "eval_count": 1}).encode()
+
+        ureq.urlopen = lambda req, timeout=None: _R()
+        try:
+            out = adapter("hi", model="yuwen-4b-q4")
+            C.ok("routing: local 不走 openai SDK", out == "好", repr(out))
+        finally:
+            ureq.urlopen = orig_open
+
+        # deepseek：缺 key 必须抛（保持原行为，且真的走 openai SDK 校验）
         os.environ.pop("OPENAI_API_KEY", None)
         os.environ["YUWEN_BACKEND"] = "deepseek"
         raised = False
@@ -174,16 +191,7 @@ def t_local_no_key():
             raised = True
         except Exception:  # noqa: BLE001
             raised = False
-        C.ok("adapter: deepseek 缺 key 抛 RealLLMUnavailable", raised)
-
-        # deepseek 模式不应带 /no_think，也不带额外参数
-        os.environ["OPENAI_API_KEY"] = "sk-test"
-        rla.openai_adapter("hi")
-        C.ok("adapter: deepseek 不带 thinking 参数",
-             _FakeClient.call_kwargs.get("extra_body") is None,
-             str(_FakeClient.call_kwargs.get("extra_body")))
-        C.ok("adapter: deepseek 不加 /no_think",
-             not _FakeClient.call_kwargs["messages"][0]["content"].endswith("/no_think"))
+        C.ok("routing: deepseek 缺 key 抛 RealLLMUnavailable", raised)
     finally:
         _restore(snap)
         if had is not None:
@@ -353,7 +361,7 @@ def main():
     print("=== 本地模型后端测试 ===")
     for name, fn in [("backend selection", t_backend_selection),
                      ("local defaults", t_local_defaults),
-                     ("local no key", t_local_no_key),
+                     ("key routing", t_backend_key_routing),
                      ("strip think", t_strip_think),
                      ("gateway strips", t_gateway_strips),
                      ("local native", t_local_native),
