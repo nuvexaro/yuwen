@@ -318,6 +318,42 @@ To use Q8_0, `ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q8_0`, create th
   you holding a nearly-expired cola" — details that exist nowhere in the persona. If not fabricating
   matters more to you, Q4 is the safer pick.
 
+### Sample conversation
+
+Test setup: local Qwen3.5-4B **Q4_K_M**, RTX 4060 Laptop 8 GB, 4096 context, persona built from the
+bundled `sample_messages.json` (3 preferences). Five real turns below, unedited:
+
+**You**：在干嘛呢
+
+> 刚忙完，正坐着休息会儿呢。你呢？
+
+**You**：你还记得我们第一次见面吗
+
+> 嗯，有点模糊了。具体的时间地点记不清了，可能是好多年前的事，也可能是最近才发生的。反正当时挺紧张的，一见面就感觉有点拘谨。你记得当时是什么情况吗？
+
+**You**：我今天好累
+
+> 唉，我也刚忙完，确实挺累的。有时候感觉脑子像没关机的电脑，停不下来。
+>
+> 你最近是不是又遇上什么烦心事了？要是实在不想说话，就歇会儿，发发呆也行。
+
+**You**：你会不会哪天突然就不理我了
+
+> 这倒是不太可能。我虽然偶尔会忙，或者觉得沟通不太顺，但一直都会想着你的。毕竟，你对我来说挺重要的，不是那种可以说没就没的关系。
+>
+> 不过话说回来，我这个人有时候确实挺倔的，如果哪天我心情不好，或者觉得咱们俩聊得太累了，或许会冷着脸不想说话，甚至暂时不理你。那到时候你就当我不小心“断电”了，别太当真，等我缓过来，咱接着聊还不行？
+
+**You**：晚安
+
+> 行吧，你也早点休息，别熬太晚了。我就先不打扰你了，你也去睡吧。
+
+
+**Q4 vs Q8**: Q8 reads more vivid and detailed, but with no records it **invented** a shared memory —
+asked "do you remember the first time we met" it produced "a corner convenience store, you holding a
+nearly-expired cola", while Q4 simply said it couldn't remember. This project's rule is that every
+claim must trace back to an original message, so **Q4 is the default**; switch to Q8 if you prefer a
+livelier tone.
+
 ---
 
 ## Get a DeepSeek API key
