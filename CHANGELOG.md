@@ -10,15 +10,18 @@
 
 ## 版本
 
-### 未发布（v0.2.0）
+### v0.2.0（2026-11-21）
 
-- 新增**本地模型后端**：`YUWEN_BACKEND=local` 时改用本机 Ollama（OpenAI 兼容接口），不需要 API key，数据不出本机；默认仍是 `deepseek`，两种后端并存
+- 新增**本地模型后端**：`YUWEN_BACKEND=local` 时改用本机 Ollama，不需要 API key，数据不出本机；默认仍是 `deepseek`，两种后端并存
 - 本地模式复用已有变量（`OPENAI_BASE_URL` / `EX_MODEL` / `OPENAI_API_KEY`），一律 `setdefault`，**不覆盖用户手动设置**；换模型只需 `EX_MODEL=yuwen-4b-q8`
 - `start.py` 增加后端选择菜单（`--backend` / `YUWEN_BACKEND` / 交互三种方式），选本地时检查 Ollama 服务与模型是否存在；不满足时打印安装与拉取步骤并正常退出（退出码 3，不崩溃）
 - 网关新增 `<think>…</think>` 剥离，作为「关不掉思考模式」的兜底
 - 本地模式的模型调用走 **Ollama 原生 `/api/chat`**（`think:false`）：实测 Ollama 0.40.6 的 OpenAI 兼容端点关不掉 Qwen 的思考模式（`chat_template_kwargs` 无效且会污染输入，`think:false` 被忽略），会出现回复被思考吃光、`content` 为空的情况；原生接口稳定有效，并直接给出 `eval_count` / `eval_duration` 便于统计速度
-- 新增 `runtime/tests/test_local_backend.py`（36 断言）：后端选择、setdefault 语义、local 不要求 key、去 think、Ollama 健康检查；全部用假 SDK / 假 urllib，不依赖真实 Ollama，CI 可跑
+- 新增 `runtime/tests/test_local_backend.py`（40 断言）：后端选择、setdefault 语义、local 不要求 key、去 think、Ollama 健康检查；全部用假 SDK / 假 urllib，不依赖真实 Ollama，CI 可跑
 - README / README_EN 新增「使用本地模型」章节（硬件建议、步骤、限制）；COMPLIANCE 新增 5.1 节说明本地模式的数据流向
+- 删除 openai_adapter 不可靠的 local 备用路径（占位 key + `/no_think`，实测 5 轮里 3 轮空白回复）：local 只保留原生 `/api/chat` 一条路径，且测试保证 local 模式绝不构造 openai client
+- README / README_EN 新增「效果示例」：Q4_K_M 的 5 轮真实对话原文（含测试条件与 Q4/Q8 取舍——Q8 更生动但会编造共同经历，默认 Q4）
+- Windows 安装程序升级到 0.2.0（`packaging/installer.iss`）
 
 ### v0.1.1（2026-11-21）
 
