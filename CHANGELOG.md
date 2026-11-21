@@ -8,6 +8,22 @@
 
 ---
 
+## 版本
+
+### v0.1.1（2026-11-21）
+
+- 新增 **Windows 安装程序**（Inno Setup，`packaging/installer.iss`）：当前用户安装、无需管理员权限、默认装到 `%LOCALAPPDATA%\Programs\yuwen`、开始菜单快捷方式 + 可选桌面快捷方式、简体中文 / 英文界面、带卸载程序并出现在「设置 → 应用」里；**卸载不删除用户数据**，卸载完成时会提示数据位置与手动删除方法
+- 随仓库附带简体中文语言文件 `packaging/languages/ChineseSimplified.isl`（来自 Inno Setup 官方 Unofficial 翻译），构建时无需联网
+- README 补充：下载入口与状态徽章、**Windows SmartScreen 安全提示**（含 SHA256 校验命令）、**获取 DeepSeek API Key**、**怎么准备聊天记录**、**卸载与删除数据**
+- README 新增**架构图**（mermaid，中英双语），画出导入链 / 对话链 / 纠正分支
+- 无功能代码改动；`run_tests.py` 28/28 通过
+
+### v0.1.0（2026-11-21）
+
+首个公开版本，内容即下面「数据合同」起至「2026-11-21 发布前修复」的全部改动。
+
+---
+
 ## 数据合同（JSON Schema）
 
 - 新增 `persona_memory.schema.json`（v1.2）：人格 5 层（L0–L4）+ 记忆 9 类 + `corrections[]`，作为每个 Ex 的唯一长期事实源
