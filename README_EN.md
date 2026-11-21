@@ -271,12 +271,12 @@ switch back to the cloud at any time.
 
 | VRAM | Recommended | Notes |
 |---|---|---|
-| ≥ 8 GB | `yuwen-4b-q8` (Q8_0, ~4.3 GB) | Best quality; ~5.5 GB at 4096 ctx, tight on an 8 GB card (2 GB used by the desktop) |
-| ≥ 6 GB | `yuwen-4b-q4` (Q4_K_M, ~2.6 GB) | **Default**; ~4.1 GB at 4096 ctx, the safest option |
+| ≥ 8 GB | `yuwen-4b-q8` (Q8_0, ~5.2 GB) | Best quality. Measured: 5.0 GB resident, **6757 MiB** peak, 100% GPU |
+| ≥ 6 GB | `yuwen-4b-q4` (Q4_K_M, ~3.4 GB) | **Default**. Measured: 3.2 GB resident, **5116 MiB** peak, 100% GPU |
 | ~4 GB | `yuwen-4b-q4` | May need a shorter context (`PARAMETER num_ctx 2048`) |
 | No dGPU | A smaller model such as Qwen3.5-2B | **Not measured**; pure CPU is slow (tens of seconds per turn) |
 
-> VRAM figures are estimates: model size + KV cache for 4096 ctx (~1.1 GB) + compute buffers. Not measured.
+> Measured on: RTX 4060 Laptop 8 GB (desktop using ~2 GB) + 16 GB RAM, 4096 context; `ollama ps` reports **100% GPU** for both.
 
 ### Steps
 
@@ -304,8 +304,19 @@ To use Q8_0, `ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q8_0`, create th
 
 - Local mode **needs no API key** and sends nothing off-device; all inference runs on your machine.
 - **Quality is lower than a large cloud model**: a 4B model forgets context more easily and sounds flatter.
-- Throughput and VRAM peak on this machine will be added once the model download finishes
-  (only sizes are confirmed so far: Q4_K_M 2.6 GB, Q8_0 4.3 GB).
+- Measured on this machine (RTX 4060 Laptop 8 GB, 4096 ctx, same persona, 5 questions):
+
+  | | Q4_K_M | Q8_0 |
+  |---|---|---|
+  | Average throughput | 14.3 tok/s | 15.8 tok/s |
+  | Per-turn latency | 2.8 – 4.1 s | 3.5 – 7.8 s |
+  | VRAM peak | 5116 MiB | 6757 MiB |
+  | GPU share | 100% | 100% |
+
+- A counter-intuitive result: **Q8 is more fluent, but also makes things up more**. Asked about "the first
+  time we met", Q4 honestly said it couldn't remember, while Q8 invented "a corner convenience store,
+  you holding a nearly-expired cola" — details that exist nowhere in the persona. If not fabricating
+  matters more to you, Q4 is the safer pick.
 
 ---
 
