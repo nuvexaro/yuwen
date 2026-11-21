@@ -46,6 +46,7 @@ TEST_FILES = [
     # runtime/ —— 运行时、纠正、持久化、检索（15）
     "runtime/tests/test_gateway_fallback_signal.py",
     "runtime/tests/test_instance_persistence.py",
+    "runtime/tests/test_local_backend.py",
     "runtime/tests/test_runtime.py",
     "runtime/tests/test_stage59_f1.py",
     "runtime/tests/test_stage59_f2f3.py",
