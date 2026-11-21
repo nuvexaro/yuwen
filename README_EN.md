@@ -308,10 +308,16 @@ To use Q8_0, `ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q8_0`, create th
 
   | | Q4_K_M | Q8_0 |
   |---|---|---|
-  | Average throughput | 14.3 tok/s | 15.8 tok/s |
-  | Per-turn latency | 2.8 – 4.1 s | 3.5 – 7.8 s |
+  | Decode rate (pure generation) | ~60 tok/s | Not separately measured |
+  | Per-turn latency | ~3–4 s (incl. ~2.3 s fixed per-request overhead) | 3.5 – 7.8 s (first turn incl. model load) |
   | VRAM peak | 5116 MiB | 6757 MiB |
   | GPU share | 100% | 100% |
+
+  Two different metrics: "decode rate" is Ollama's `eval_rate` (tokenization and context prep
+  excluded); "per-turn latency" is the wall-clock time you actually feel — each request carries
+  ~2.3 s of fixed overhead (prompt tokenization / context setup, not counted in eval metrics).
+  With only tens of output tokens per turn, that overhead dominates, so the felt speed is much
+  slower than the decode rate.
 
 - A counter-intuitive result: **Q8 is more fluent, but also makes things up more**. Asked about "the first
   time we met", Q4 honestly said it couldn't remember, while Q8 invented "a corner convenience store,
