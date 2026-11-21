@@ -81,7 +81,16 @@ python mvp_cli.py --help
 
 ### C. Windows 免安装版
 
-到 [https://github.com/nuvexaro/yuwen/releases](https://github.com/nuvexaro/yuwen/releases) 下载 `ex-ai-pilot.zip`，解压后双击 `ex-ai-pilot.exe`，按提示输入自己的 DeepSeek API Key（输入不回显、不落盘）。不需要安装 Python。
+到 [https://github.com/nuvexaro/yuwen/releases](https://github.com/nuvexaro/yuwen/releases) 下载 `yuwen-v0.1.0-windows-x64.zip`，解压后双击 `ex-ai-pilot.exe`，按提示输入自己的 DeepSeek API Key（输入不回显、不落盘）。不需要安装 Python。
+
+**只想先看看流程（离线试用）**：在解压出来的目录里打开 cmd，运行
+
+```bat
+set EX_REAL=0
+ex-ai-pilot.exe
+```
+
+离线模式不联网、不需要 API Key，但回复是固定的占位句（`[离线模式] 这是测试回复，未连接真实模型。`），**只能确认流程能走通**。要真实对话，仍然需要提供 DeepSeek API Key（就是上面那种启动方式）。
 
 ---
 

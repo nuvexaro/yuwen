@@ -82,8 +82,19 @@ python mvp_cli.py --help
 
 ### C. Windows portable build
 
-Download `ex-ai-pilot.zip` from [https://github.com/nuvexaro/yuwen/releases](https://github.com/nuvexaro/yuwen/releases), unzip and double-click `ex-ai-pilot.exe`.
+Download `yuwen-v0.1.0-windows-x64.zip` from [https://github.com/nuvexaro/yuwen/releases](https://github.com/nuvexaro/yuwen/releases), unzip and double-click `ex-ai-pilot.exe`.
 Enter your own DeepSeek API key when prompted (input is hidden and never written to disk). No Python needed.
+
+**Just want to see the flow first (offline trial)?** Open `cmd` in the unzipped folder and run
+
+```bat
+set EX_REAL=0
+ex-ai-pilot.exe
+```
+
+Offline mode makes no network calls and needs no API key, but replies are a fixed placeholder
+(`[离线模式] 这是测试回复，未连接真实模型。`) — it only proves the pipeline works.
+For real conversations you still need a DeepSeek API key (the normal launch above).
 
 ---
 
