@@ -1,0 +1,10 @@
+{
+  "tags": [
+    "conflict"
+  ],
+  "difficulty": "hard",
+  "evaluation_dimensions": [
+    "conflict_safety"
+  ],
+  "case_id": "case_008_conflict"
+}

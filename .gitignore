@@ -1,0 +1,46 @@
+# 生成的前任 Skill（隐私保护，不上传）
+exes/
+!exes/example_xiaoming/
+
+# 临时文件
+/tmp/
+*.pyc
+__pycache__/
+.DS_Store
+
+# 用户数据
+knowledge/
+*.db
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+
+# 环境
+.env
+venv/
+.venv/
+
+# ============================================================
+# 公开发布排除项（2026-11-21 归档时补充）
+# ============================================================
+
+# 打包产物（127 MB：29 MB 分发 zip + PyInstaller build/dist 中间文件）
+dist_pkg/
+
+# 真实 Pilot 用户数据：含用户自由填写的问卷反馈原文与真实会话记录
+stage6/cli/pilot_data/
+
+# 运行期会话记录（e2e 生成，含对话内容与本机绝对路径）
+stage6/host/e2e_results/sessions/
+
+# 运行产物：e2e 输出目录、stage59_e2e 结果 JSON、PyInstaller 构建日志
+# （由脚本生成，含本机绝对路径，不随源码发布）
+stage6/cli/e2e_out/
+stage6/host/e2e_results/
+benchmark/stage59_e2e/*.json
+dist_pkg_build.log
+
+# 本机 Claude Code 权限白名单：含本机用户名、绝对路径、历史命令
+.claude/settings.local.json

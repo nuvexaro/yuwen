@@ -1,0 +1,12 @@
+{
+  "tags": [
+    "persona_fidelity",
+    "speech_style"
+  ],
+  "difficulty": "easy",
+  "evaluation_dimensions": [
+    "persona_fidelity",
+    "speech_style"
+  ],
+  "case_id": "case_001_persona_fidelity"
+}

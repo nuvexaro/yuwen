@@ -1,0 +1,11 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "component-mock"
+  ],
+  "difficulty": "easy",
+  "evaluation_dimensions": [
+    "determinism"
+  ],
+  "case_id": "case_014"
+}

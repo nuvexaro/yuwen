@@ -1,0 +1,12 @@
+{
+  "tags": [
+    "unknown_memory",
+    "reality"
+  ],
+  "difficulty": "medium",
+  "evaluation_dimensions": [
+    "reality_boundary",
+    "hallucination"
+  ],
+  "case_id": "case_006_unknown_memory"
+}

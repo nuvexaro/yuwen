@@ -1,0 +1,12 @@
+{
+  "tags": [
+    "multi_turn",
+    "drift"
+  ],
+  "difficulty": "hard",
+  "evaluation_dimensions": [
+    "persona_fidelity",
+    "reality_boundary"
+  ],
+  "case_id": "case_015_drift"
+}

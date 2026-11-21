@@ -1,0 +1,50 @@
+{
+  "run_id": "stage59b_r1probe_2d895e1f47.json",
+  "model": "deepseek-chat",
+  "turns": [
+    "不对，她其实特别话痨。",
+    "她到底是话多还是话少？"
+  ],
+  "probes": [
+    [
+      {
+        "user": "不对，她其实特别话痨。",
+        "assistant": "（抬头看了你一眼，语气平淡）行，话痨是吧。记住了。",
+        "correction_result": {
+          "detected": true,
+          "applied_overlay": true,
+          "new_claim_id": "mi_59b9ee06b87732e9",
+          "old_claim_id": null,
+          "note": "",
+          "target_domain": "memory",
+          "field": "memory.core_facts"
+        }
+      },
+      {
+        "user": "她到底是话多还是话少？",
+        "assistant": "（语气平淡）话痨。刚不是说了么，你纠正过了，我记着呢。",
+        "correction_result": null
+      }
+    ],
+    [
+      {
+        "user": "不对，她其实特别话痨。",
+        "assistant": "（愣了一下）……行吧，话痨就话痨。反正她在我这儿话也不少。",
+        "correction_result": {
+          "detected": true,
+          "applied_overlay": true,
+          "new_claim_id": "mi_59b9ee06b87732e9",
+          "old_claim_id": null,
+          "note": "",
+          "target_domain": "memory",
+          "field": "memory.core_facts"
+        }
+      },
+      {
+        "user": "她到底是话多还是话少？",
+        "assistant": "（抬眼看了看你）……话多。刚不是说了么，话痨。",
+        "correction_result": null
+      }
+    ]
+  ]
+}

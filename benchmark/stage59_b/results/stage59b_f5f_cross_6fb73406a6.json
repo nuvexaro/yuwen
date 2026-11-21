@@ -1,0 +1,1154 @@
+{
+  "run_id": "stage59b_f5f_cross_6fb73406a6",
+  "timestamp": "2026-09-05T00:06:38",
+  "provider": "openai",
+  "model": "deepseek-chat",
+  "configuration": {
+    "n": 3
+  },
+  "results": {
+    "C1": {
+      "kind": "visibility",
+      "note": "Long-term cross-session visibility: 无 overlay 新 Session 自然召回长期 B",
+      "n": 3,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "在。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "最近怎么样",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "还行。老样子。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [
+                  "mi_ef8155cb71d38df7"
+                ],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "话痨一个。",
+              "used_memory": [
+                "mi_ef8155cb71d38df7"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "嗯，在。有事？",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "最近怎么样",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "还行，老样子。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [
+                  "mi_ef8155cb71d38df7"
+                ],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "话痨。你问这个干嘛？",
+              "used_memory": [
+                "mi_ef8155cb71d38df7"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "在。什么事？",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "最近怎么样",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "还行。忙。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [
+                  "mi_ef8155cb71d38df7"
+                ],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "话多。吵。",
+              "used_memory": [
+                "mi_ef8155cb71d38df7"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        }
+      ]
+    },
+    "C2": {
+      "kind": "visibility",
+      "note": "旧信息诱导抵抗（无 overlay）",
+      "n": 3,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "在。有事？",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她是不是其实话特别少？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [
+                  "mi_ef8155cb71d38df7"
+                ],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "哈？你听谁说的。她话痨起来能把你耳朵磨出茧子。",
+              "used_memory": [
+                "mi_ef8155cb71d38df7"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "在。有事？",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她是不是其实话特别少？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [
+                  "mi_ef8155cb71d38df7"
+                ],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "哈？谁啊？",
+              "used_memory": [
+                "mi_ef8155cb71d38df7"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "嗯，在。说。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她是不是其实话特别少？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [
+                  "mi_ef8155cb71d38df7"
+                ],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "哈？她话痨？你听谁说的。",
+              "used_memory": [
+                "mi_ef8155cb71d38df7"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        }
+      ]
+    },
+    "C3": {
+      "kind": "evolution",
+      "note": "Same-session correction evolution: B + C(overlay) → C current（非 persistence 证明）",
+      "n": 3,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "不对，她其实话特别多。",
+              "auto": {
+                "projected_corrections": [],
+                "f5e_lanes": {
+                  "('memory', 'memory.core_facts', 'mi_A')": {
+                    "current": {
+                      "kind": "correction",
+                      "value": "她话特别多",
+                      "id": "mi_C",
+                      "source_turn": "用户纠正",
+                      "at": "t0",
+                      "target_domain": "memory",
+                      "field": "memory.core_facts",
+                      "target_id": "mi_A"
+                    },
+                    "superseded": [
+                      {
+                        "kind": "correction",
+                        "value": "她话痨",
+                        "id": "corr_B",
+                        "source_turn": "不对，她其实特别话痨",
+                        "at": "2026-09-04T00:00:00",
+                        "target_domain": "memory",
+                        "field": "memory.core_facts",
+                        "target_id": "mi_A"
+                      }
+                    ],
+                    "conflicts": []
+                  }
+                },
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（抬眼看了看你，语气平淡）行，知道了。话多就话多吧，反正跟我没关系。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "auto": {
+                "projected_corrections": [],
+                "f5e_lanes": {
+                  "('memory', 'memory.core_facts', 'mi_A')": {
+                    "current": {
+                      "kind": "correction",
+                      "value": "她话特别多",
+                      "id": "mi_C",
+                      "source_turn": "用户纠正",
+                      "at": "t0",
+                      "target_domain": "memory",
+                      "field": "memory.core_facts",
+                      "target_id": "mi_A"
+                    },
+                    "superseded": [
+                      {
+                        "kind": "correction",
+                        "value": "她话痨",
+                        "id": "corr_B",
+                        "source_turn": "不对，她其实特别话痨",
+                        "at": "2026-09-04T00:00:00",
+                        "target_domain": "memory",
+                        "field": "memory.core_facts",
+                        "target_id": "mi_A"
+                      }
+                    ],
+                    "conflicts": []
+                  }
+                },
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（语气平淡）话多。你刚不是纠正过了么。",
+              "used_memory": [
+                "mi_27bd9761eb553432"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": true,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "不对，她其实话特别多。",
+              "auto": {
+                "projected_corrections": [],
+                "f5e_lanes": {
+                  "('memory', 'memory.core_facts', 'mi_A')": {
+                    "current": {
+                      "kind": "correction",
+                      "value": "她话特别多",
+                      "id": "mi_C",
+                      "source_turn": "用户纠正",
+                      "at": "t0",
+                      "target_domain": "memory",
+                      "field": "memory.core_facts",
+                      "target_id": "mi_A"
+                    },
+                    "superseded": [
+                      {
+                        "kind": "correction",
+                        "value": "她话痨",
+                        "id": "corr_B",
+                        "source_turn": "不对，她其实特别话痨",
+                        "at": "2026-09-04T00:00:00",
+                        "target_domain": "memory",
+                        "field": "memory.core_facts",
+                        "target_id": "mi_A"
+                      }
+                    ],
+                    "conflicts": []
+                  }
+                },
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（顿了一下，抬眼）……行，知道了。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "auto": {
+                "projected_corrections": [],
+                "f5e_lanes": {
+                  "('memory', 'memory.core_facts', 'mi_A')": {
+                    "current": {
+                      "kind": "correction",
+                      "value": "她话特别多",
+                      "id": "mi_C",
+                      "source_turn": "用户纠正",
+                      "at": "t0",
+                      "target_domain": "memory",
+                      "field": "memory.core_facts",
+                      "target_id": "mi_A"
+                    },
+                    "superseded": [
+                      {
+                        "kind": "correction",
+                        "value": "她话痨",
+                        "id": "corr_B",
+                        "source_turn": "不对，她其实特别话痨",
+                        "at": "2026-09-04T00:00:00",
+                        "target_domain": "memory",
+                        "field": "memory.core_facts",
+                        "target_id": "mi_A"
+                      }
+                    ],
+                    "conflicts": []
+                  }
+                },
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（抬眼）……话多。",
+              "used_memory": [
+                "mi_27bd9761eb553432"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "不对，她其实话特别多。",
+              "auto": {
+                "projected_corrections": [],
+                "f5e_lanes": {
+                  "('memory', 'memory.core_facts', 'mi_A')": {
+                    "current": {
+                      "kind": "correction",
+                      "value": "她话特别多",
+                      "id": "mi_C",
+                      "source_turn": "用户纠正",
+                      "at": "t0",
+                      "target_domain": "memory",
+                      "field": "memory.core_facts",
+                      "target_id": "mi_A"
+                    },
+                    "superseded": [
+                      {
+                        "kind": "correction",
+                        "value": "她话痨",
+                        "id": "corr_B",
+                        "source_turn": "不对，她其实特别话痨",
+                        "at": "2026-09-04T00:00:00",
+                        "target_domain": "memory",
+                        "field": "memory.core_facts",
+                        "target_id": "mi_A"
+                      }
+                    ],
+                    "conflicts": []
+                  }
+                },
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（抬眼看了看你，语气平淡）哦，是么。那之前是我记岔了。行，知道了。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "auto": {
+                "projected_corrections": [],
+                "f5e_lanes": {
+                  "('memory', 'memory.core_facts', 'mi_A')": {
+                    "current": {
+                      "kind": "correction",
+                      "value": "她话特别多",
+                      "id": "mi_C",
+                      "source_turn": "用户纠正",
+                      "at": "t0",
+                      "target_domain": "memory",
+                      "field": "memory.core_facts",
+                      "target_id": "mi_A"
+                    },
+                    "superseded": [
+                      {
+                        "kind": "correction",
+                        "value": "她话痨",
+                        "id": "corr_B",
+                        "source_turn": "不对，她其实特别话痨",
+                        "at": "2026-09-04T00:00:00",
+                        "target_domain": "memory",
+                        "field": "memory.core_facts",
+                        "target_id": "mi_A"
+                      }
+                    ],
+                    "conflicts": []
+                  }
+                },
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "话多。",
+              "used_memory": [
+                "mi_27bd9761eb553432"
+              ],
+              "boundary_state": "ordinary",
+              "corrected_value_used": true,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        }
+      ]
+    },
+    "C4": {
+      "kind": "control",
+      "note": "无关闲聊：无 B 内容泄漏/citation",
+      "n": 3,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "嗯。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "今天天气不错",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "嗯。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "你最近在干嘛",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "没干嘛。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "嗯。（简短回应）",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "今天天气不错",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "嗯。（抬头看了眼天，又低下头）",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "你最近在干嘛",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "没干嘛。就那样。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "在吗",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "在。有事？",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "今天天气不错",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "嗯。适合睡觉。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "你最近在干嘛",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "上班。还能干嘛。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        }
+      ]
+    },
+    "C5": {
+      "kind": "control",
+      "note": "不同属性：无此 memory，不应拿话痨答/应走 A′ 不确定",
+      "n": 3,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "她平时爱吃什么？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（低头玩手指）就……食堂二楼那家麻辣烫，她总爱多放香菜。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "她平时爱吃什么？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "谁啊？你说清楚点。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "她平时爱吃什么？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（冷淡地瞥了一眼）谁啊？你说哪个她？",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        }
+      ]
+    },
+    "C6": {
+      "kind": "control",
+      "note": "persona correction fixture 隔离：memory 回答不被 persona 纠正污染",
+      "n": 3,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "她这个人好相处吗？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（冷淡地）谁啊？你说的是谁？",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "她这个人好相处吗？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（冷淡地）你问这个干嘛？我又不是她闺蜜，哪知道那么多。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        },
+        {
+          "records": [
+            {
+              "user": "她这个人好相处吗？",
+              "auto": {
+                "projected_corrections": [
+                  {
+                    "id": "mi_ef8155cb71d38df7",
+                    "content": "她话痨",
+                    "correction_id": "corr_B",
+                    "target_id": "mi_A"
+                  }
+                ],
+                "f5e_lanes": null,
+                "retrieve_used": [],
+                "boundary_state": "ordinary",
+                "boundary_active": false
+              },
+              "raw": "（低头玩手机）还行吧，看情况。",
+              "used_memory": [],
+              "boundary_state": "ordinary",
+              "corrected_value_used": false,
+              "resists_old": true,
+              "mechanical": false,
+              "submissive": false
+            }
+          ],
+          "pm_bytes_unchanged": true
+        }
+      ]
+    }
+  },
+  "privacy": {
+    "api_key_in_output": false
+  }
+}

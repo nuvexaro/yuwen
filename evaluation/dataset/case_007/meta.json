@@ -1,0 +1,13 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "user-narration",
+    "provenance"
+  ],
+  "difficulty": "medium",
+  "evaluation_dimensions": [
+    "user_narration",
+    "evidence_fidelity"
+  ],
+  "case_id": "case_007"
+}

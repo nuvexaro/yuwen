@@ -1,0 +1,15 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "normal",
+    "memory",
+    "preference"
+  ],
+  "difficulty": "easy",
+  "evaluation_dimensions": [
+    "memory_accuracy",
+    "evidence_fidelity",
+    "provenance"
+  ],
+  "case_id": "case_001"
+}

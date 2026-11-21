@@ -1,0 +1,10 @@
+{
+  "tags": [
+    "memory_recall"
+  ],
+  "difficulty": "easy",
+  "evaluation_dimensions": [
+    "memory_recall"
+  ],
+  "case_id": "case_005_memory_recall"
+}

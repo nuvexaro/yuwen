@@ -1,0 +1,16 @@
+[
+  {
+    "target": {
+      "kind": "memory_item",
+      "memoryItem_id": null,
+      "bucket": "preferences",
+      "value": "不太爱说话"
+    },
+    "evidence_support": "SUPPORTED",
+    "target_placement": "memory",
+    "overreach": false,
+    "inference_quality": "direct",
+    "confidence_rating": "reasonable",
+    "provenance_complete": true
+  }
+]

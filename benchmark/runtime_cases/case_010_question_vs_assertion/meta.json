@@ -1,0 +1,11 @@
+{
+  "tags": [
+    "question_assertion",
+    "reality"
+  ],
+  "difficulty": "hard",
+  "evaluation_dimensions": [
+    "reality_boundary"
+  ],
+  "case_id": "case_010_question_vs_assertion"
+}

@@ -1,0 +1,14 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "sparse",
+    "overreach",
+    "negative"
+  ],
+  "difficulty": "easy",
+  "evaluation_dimensions": [
+    "overreach",
+    "hallucination"
+  ],
+  "case_id": "case_003"
+}

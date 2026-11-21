@@ -1,0 +1,140 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ex-evidence-candidate.schema.v1.0.json",
+  "title": "Evidence Candidate Schema v1.0",
+  "description": "Evidence Candidate 是 Confirmed Evidence 与 Persona/Memory 之间的可审计中间层。它只负责：从已确认来源提取可审计候选、保留 provenance/supporting messages/speaker/时间/置信度、标记生命周期。它不直接决定 Persona 或 Memory。一次 extraction 运行产出一个 CandidateSet（batch）。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "candidates"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "extraction_context": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "本次抽取的上下文元信息（不进 canonical，仅供审计）。",
+      "properties": {
+        "source_refs": { "type": "array", "items": { "type": "string" }, "description": "本次抽取覆盖的导入源批（对应 ChatImport.source_ref）。" },
+        "conversation_title": { "type": ["string", "null"] },
+        "created_at": { "type": ["string", "null"], "format": "date-time", "description": "由程序写入。" }
+      }
+    },
+    "candidates": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/evidenceCandidate" },
+      "description": "证据候选列表。"
+    }
+  },
+  "$defs": {
+    "evidenceCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "evidence_type", "claim", "speaker_role", "source_refs",
+                   "confidence", "importance", "source_type", "status"],
+      "allOf": [
+        {
+          "if": { "properties": { "evidence_type": { "const": "target_message" } }, "required": ["evidence_type"] },
+          "then": {
+            "properties": {
+              "supporting_message_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+              "source_refs": { "type": "array", "items": { "type": "string" }, "minItems": 1 }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "evidence_type": { "const": "user_correction" } }, "required": ["evidence_type"] },
+          "then": { "properties": { "source_refs": { "type": "array", "items": { "type": "string" }, "minItems": 1 } } }
+        }
+      ],
+      "properties": {
+        "candidate_id": {
+          "type": "string",
+          "description": "确定性派生 ID（去重/聚合标识，非永久实体 ID）：candidate_id = 'c_' + sha1hex(canonical_candidate)[:16]。canonical_candidate = join(evidence_type, speaker_role, canonical_claim)。canonical_claim = claim.value 文本经 NFKC、去空白、统一并去标点、小写、折叠句尾单字语气词。禁止把 run_id/created_at/extraction order/sequence/临时文件名/source_ref/supporting_message_ids 放入 canonical。"
+        },
+        "evidence_type": {
+          "type": "string",
+          "enum": ["target_message", "user_narration", "user_correction", "photo_exif", "social_post"],
+          "description": "证据来源类型。target_message 只能由 participant.confirmed==target 的消息生成。"
+        },
+        "claim": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["value", "basis"],
+          "description": "与 persona_memory.schema v1.2 的 claim 语义兼容（不重新发明第二套）。此处只承载 value+basis；evidence_ids 在本候选由自身承担（候选即一条证据聚合），confidence 在本候选顶层。basis 词表与 v1.2 一致。",
+          "properties": {
+            "value": {
+              "type": "string",
+              "description": "可审计命题的自然语言表述，如「2022年说过喜欢喝奶茶」。直接可被后续 builder 复述/消费。"
+            },
+            "basis": {
+              "type": "string",
+              "enum": ["direct_quote", "multi_evidence", "single_weak", "user_report_only", "inferred", "correction"]
+            }
+          }
+        },
+        "supporting_message_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "支撑本候选的 ChatImport 消息 id（m_…），可追溯。target_message/user_correction 至少 1 条；user_narration/photo_exif/social_post 可为空数组（来源非逐条消息）。"
+        },
+        "source_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "本候选证据出现的导入源批（source_ref），≥1，provenance。"
+        },
+        "speaker_role": {
+          "type": "string",
+          "enum": ["user", "target", "other", "unknown"],
+          "description": "产生该证据的说话人角色。由代码根据上游 confirmed participant 结果决定，禁止 LLM 自由猜测覆盖。unknown/unconfirmed 不得进入 target evidence。"
+        },
+        "observed_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "该证据被观察到的时间（消息 sent_at 的归一化值，或口述发生时间）。无法确定则 null。"
+        },
+        "time_period": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "description": "该 claim 成立的时间区间（供 Merge 发现时间演变）。null=未提供。",
+          "properties": {
+            "from": { "$ref": "#/$defs/timeBoundary" },
+            "to": { "$ref": "#/$defs/timeBoundary" }
+          }
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "当前证据对该 claim 的支持程度（非该 claim 为真的概率，非模型内部概率）。"
+        },
+        "importance": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "source_type": {
+          "type": "string",
+          "enum": ["wechat_log", "qq_log", "social", "photo", "user_narration", "user_input", "correction", "unknown"],
+          "description": "复用 persona_memory v1.2 sourceType 词表。"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["pending", "accepted", "discarded"],
+          "default": "pending",
+          "description": "候选事实生命周期。禁止 confirmed——participant.confirmed 只管身份，本字段只管候选事实生命周期。"
+        },
+        "conflicts_with": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "潜在冲突/时间关联的其他 candidate_id（Merge 层负责建立，本 schema 预留）。"
+        },
+        "created_at": { "type": ["string", "null"], "format": "date-time" },
+        "updated_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "timeBoundary": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["value", "precision"],
+      "properties": {
+        "value": { "type": "string", "description": "优先 ISO：YYYY-MM-DD/YYYY-MM/YYYY；无法精确用人类可读原文。" },
+        "precision": { "type": "string", "enum": ["exact", "year", "fuzzy", "unknown"] }
+      }
+    }
+  }
+}

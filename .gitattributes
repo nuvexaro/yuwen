@@ -1,0 +1,18 @@
+# 统一换行符：仓库内一律存 LF，避免 autocrlf 造成 frozen SHA 断言漂移。
+# 冻结清单里的 schema 与 .py 文件按字节校验 SHA-1，任何 CRLF 转换都会让校验失败。
+* text=auto eol=lf
+
+# Windows 批处理必须是 CRLF，否则部分 cmd.exe 版本解析异常
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制资源不参与换行符转换
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.zip binary
+*.exe binary
+*.pt binary
+*.pth binary
+*.ckpt binary

@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ex-resolved-bundle.schema.v1.0.json",
+  "title": "Resolved Evidence Bundle Schema v1.0",
+  "description": "Stage 5.4 产物：CandidateSet + MergeResult 的只读 resolution/projection 视图，供 Stage 5.5 Builder 消费。它不是新的 evidence store；任何 candidate 的真实 claim/value/basis/confidence/source_refs/supporting_message_ids 一律以 CandidateSet 中对应 candidate_id 的对象为准。5.4 不创建 Persona/Memory、不执行 correction overlay、不合成 claim、不删除 candidate。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "input_refs", "groups", "group_level_relations",
+               "resolved_relations", "unresolved", "discarded_candidate_ids",
+               "pending_corrections", "candidate_to_group", "stats"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "input_refs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_set_schema_version", "merge_schema_version"],
+      "properties": {
+        "candidate_set_schema_version": { "const": "1.0" },
+        "merge_schema_version": { "const": "1.0" }
+      }
+    },
+    "groups": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/resolvedGroup" },
+      "description": "组级视图。确定性排序（按 merge_group_id）。"
+    },
+    "group_level_relations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/groupRelation" },
+      "description": "组级派生边，仅从真实 MergeResult.relations 派生；evidence 非空、可追溯。确定性排序。"
+    },
+    "resolved_relations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/resolvedRelation" },
+      "description": "candidate-level relation 的 source-of-truth 副本 + 已解析 group 端点。确定性排序（按 relation_id）。"
+    },
+    "unresolved": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/unresolvedEntry" },
+      "description": "未决候选的单侧标记。MergeResult.unresolved_candidate_ids 无 pair 信息 → 禁止猜测 pair；不产生 unresolved groupRelation。"
+    },
+    "discarded_candidate_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "直接透传 MergeResult.discarded_candidate_ids。不建 group/relation，只审计。"
+    },
+    "pending_corrections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/pendingCorrection" },
+      "description": "correction 定位结果（只定位不执行）。target_kind/target_id/target_path 全字段保留。确定性排序。"
+    },
+    "candidate_to_group": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "candidate_id → merge_group_id 映射（active 候选，不含 discarded）。"
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["group_count", "candidate_count", "relation_count",
+                   "group_relation_count", "unresolved_pair_count",
+                   "pending_correction_count"],
+      "properties": {
+        "group_count": { "type": "integer" },
+        "candidate_count": { "type": "integer" },
+        "relation_count": { "type": "integer" },
+        "group_relation_count": { "type": "integer" },
+        "unresolved_pair_count": { "type": "integer", "description": "单侧 unresolved 无 pair → 恒为实际未决候选的单侧计数，不虚构 pair。" },
+        "pending_correction_count": { "type": "integer" }
+      }
+    }
+  },
+  "$defs": {
+    "resolvedGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["merge_group_id", "members", "representative", "group_confidence", "provenance"],
+      "properties": {
+        "merge_group_id": { "type": "string" },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["candidate_id", "role_in_group"],
+            "properties": {
+              "candidate_id": { "type": "string" },
+              "role_in_group": { "type": "string", "enum": ["primary", "supporting_same_core"] }
+            }
+          }
+        },
+        "representative": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidate_id", "snapshot"],
+          "properties": {
+            "candidate_id": { "type": "string", "description": "唯一权威。任何代表 claim 需求必须经此回查 CandidateSet。" },
+            "snapshot": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["value", "basis", "confidence"],
+              "properties": {
+                "value": { "type": "string", "description": "快照，非独立 evidence。" },
+                "basis": { "type": "string", "enum": ["direct_quote", "multi_evidence", "single_weak", "user_report_only", "inferred", "correction"] },
+                "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+              }
+            },
+            "snapshot_stale": { "type": "boolean", "default": false, "description": "snapshot 与 CandidateSet 中候选不一致时为 true（仅告警，不改写）。" }
+          }
+        },
+        "group_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "provenance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidate_ids", "source_refs"],
+          "properties": {
+            "candidate_ids": { "type": "array", "items": { "type": "string" } },
+            "source_refs": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "groupRelation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["group_a", "group_b", "relation_type", "evidence", "advisory"],
+      "properties": {
+        "group_a": { "type": "string" },
+        "group_b": { "type": "string" },
+        "relation_type": {
+          "type": "string",
+          "enum": ["conflict", "temporal_evolution", "correction_relation", "supporting_related"]
+        },
+        "direction": {
+          "type": ["string", "null"],
+          "enum": ["a_earlier_b_later", "b_earlier_a_later", "a_corrects_b", "b_corrects_a", null]
+        },
+        "evidence": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "relation_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "advisory": { "type": "boolean", "description": "true=仅供 Builder 参考，不得当决定性关系。supporting_related 恒 true。" },
+        "time_info": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "a_observed_at": { "type": ["string", "null"] },
+            "b_observed_at": { "type": ["string", "null"] },
+            "a_time_period": { "type": ["object", "null"] },
+            "b_time_period": { "type": ["object", "null"] }
+          }
+        }
+      }
+    },
+    "resolvedRelation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relation_id", "relation_type", "relation_confidence",
+                   "source_a", "source_b"],
+      "properties": {
+        "relation_id": { "type": "string" },
+        "relation_type": {
+          "type": "string",
+          "enum": ["same", "supporting_same_core", "supporting_related", "conflict",
+                   "temporal_evolution", "correction_relation", "unresolved", "unrelated"],
+          "description": "透传 MergeResult.relations 的 relation_type（冻结词表全集）。"
+        },
+        "relation_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "direction": { "type": ["string", "null"] },
+        "source_a": { "$ref": "#/$defs/resolvedEndpoint" },
+        "source_b": { "$ref": "#/$defs/resolvedEndpoint" },
+        "reason": { "type": ["string", "null"] },
+        "basis_method": { "type": ["string", "null"] }
+      }
+    },
+    "resolvedEndpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "group_id"],
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "group_id": { "type": "string" }
+      }
+    },
+    "unresolvedEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "reason"],
+      "properties": {
+        "candidate_id": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    },
+    "pendingCorrection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["correction_id", "target_kind", "target_id", "resolved_target", "status"],
+      "properties": {
+        "correction_id": { "type": "string" },
+        "target_kind": { "type": "string", "enum": ["candidate", "persona_claim", "memory_item"] },
+        "target_id": { "type": "string" },
+        "target_path": { "type": ["string", "null"] },
+        "user_statement": { "type": ["string", "null"] },
+        "corrected_value": { "type": ["string", "number", "boolean", "object", "array", "null"], "description": "只透传，5.4 不校验类型。" },
+        "resolved_target": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["kind"],
+          "properties": {
+            "kind": { "type": "string", "enum": ["candidate", "unresolvable_in_this_batch", "belongs_to_5_5"] },
+            "candidate_id": { "type": ["string", "null"] },
+            "group_id": { "type": ["string", "null"] }
+          }
+        },
+        "status": { "type": "string", "enum": ["active", "superseded"] }
+      }
+    }
+  }
+}

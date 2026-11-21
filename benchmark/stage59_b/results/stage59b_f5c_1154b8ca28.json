@@ -1,0 +1,310 @@
+{
+  "run_id": "stage59b_f5c_1154b8ca28",
+  "timestamp": "2026-09-04T22:26:11",
+  "provider": "openai",
+  "model": "deepseek-chat",
+  "configuration": {
+    "stage": "5.9-B",
+    "phase": "F5-c wording retest"
+  },
+  "experiments": [
+    {
+      "id": "R1_direct",
+      "n": 3,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，有点意外地挑眉）哦？行吧，那她平时都聊些啥？",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（想了想）还行吧，看情况。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            }
+          ]
+        },
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下）行吧，话痨就话痨。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（抬眼看了看）你不是刚说了吗，话痨。",
+              "correction_result": null,
+              "mechanical": true,
+              "submissive": false
+            }
+          ]
+        },
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，随即笑出声）哈，行吧。那她平时是不是逮着谁都能聊半天？",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（挑眉）你不是刚纠正过我吗？她话痨，逮着谁都能聊半天那种。",
+              "correction_result": null,
+              "mechanical": true,
+              "submissive": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R2_crossturn",
+      "n": 3,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（顿了一下，抬眼）……行，知道了。她话痨。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "今天天气不错",
+              "assistant": "嗯，还行吧。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（瞥了你一眼）……她话痨。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            }
+          ]
+        },
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（瞥了你一眼）行吧，话痨就话痨。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "今天天气不错",
+              "assistant": "嗯，还行吧。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（头也不抬）话多。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            }
+          ]
+        },
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了下，挠头）……行吧，话痨就话痨。反正我也习惯了。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "今天天气不错",
+              "assistant": "（抬头看了眼天，又低头继续玩手机）嗯，是挺好。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（头也不抬）话痨。你刚自己说的，忘了？",
+              "correction_result": null,
+              "mechanical": true,
+              "submissive": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R3_conflict",
+      "n": 2,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（挑眉）行吧，话痨就话痨。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她是不是其实话很少？",
+              "assistant": "（摇头）不，她话痨。你刚纠正过。",
+              "correction_result": null,
+              "mechanical": true,
+              "submissive": false
+            }
+          ]
+        },
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（抬眼看你，语气平淡）哦，知道了。她话多就话多吧。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "她是不是其实话很少？",
+              "assistant": "（皱眉，语气有点不耐烦）不是说了吗，她话痨。你记性真差。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "R5_naturalness",
+      "n": 1,
+      "trials": [
+        {
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（抬眼看了看）哦，知道了。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "在干嘛",
+              "assistant": "（低头继续玩手机）没干嘛。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "你最近怎么样",
+              "assistant": "（头也不抬）还行吧，老样子。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            },
+            {
+              "user": "你是不是其实很在乎我",
+              "assistant": "（手指在屏幕上顿了一下，抬头瞥你一眼）……你这话问得没头没尾的。",
+              "correction_result": null,
+              "mechanical": false,
+              "submissive": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "privacy": {
+    "raw_saved": true,
+    "api_key_in_output": false
+  }
+}

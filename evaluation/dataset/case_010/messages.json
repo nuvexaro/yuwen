@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.2",
+  "platform": "wechat",
+  "source_format": "txt",
+  "source_ref": "eval",
+  "conversation_title": "小明",
+  "default_sender_role": "unknown",
+  "participants": [
+    {
+      "role": "user",
+      "account_id": null,
+      "names": [
+        "我"
+      ],
+      "match_method": "name_exact",
+      "confidence": 0.85,
+      "confirmed": true
+    },
+    {
+      "role": "target",
+      "account_id": null,
+      "names": [
+        "小明"
+      ],
+      "match_method": "name_exact",
+      "confidence": 0.9,
+      "confirmed": true
+    }
+  ],
+  "messages": [
+    {
+      "id": "m_1",
+      "content_fingerprint": "f_m_1",
+      "sequence": 0,
+      "sent_at": "2024-01-15T20:00:00",
+      "sent_at_raw": "2024-01-15 20:00:00",
+      "sender": {
+        "role": "target",
+        "name": "小明",
+        "sender_key": "小明"
+      },
+      "content_type": null,
+      "body": "今天有点累",
+      "media": null,
+      "reply_to_message_id": null,
+      "is_recalled": null,
+      "in_group_chat": null
+    }
+  ]
+}

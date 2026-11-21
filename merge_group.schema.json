@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ex-merge-group.schema.v1.0.json",
+  "title": "Evidence Merge Group Schema v1.0",
+  "description": "Stage 5.3 Semantic Merge 的输出：把多个 Evidence Candidate 收敛为带关系的证据组。本层只负责：候选间关系判定、merge group 构建、provenance 保留。它不裁决最终 Persona/Memory，不删除任何候选，不执行 correction overlay。merge 对输入 candidate 只读——group.members 只存 candidate_id 引用，provenance 可始终回溯到原始候选。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "groups", "relations"],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "groups": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/mergeGroup" },
+      "description": "coherent 证据组：仅 same / supporting_same_core 的成员并入同组；组内是单一 coherent claim。conflict/temporal_evolution/correction/related 均为组间关系。"
+    },
+    "relations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/relation" },
+      "description": "成对关系记录。只包含【实际判定过】的关系；blocking 跨桶未比较的候选不产生任何 relation。"
+    },
+    "discarded_candidate_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "输入中 status=discarded、未参与 merge 的候选 id（保留审计）。"
+    },
+    "unresolved_candidate_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "进入比较但无法定类的候选 id（宁可不判）。"
+    },
+    "stats": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "input_candidates": { "type": "integer" },
+        "grouped_candidates": { "type": "integer" },
+        "group_count": { "type": "integer" },
+        "relation_count": { "type": "integer" },
+        "discarded": { "type": "integer" },
+        "unresolved": { "type": "integer" }
+      }
+    }
+  },
+  "$defs": {
+    "idRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "id"],
+      "properties": {
+        "kind": { "type": "string", "enum": ["candidate", "merge_group"] },
+        "id": { "type": "string" },
+        "description": { "type": ["string", "null"] }
+      },
+      "description": "relation endpoint：kind 明确指向 candidate 或 merge_group，id 为对应稳定 id，不留含义不明的裸 id。"
+    },
+    "mergeGroup": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["merge_group_id", "representative", "members", "stats"],
+      "properties": {
+        "merge_group_id": {
+          "type": "string",
+          "description": "确定性分组键（非永久实体 ID）：merge_group_id = 'mg_' + sha1hex(canonical_core(primary.claim.value))[:16]。不依赖输入顺序；新增更强同核证据顶替 primary 时可能改变（documented dedup-key 局限）。"
+        },
+        "representative": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["candidate_id", "value", "basis", "confidence"],
+          "properties": {
+            "candidate_id": { "type": "string", "description": "representative 必为组内已有 candidate，可回溯；不得综合改写新事实。" },
+            "value": { "type": "string", "description": "取自该 candidate 的原始 claim.value，逐字保留。" },
+            "basis": { "type": "string", "enum": ["direct_quote", "multi_evidence", "single_weak", "user_report_only", "inferred", "correction"] },
+            "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+          },
+          "description": "representative 是已有候选 claim 的确定性派生代表，非新证据，不覆盖原始 candidate。"
+        },
+        "members": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["candidate_id", "role_in_group"],
+            "properties": {
+              "candidate_id": { "type": "string" },
+              "role_in_group": { "type": "string", "enum": ["primary", "supporting_same_core"] }
+            }
+          },
+          "description": "组内候选引用（只读，不改写原候选）。"
+        },
+        "stats": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "independent_support_count": { "type": "integer", "description": "组内成员数（同核独立证据条数）。非概率。" },
+            "source_diversity": { "type": "integer", "description": "成员中 distinct source_refs 数。非概率。" },
+            "has_conflict": { "type": "boolean", "description": "本组是否参与 conflict/temporal 组间关系。" },
+            "evidence_type_mix": { "type": "object", "additionalProperties": { "type": "integer" }, "description": "成员 evidence_type 计数。非概率。" }
+          }
+        },
+        "relations": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/relation" },
+          "description": "本组对外关系（引用；或按 relation_id 列表）。"
+        },
+        "created_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["relation_id", "source_a", "source_b", "relation_type", "relation_confidence", "basis_method"],
+      "properties": {
+        "relation_id": {
+          "type": "string",
+          "description": "确定性：rel_ + sha1(sorted([a_id, b_id]) + relation_type)[:16]。不依赖输入顺序。"
+        },
+        "source_a": { "$ref": "#/$defs/idRef" },
+        "source_b": { "$ref": "#/$defs/idRef" },
+        "relation_type": {
+          "type": "string",
+          "enum": ["same", "supporting_same_core", "supporting_related", "conflict",
+                   "temporal_evolution", "correction_relation", "unresolved", "unrelated"],
+          "description": "独立词表，不写入 persona_memory v1.2 claim.basis。"
+        },
+        "relation_confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "该 relation 判定本身的可信度，独立于 claim 支持度。"
+        },
+        "direction": {
+          "type": ["string", "null"],
+          "enum": ["a_corrects_b", "b_corrects_a", "a_earlier_b_later", "b_earlier_a_later", null]
+        },
+        "basis_method": {
+          "type": "string",
+          "enum": ["canonical_exact", "negation_polarity", "temporal", "semantic", "llm_adjudication", "blocking_only"]
+        },
+        "reason": { "type": ["string", "null"] },
+        "created_at": { "type": ["string", "null"], "format": "date-time" }
+      }
+    }
+  }
+}

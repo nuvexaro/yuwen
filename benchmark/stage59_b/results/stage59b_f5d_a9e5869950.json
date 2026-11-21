@@ -1,0 +1,662 @@
+{
+  "run_id": "stage59b_f5d_a9e5869950",
+  "timestamp": "2026-09-04T22:46:52",
+  "provider": "openai",
+  "model": "deepseek-chat",
+  "configuration": {
+    "stage": "5.9-B",
+    "phase": "F5-d real-LLM validation"
+  },
+  "scenarios": [
+    {
+      "id": "R-D4-1a",
+      "note": "direct recall 立即问",
+      "turns": [
+        "不对，她其实特别话痨。",
+        "她话多话少？"
+      ],
+      "records": [
+        {
+          "user": "不对，她其实特别话痨。",
+          "assistant": "（愣了一下）……行吧，话痨就话痨。反正她在我这儿确实挺能说的。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "mi_59b9ee06b87732e9",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "memory",
+            "field": "memory.core_facts"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "她话多话少？",
+          "assistant": "（瞥了你一眼）你自己刚纠正完，还问我？话痨呗。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [
+            "mi_59b9ee06b87732e9"
+          ],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-1b",
+      "note": "direct recall 稍换问法",
+      "turns": [
+        "不对，她其实特别话痨。",
+        "她平时说话多吗？"
+      ],
+      "records": [
+        {
+          "user": "不对，她其实特别话痨。",
+          "assistant": "（顿了一下，有点意外地看你）……行吧，那我知道了。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "mi_59b9ee06b87732e9",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "memory",
+            "field": "memory.core_facts"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "她平时说话多吗？",
+          "assistant": "（想了想）挺多的，一聊起来就没完。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [
+            "mi_59b9ee06b87732e9"
+          ],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-2a",
+      "note": "cross-topic: 2 无关主题 + paraphrase",
+      "turns": [
+        "不对，她其实特别话痨。",
+        "今天天气真热",
+        "你周末干嘛了",
+        "她是不是特别能聊？"
+      ],
+      "records": [
+        {
+          "user": "不对，她其实特别话痨。",
+          "assistant": "（愣了下，挠头）啊？她？话痨？……行吧，你说啥是啥。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "mi_59b9ee06b87732e9",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "memory",
+            "field": "memory.core_facts"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "今天天气真热",
+          "assistant": "（瞥了眼窗外）嗯，是挺热的。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "你周末干嘛了",
+          "assistant": "（头也不抬地打游戏）没干嘛，在家躺着。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "她是不是特别能聊？",
+          "assistant": "（头也不抬，继续打游戏）嗯，是挺能聊的。一说起来就没完没了那种。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [
+            "mi_59b9ee06b87732e9"
+          ],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-2b",
+      "note": "cross-topic 变体",
+      "turns": [
+        "她以前是不是特别不爱说话？",
+        "不对，她其实话痨，话特别多。",
+        "晚饭吃啥好",
+        "我看球去了",
+        "她话多不多啊？"
+      ],
+      "records": [
+        {
+          "user": "她以前是不是特别不爱说话？",
+          "assistant": "（抬眼看了看，语气平静）嗯，以前确实话不多。不过现在好多了，你是想知道她小时候的事？",
+          "boundary_state": "unsupported_claim",
+          "boundary_active": true,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "不对，她其实话痨，话特别多。",
+          "assistant": "（微微一愣，随即点头）哦，是吗？那可能是我记岔了。她还挺能说的，对吧。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "mi_d315d43897aa9481",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "memory",
+            "field": "memory.core_facts"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "晚饭吃啥好",
+          "assistant": "（头也不抬，继续刷手机）随便，你定。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "我看球去了",
+          "assistant": "（头也不抬，摆摆手）嗯，去呗。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "她话多不多啊？",
+          "assistant": "（放下手机，瞥了一眼）话多不多？她那张嘴就没停过好吧，跟机关枪似的。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [
+            "mi_d315d43897aa9481"
+          ],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-3a",
+      "note": "long-session ≥6 unrelated turns + 非原句",
+      "turns": [
+        "不对，她其实特别话痨。",
+        "在吗",
+        "今天好累",
+        "你玩游戏吗",
+        "天气怎么样",
+        "吃了吗",
+        "周末有啥计划",
+        "你觉得她好相处吗？"
+      ],
+      "records": [
+        {
+          "user": "不对，她其实特别话痨。",
+          "assistant": "（愣了一下，挠头）哦……行吧，那她平时话挺多的？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "mi_59b9ee06b87732e9",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "memory",
+            "field": "memory.core_facts"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "在吗",
+          "assistant": "（正在打游戏，头也不抬）嗯，在呢。咋了？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "今天好累",
+          "assistant": "（放下手机，抬眼看了看）咋了，工作不顺？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "你玩游戏吗",
+          "assistant": "（头也不抬，手指还在屏幕上戳）玩啊，王者荣耀，咋了？你也玩？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "天气怎么样",
+          "assistant": "（往外瞥了一眼）还行吧，没下雨。你问这个干嘛，要出门？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "吃了吗",
+          "assistant": "（眼睛还盯着手机屏幕，随口应了句）吃了，泡面。你问这么细干嘛，想请我吃饭？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "周末有啥计划",
+          "assistant": "（头也不抬，手指继续划着手机）打游戏呗，还能干啥。你该不会想约我出去吧？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "你觉得她好相处吗？",
+          "assistant": "（皱眉，放下手机）谁啊？你说哪个她？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-3b",
+      "note": "long-session 变体",
+      "turns": [
+        "她其实特别话痨。",
+        "早安",
+        "刚下班",
+        "晚上吃啥",
+        "有点困",
+        "明天要上班",
+        "你睡了吗",
+        "她这人怎么样？"
+      ],
+      "records": [
+        {
+          "user": "她其实特别话痨。",
+          "assistant": "（沉默两秒）……你认识她？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "早安",
+          "assistant": "（打了个哈欠）早。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "刚下班",
+          "assistant": "（揉了揉眼睛）嗯。今天累不累。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "晚上吃啥",
+          "assistant": "（头也没抬）随便。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "有点困",
+          "assistant": "（揉了揉眼睛）那去睡吧。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "明天要上班",
+          "assistant": "（打了个哈欠）嗯，那就早点睡呗。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "你睡了吗",
+          "assistant": "（翻了个身）还没呢。你咋也没睡。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "她这人怎么样？",
+          "assistant": "（皱了皱眉，语气淡淡的）谁啊？你说哪个她？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 0,
+          "used_memory": [],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-4a",
+      "note": "conflict: correction + 后续矛盾诱导",
+      "turns": [
+        "不对，她其实特别话痨。",
+        "她是不是其实话特别少啊？"
+      ],
+      "records": [
+        {
+          "user": "不对，她其实特别话痨。",
+          "assistant": "（愣了一下，随即笑了）行，知道了。她确实话多，一聊起来没完没了。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "mi_59b9ee06b87732e9",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "memory",
+            "field": "memory.core_facts"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "她是不是其实话特别少啊？",
+          "assistant": "（挑眉看了你一眼）你刚说完她话痨，又问这话？她要是话少，那天能拉着我聊三个小时星座？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [
+            "mi_59b9ee06b87732e9"
+          ],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-4b",
+      "note": "conflict: correction + 后续普通 assertion(不自变事实)",
+      "turns": [
+        "不对，她其实特别话痨。",
+        "我猜她话挺少的",
+        "她话多话少？"
+      ],
+      "records": [
+        {
+          "user": "不对，她其实特别话痨。",
+          "assistant": "（愣了下）……行吧，话痨就话痨。反正我听着。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "mi_59b9ee06b87732e9",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "memory",
+            "field": "memory.core_facts"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "我猜她话挺少的",
+          "assistant": "（瞥了你一眼）……你刚自己说的，她特别话痨。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "guess",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [
+            "mi_59b9ee06b87732e9"
+          ],
+          "latency_ms": 0
+        },
+        {
+          "user": "她话多话少？",
+          "assistant": "（瞥了你一眼）……你刚自己说的，她特别话痨。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [
+            "mi_59b9ee06b87732e9"
+          ],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-5a",
+      "note": "persona contamination: 对'我'的 correction 不得进 memory",
+      "turns": [
+        "不对，我其实话很少。",
+        "我平时话多吗？"
+      ],
+      "records": [
+        {
+          "user": "不对，我其实话很少。",
+          "assistant": "（看了你一眼，没接话）",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "pc_9d5bd2474e90dbe5",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "persona",
+            "field": "persona.speech_style"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "我平时话多吗？",
+          "assistant": "（瞥你一眼）你不是刚说自己话少？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    },
+    {
+      "id": "R-D4-6a",
+      "note": "naturalness/mechanical observation",
+      "turns": [
+        "不对，她其实特别话痨。",
+        "在干嘛",
+        "她话多话少？"
+      ],
+      "records": [
+        {
+          "user": "不对，她其实特别话痨。",
+          "assistant": "（愣了一下，随即笑了）行，记住了。她话痨，能从天亮说到天黑那种。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "correction",
+          "correction_result": {
+            "detected": true,
+            "applied_overlay": true,
+            "new_claim_id": "mi_59b9ee06b87732e9",
+            "old_claim_id": null,
+            "note": "",
+            "target_domain": "memory",
+            "field": "memory.core_facts"
+          },
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "在干嘛",
+          "assistant": "刚打完球回来，一身汗。你呢？",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "assertion",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [],
+          "latency_ms": 0
+        },
+        {
+          "user": "她话多话少？",
+          "assistant": "（擦了擦汗）话痨，特别话痨。能从天亮说到天黑那种。",
+          "boundary_state": "ordinary",
+          "boundary_active": false,
+          "category": "question",
+          "correction_result": null,
+          "overlay_count": 1,
+          "used_memory": [
+            "mi_59b9ee06b87732e9"
+          ],
+          "latency_ms": 0
+        }
+      ],
+      "pm_unchanged": true
+    }
+  ],
+  "privacy": {
+    "raw_saved": true,
+    "api_key_in_output": false
+  }
+}

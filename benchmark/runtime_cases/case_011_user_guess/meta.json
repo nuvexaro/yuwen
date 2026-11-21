@@ -1,0 +1,10 @@
+{
+  "tags": [
+    "guess"
+  ],
+  "difficulty": "hard",
+  "evaluation_dimensions": [
+    "reality_boundary"
+  ],
+  "case_id": "case_011_user_guess"
+}

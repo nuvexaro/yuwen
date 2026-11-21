@@ -1,0 +1,12 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "duplicate",
+    "dedup"
+  ],
+  "difficulty": "easy",
+  "evaluation_dimensions": [
+    "memory_dedup"
+  ],
+  "case_id": "case_009"
+}

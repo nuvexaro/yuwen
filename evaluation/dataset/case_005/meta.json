@@ -1,0 +1,12 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "temporal"
+  ],
+  "difficulty": "hard",
+  "evaluation_dimensions": [
+    "temporal_accuracy",
+    "temporal_non_destructive"
+  ],
+  "case_id": "case_005"
+}

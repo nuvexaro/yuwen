@@ -1,0 +1,7 @@
+# 必需依赖
+jsonschema>=4.26
+openai>=3.57
+
+# 可选依赖（不安装也能跑离线流程，对应功能会降级或不可用）
+# Pillow>=9.0.0        # 读取照片 EXIF 时间/地点（tools/photo_analyzer.py）；不装则照片分析返回错误
+# anthropic            # 仅当选择 anthropic provider 时需要（benchmark/real_llm_adapter.py）；默认走 openai 兼容接口

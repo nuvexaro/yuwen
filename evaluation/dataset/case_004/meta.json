@@ -1,0 +1,11 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "conflict"
+  ],
+  "difficulty": "medium",
+  "evaluation_dimensions": [
+    "conflict_safety"
+  ],
+  "case_id": "case_004"
+}

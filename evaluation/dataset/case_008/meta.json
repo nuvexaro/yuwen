@@ -1,0 +1,12 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "related-noise"
+  ],
+  "difficulty": "medium",
+  "evaluation_dimensions": [
+    "supporting_related",
+    "persona_precision"
+  ],
+  "case_id": "case_008"
+}

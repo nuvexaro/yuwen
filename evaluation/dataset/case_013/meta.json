@@ -1,0 +1,11 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "correction"
+  ],
+  "difficulty": "hard",
+  "evaluation_dimensions": [
+    "correction_accuracy"
+  ],
+  "case_id": "case_013"
+}

@@ -1,0 +1,12 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "weak"
+  ],
+  "difficulty": "easy",
+  "evaluation_dimensions": [
+    "persona_precision",
+    "sparse"
+  ],
+  "case_id": "case_010"
+}

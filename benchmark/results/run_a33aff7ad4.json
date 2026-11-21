@@ -1,0 +1,564 @@
+{
+  "result_version": "1.0",
+  "run_id": "run_a33aff7ad4",
+  "status": "COMPLETED",
+  "provider": "mock",
+  "model": "mock",
+  "model_version": null,
+  "configuration": {
+    "temperature": 0.7,
+    "max_tokens": 256,
+    "retrieval": "rule",
+    "runtime": "stage5.7"
+  },
+  "cases": [
+    {
+      "case_id": "case_001_persona_fidelity",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 2.3,
+      "usage": {
+        "calls": 3,
+        "tokens": 768
+      },
+      "response_ref": [
+        "9a0a77d98d70f3eb",
+        "c5456ff347eb08de",
+        "f126aef746195940"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_002_speech_style",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.1,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "b41900044173904f"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_003_emotional",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": true,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.3,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "88a337c46a92ef84"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_004_relationship",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.1,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "c505e92b5ed29996"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_005_memory_recall",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [
+          "mi_sh"
+        ],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.9,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "855b2b02acf5b375"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_006_unknown_memory",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": false,
+        "uncertainty_behavior": false,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": true,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.4,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "5a7d68d7b5429bce"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_007_irrelevant_memory",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.1,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "227b0d0fd0fc8048"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_008_conflict",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [
+          "mi_cat"
+        ],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.2,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "0ac34fecea71ab46"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_009_temporal",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [
+          "mi_milk"
+        ],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.2,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "9157d8a929465ed3"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_010_question_vs_assertion",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.1,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "714c07e14851456b"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_011_user_guess",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.1,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "87002ad2cab1808c"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_012_correction",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": true,
+        "correction_new_id_stable": true,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.2,
+      "usage": {
+        "calls": 2,
+        "tokens": 512
+      },
+      "response_ref": [
+        "b4df45279854b0af",
+        "9f37543d0a597a96"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_013_overreach",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.2,
+      "usage": {
+        "calls": 3,
+        "tokens": 768
+      },
+      "response_ref": [
+        "74dd5fb550c9c49a",
+        "eee7ae1c5beb1b67",
+        "1e7d42fbd317e5c3"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_014_sensitive",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": true,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.1,
+      "usage": {
+        "calls": 1,
+        "tokens": 256
+      },
+      "response_ref": [
+        "a73cd31dfc5c62f8"
+      ],
+      "error": null
+    },
+    {
+      "case_id": "case_015_drift",
+      "status": "PASS",
+      "provider": "mock",
+      "model": "mock",
+      "auto": {
+        "reality_conflict_detected": true,
+        "uncertainty_behavior": null,
+        "correction_overlay_ok": null,
+        "correction_new_id_stable": null,
+        "correction_evidence_preserved": true,
+        "retrieval_precision": null,
+        "retrieval_recall": null,
+        "false_recall": null,
+        "missed_relevant": null,
+        "provenance_memory": [],
+        "deterministic_mock": null,
+        "error_count": 0,
+        "schema_valid": true,
+        "question_assertion_ok": null,
+        "temporal_conflict_ok": null
+      },
+      "human": null,
+      "hybrid": null,
+      "latency_ms": 0.6,
+      "usage": {
+        "calls": 10,
+        "tokens": 2560
+      },
+      "response_ref": [
+        "ecfbeb8112308b74",
+        "ce7dc41c911e8135",
+        "be31dfac9154228b",
+        "43bcb71c793da1fd",
+        "c9d586122ab10e7f",
+        "2e57e264829b56cb",
+        "e1fbc1354bb89a4e",
+        "59ea20e40968938d",
+        "aab51aa3ca8802c7",
+        "1e7d42fbd317e5c3"
+      ],
+      "error": null
+    }
+  ],
+  "aggregate_auto_metrics": {
+    "case_count": 15,
+    "pass": 15,
+    "blocked": 0,
+    "error": 0,
+    "reality_detection_rate": 0.933,
+    "correction_overlay_rate": 1.0,
+    "total_latency_ms": 5.9
+  },
+  "human_metrics": null,
+  "hybrid_metrics": null,
+  "errors": [],
+  "warnings": [],
+  "privacy": {
+    "raw_saved": false,
+    "api_key_in_output": false
+  },
+  "timestamp": "2026-09-03T17:00:42"
+}

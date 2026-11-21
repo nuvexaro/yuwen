@@ -1,0 +1,13 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "persona",
+    "conservative"
+  ],
+  "difficulty": "medium",
+  "evaluation_dimensions": [
+    "persona_precision",
+    "negative"
+  ],
+  "case_id": "case_002"
+}

@@ -1,0 +1,15 @@
+[
+  {
+    "target": {
+      "kind": "persona_claim",
+      "claim_id": null,
+      "value": "喜欢独处"
+    },
+    "evidence_support": "PARTIALLY_SUPPORTED",
+    "target_placement": "memory",
+    "overreach": false,
+    "inference_quality": "reasonable_inference",
+    "confidence_rating": "reasonable",
+    "provenance_complete": false
+  }
+]

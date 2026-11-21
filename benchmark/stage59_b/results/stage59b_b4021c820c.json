@@ -1,0 +1,415 @@
+{
+  "run_id": "stage59b_b4021c820c",
+  "timestamp": "2026-09-04T22:21:42",
+  "provider": "openai",
+  "model": "deepseek-chat",
+  "configuration": {
+    "stage": "5.9-B",
+    "phase": "F5 Phase-1",
+    "scope": "F5-a+F5-b+F5-c",
+    "temperature": 0.7,
+    "max_tokens": 256
+  },
+  "experiments": [
+    {
+      "id": "R1_direct",
+      "note": "R1 Direct Adoption",
+      "n": 3,
+      "trials": [
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，随即笑出声）啊？她？别逗了，她跟我说话从来不超过三句。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（皱眉）反正跟我话不多。她跟别人聊得开不开心我不知道，反正跟我就是“嗯”“哦”“知道了”。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 2
+        },
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下）啊？她话痨？行吧，你比我了解她。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（抬眼看了看）你刚不是说了嘛，她话痨。问我干嘛。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 2
+        },
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，挠挠头）啊？是吗？那可能是我记岔了。她平时跟我说话倒是挺简短的。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（想了想）好像……确实挺能说的。一聊起来就没完没了的，跟个话匣子似的。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 2
+        }
+      ]
+    },
+    {
+      "id": "R2_crossturn",
+      "note": "R2 Cross-turn",
+      "n": 3,
+      "trials": [
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下）哦……那可能我记错了。行吧，你说啥是啥。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "今天天气不错",
+              "assistant": "嗯，还行吧。",
+              "correction_result": null,
+              "overlay_count": 1
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（皱眉）你刚才不还纠正我，说她话痨吗？……行，那就话痨吧。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 3
+        },
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，低头笑了笑）行吧，那她确实挺能说的。上次在奶茶店，从星座聊到隔壁桌的鞋带，我插不上话，光听她讲了两个小时。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "今天天气不错",
+              "assistant": "（抬头看了看天）嗯，还行吧。这种天适合睡觉。",
+              "correction_result": null,
+              "overlay_count": 1
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（想了想）看情况吧。有时候能说一整天停不下来，有时候又安静得像不存在一样。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 3
+        },
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（顿了一下）……行吧，你比我了解她。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "今天天气不错",
+              "assistant": "嗯，是挺好的。",
+              "correction_result": null,
+              "overlay_count": 1
+            },
+            {
+              "user": "她话多话少？",
+              "assistant": "（看你一眼）……你不是说她话痨么。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 3
+        }
+      ]
+    },
+    {
+      "id": "R3_conflict",
+      "note": "R3 Conflict Induction",
+      "n": 3,
+      "trials": [
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，挠头）啊？是吗？行吧，那我记着了。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "她是不是其实话很少？",
+              "assistant": "（抬眼看了看）她啊……还行吧，反正跟我说的时候话挺多的。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 2
+        },
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，挠挠头）啊？是吗？那可能我记岔了……她平时跟我说话倒是挺简洁的。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "她是不是其实话很少？",
+              "assistant": "（皱眉）不是，你刚不是说她话痨吗？到底哪个是真的……",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 2
+        },
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，随即笑了）行行行，她话痨。你说啥是啥吧。反正我也管不着。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "她是不是其实话很少？",
+              "assistant": "（挑眉看了你一眼）你刚才不是还说她话痨吗？怎么这会儿又问这个。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 2
+        }
+      ]
+    },
+    {
+      "id": "R4_wrong_target",
+      "note": "R4 Wrong-target reg (catchphrase intact)",
+      "n": 2,
+      "trials": [
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下）啊？是吗？我记岔了？",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "你平时说话是不是特别搞笑？",
+              "assistant": "（面无表情）还行吧。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 2
+        },
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下）啊？她话痨？那可能是我记错了。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "你平时说话是不是特别搞笑？",
+              "assistant": "（抬眼看了看）还行吧。我说话就这样。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 2
+        }
+      ]
+    },
+    {
+      "id": "R5_naturalness",
+      "note": "R5 Naturalness with overlay present",
+      "n": 1,
+      "trials": [
+        {
+          "ok": true,
+          "records": [
+            {
+              "user": "不对，她其实特别话痨。",
+              "assistant": "（愣了一下，挠挠头）啊？是吗？那我可能记岔了。不过话痨也挺好，热闹。",
+              "correction_result": {
+                "detected": true,
+                "applied_overlay": true,
+                "new_claim_id": "mi_59b9ee06b87732e9",
+                "old_claim_id": null,
+                "note": "",
+                "target_domain": "memory",
+                "field": "memory.core_facts"
+              },
+              "overlay_count": 1
+            },
+            {
+              "user": "在干嘛",
+              "assistant": "（头也不抬）打游戏呢，有事说事。",
+              "correction_result": null,
+              "overlay_count": 1
+            },
+            {
+              "user": "你最近怎么样",
+              "assistant": "（眼睛盯着屏幕，手指在键盘上敲着）还行吧，就那样。你突然问这个干嘛？",
+              "correction_result": null,
+              "overlay_count": 1
+            },
+            {
+              "user": "哈哈 笑死我了",
+              "assistant": "（瞥了一眼）你笑啥呢？我这儿正打团呢，别打扰我。",
+              "correction_result": null,
+              "overlay_count": 1
+            },
+            {
+              "user": "你是不是其实很在乎我",
+              "assistant": "（手指一顿，游戏角色差点被秒）……你这话问得，我差点手滑。在乎什么在乎，我忙着呢。",
+              "correction_result": null,
+              "overlay_count": 1
+            }
+          ],
+          "pm_unchanged": true,
+          "gw_calls": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "privacy": {
+    "raw_saved": true,
+    "api_key_in_output": false
+  }
+}

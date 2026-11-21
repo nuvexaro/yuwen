@@ -1,0 +1,10 @@
+{
+  "tags": [
+    "temporal"
+  ],
+  "difficulty": "medium",
+  "evaluation_dimensions": [
+    "temporal_accuracy"
+  ],
+  "case_id": "case_009_temporal"
+}

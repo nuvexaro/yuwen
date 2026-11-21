@@ -1,0 +1,733 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ex-persona.schema.v1.2.json",
+  "title": "AI Persona & Memory Schema v1.2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "revision", "persona", "memory"],
+  "properties": {
+    "schema_version": { "const": "1.2" },
+    "revision": { "type": "integer", "minimum": 1, "description": "快照修订号，每次 persona/memory 变更 +1，用于版本回滚" },
+    "created_at": { "type": ["string", "null"], "format": "date-time", "description": "快照创建时间，由程序写入，不由 LLM 伪造" },
+    "updated_at": { "type": ["string", "null"], "format": "date-time", "description": "快照最近更新时间，由程序写入" },
+    "user_impression": { "type": "string", "description": "用户口述的一句话印象（主观但有温度）。仅作 user_report_only 性质的速写，不得伪装成 target 客观事实。" },
+
+    "persona": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["layer0_rules", "identity", "speech_style", "emotional_pattern", "relationship_behavior"],
+      "properties": {
+        "layer0_rules": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["do_not_say"],
+          "properties": {
+            "do_not_say": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/layer0claim" },
+                  { "properties": { "value": { "type": "string" } } }
+                ]
+              },
+              "description": "这个人格现实中绝不可能说的话/行为（Layer0 硬规则，最高优先级）。每条为 layer0claim：basis 仅允许 direct_quote/user_report_only/correction，且必须携带至少 1 条 evidence。"
+            },
+            "specific_edges": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/layer0claim" },
+                  { "properties": { "value": { "type": "string" } } }
+                ]
+              },
+              "description": "人格特有的棱角行为（Layer0）。例：生气时会用讽刺回击，从不当面道歉但两小时后发消息示好。basis 限制同 do_not_say，禁止 inferred。"
+            },
+            "reality_boundary": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/layer0claim" },
+                    { "properties": { "value": { "type": "string" } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "现实边界（Layer0）。例：分手后没有联系过。null=无此边界声明。通用护栏（不是AI/不突然变完美/回避权等）由运行时常量提供，不入此表。basis 限制同 do_not_say，禁止 inferred。"
+            }
+          }
+        },
+
+        "identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name_or_alias"],
+          "properties": {
+            "name_or_alias": {
+              "allOf": [
+                { "$ref": "#/$defs/claim" },
+                { "properties": { "value": { "type": "string" } } }
+              ],
+              "description": "用户给的花名/代号（必填）。basis 通常为 user_report_only 或 correction。"
+            },
+            "age": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "type": ["integer", "null"], "minimum": 0 } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "年龄。仅在有明确证据时成 claim；否则整字段为 null。value 必须是非负整数。"
+            },
+            "gender": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "enum": ["male", "female", "unknown", "do_not_infer", null] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "性别。value 枚举沿用 v1.1：male/female/unknown/do_not_infer/null。"
+            },
+            "occupation": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "type": ["string", "null"] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "职业。整字段 null=无 claim。"
+            },
+            "city": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "type": ["string", "null"] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "城市。"
+            },
+            "mbti": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "enum": ["ENFP", "ENTP", "ESFP", "ESTP", "ENFJ", "ENTJ", "ESFJ", "ESTJ", "INFP", "INTP", "ISFP", "ISTP", "INFJ", "INTJ", "ISFJ", "ISTJ", null] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "MBTI。value 枚举沿用 v1.1 的 16 项 + null。用户口述的 MBTI 属 user_report_only，不得伪装成 target 客观证据。"
+            },
+            "zodiac": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "enum": ["白羊座", "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座", "水瓶座", "双鱼座", null] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "星座。value 枚举沿用 v1.1 的 12 项 + null。"
+            },
+            "self_reference": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "type": ["string", "null"] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "自称方式，例：只用“我”；或用名字自称。"
+            },
+            "summary": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "type": ["string", "null"] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "一两句人格速写（派生视图，须可下钻到各层证据）。不作为独立事实源。"
+            },
+            "relationship": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "anyOf": [
+                    {
+                      "allOf": [
+                        { "$ref": "#/$defs/claim" },
+                        { "properties": { "value": { "enum": ["ex_partner", "ambiguous", "friend", "family", "mentor", "other", null] } } }
+                      ]
+                    },
+                    { "type": "null" }
+                  ]
+                },
+                "status": {
+                  "anyOf": [
+                    {
+                      "allOf": [
+                        { "$ref": "#/$defs/claim" },
+                        { "properties": { "value": { "enum": ["separated", "together", "ambiguous", "ended_with_death", "other", null] } } }
+                      ]
+                    },
+                    { "type": "null" }
+                  ]
+                },
+                "together_duration_text": {
+                  "anyOf": [
+                    {
+                      "allOf": [
+                        { "$ref": "#/$defs/claim" },
+                        { "properties": { "value": { "type": ["string", "null"] } } }
+                      ]
+                    },
+                    { "type": "null" }
+                  ],
+                  "description": "在一起时长原文，如“大学四年”。"
+                },
+                "apart_duration_text": {
+                  "anyOf": [
+                    {
+                      "allOf": [
+                        { "$ref": "#/$defs/claim" },
+                        { "properties": { "value": { "type": ["string", "null"] } } }
+                      ]
+                    },
+                    { "type": "null" }
+                  ],
+                  "description": "分手时长原文，如“分手半年”。"
+                },
+                "how_met": {
+                  "anyOf": [
+                    {
+                      "allOf": [
+                        { "$ref": "#/$defs/claim" },
+                        { "properties": { "value": { "type": ["string", "null"] } } }
+                      ]
+                    },
+                    { "type": "null" }
+                  ]
+                },
+                "breakup_reason": {
+                  "anyOf": [
+                    {
+                      "allOf": [
+                        { "$ref": "#/$defs/claim" },
+                        { "properties": { "value": { "type": ["string", "null"] } } }
+                      ]
+                    },
+                    { "type": "null" }
+                  ]
+                },
+                "current_contact_state": {
+                  "anyOf": [
+                    {
+                      "allOf": [
+                        { "$ref": "#/$defs/claim" },
+                        { "properties": { "value": { "type": ["string", "null"] } } }
+                      ]
+                    },
+                    { "type": "null" }
+                  ],
+                  "description": "分手后是否还有联系/点赞等，如“分手后还给我点赞”。"
+                },
+                "pretend_together": {
+                  "anyOf": [
+                    {
+                      "allOf": [
+                        { "$ref": "#/$defs/claim" },
+                        { "properties": { "value": { "type": "boolean" } } }
+                      ]
+                    },
+                    { "type": "null" }
+                  ],
+                  "description": "默认 false（尊重分手事实，语义见 v1.1），用户显式开启才为 true。成 claim 时 value 必须是 boolean。"
+                }
+              }
+            }
+          }
+        },
+
+        "speech_style": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["catchphrases", "examples"],
+          "properties": {
+            "catchphrases": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/claim" },
+                  { "properties": { "value": { "type": "string" } } }
+                ]
+              },
+              "description": "口头禅列表。每条独立溯源。"
+            },
+            "tone_particles": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/claim" },
+                  { "properties": { "value": { "type": "string" } } }
+                ]
+              },
+              "description": "语气词：哈/嗯/哦/噢/嘿嘿/唉/呜呜…"
+            },
+            "tone": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/claim" },
+                  { "properties": { "value": { "type": "string" } } }
+                ]
+              },
+              "description": "语感形容词：慵懒/冷淡/话痨高能/阴阳怪气…"
+            },
+            "message_length": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "enum": ["short_burst", "mixed", "long_form", null] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "消息长度风格。value 枚举沿用 v1.1：short_burst/mixed/long_form/null。"
+            },
+            "punctuation": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "type": ["string", "null"] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "可逐字注入的标点指令。例：几乎不用句号，爱用省略号和波浪号～"
+            },
+            "emoji_usage": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "type": ["string", "null"] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "可逐字注入。例：从不发 emoji 但爱发表情包"
+            },
+            "typos_abbreviations": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/claim" },
+                  { "properties": { "value": { "type": "string" } } }
+                ]
+              },
+              "description": "错别字/缩写习惯：hh=哈哈、nb…"
+            },
+            "forms_of_address_user": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/claim" },
+                  { "properties": { "value": { "type": "string" } } }
+                ]
+              },
+              "description": "ta 怎么称呼用户：宝/喂/你…"
+            },
+            "examples": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["situation", "response"],
+                "properties": {
+                  "situation": { "type": "string", "description": "触发情境（用户说了什么/什么场景）" },
+                  "response": { "type": "string", "description": "ta 的回复。真实短句连发用换行分隔以模仿节奏" },
+                  "claim_id": { "type": "string", "description": "稳定寻址锚：pc_ + sha1hex(canonical_persona_claim)[:16]（见 claim_id 定义）。correction 可长期指向它。" },
+                  "evidence_ids": { "type": "array", "items": { "type": "string" }, "description": "支撑本示例的 evidence candidate 稳定 id。" },
+                  "basis": { "enum": ["direct_quote", "multi_evidence", "single_weak", "user_report_only", "inferred", "correction"] },
+                  "source_type": { "$ref": "#/$defs/sourceType" },
+                  "importance": { "type": "integer", "minimum": 1, "maximum": 5 },
+                  "corrected": { "type": "boolean", "description": "是否经用户纠正后定稿。定稿示例运行时优先保留" }
+                }
+              }
+            }
+          }
+        },
+
+        "emotional_pattern": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "attachment_style": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/claim" },
+                    { "properties": { "value": { "enum": ["secure", "anxious", "avoidant", "disorganized", null] } } }
+                  ]
+                },
+                { "type": "null" }
+              ],
+              "description": "依恋类型。value 枚举沿用 v1.1：secure/anxious/avoidant/disorganized/null。"
+            },
+            "love_languages": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/claim" },
+                  { "properties": { "value": { "enum": ["words_of_affirmation", "quality_time", "receiving_gifts", "acts_of_service", "physical_touch"] } } }
+                ]
+              },
+              "description": "爱的语言（可多项）。每项 value 沿用 v1.1 的 5 项枚举。"
+            },
+            "emotion_expressions": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "expression_of_affection": {
+                  "anyOf": [
+                    { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                    { "type": "null" }
+                  ],
+                  "description": "如何表达爱意"
+                },
+                "when_angry": {
+                  "anyOf": [
+                    { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                    { "type": "null" }
+                  ],
+                  "description": "生气时的表现"
+                },
+                "when_sad": {
+                  "anyOf": [
+                    { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                    { "type": "null" }
+                  ],
+                  "description": "难过时的表现"
+                },
+                "when_happy": {
+                  "anyOf": [
+                    { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                    { "type": "null" }
+                  ],
+                  "description": "开心时的表现"
+                },
+                "when_jealous": {
+                  "anyOf": [
+                    { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                    { "type": "null" }
+                  ],
+                  "description": "吃醋时的表现"
+                },
+                "how_comforts": {
+                  "anyOf": [
+                    { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                    { "type": "null" }
+                  ],
+                  "description": "安慰他人的方式"
+                }
+              }
+            },
+            "triggers": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "anger_triggers": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      { "$ref": "#/$defs/claim" },
+                      { "properties": { "value": { "type": "string" } } }
+                    ]
+                  },
+                  "description": "容易惹 ta 生气的点"
+                },
+                "sensitive_topics": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      { "$ref": "#/$defs/claim" },
+                      { "properties": { "value": { "type": "string" } } }
+                    ]
+                  },
+                  "description": "雷区话题，运行时绕开，踩中触发争吵剧本"
+                },
+                "joy_triggers": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      { "$ref": "#/$defs/claim" },
+                      { "properties": { "value": { "type": "string" } } }
+                    ]
+                  },
+                  "description": "让 ta 开心的点，可主动织入话题制造温暖"
+                }
+              }
+            }
+          }
+        },
+
+        "relationship_behavior": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "role": {
+              "anyOf": [
+                { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                { "type": "null" }
+              ],
+              "description": "关系中的角色：照顾者/被照顾者/主导者/平等…"
+            },
+            "conflict_pattern": {
+              "anyOf": [
+                { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                { "type": "null" }
+              ],
+              "description": "吵架模式概括：冷暴力/讲道理/直接爆发… 具体事件存 memory.conflicts"
+            },
+            "make_up_pattern": {
+              "anyOf": [
+                { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                { "type": "null" }
+              ],
+              "description": "和好方式：谁先低头/冷战多久/怎样破冰"
+            },
+            "contact_frequency": {
+              "anyOf": [
+                { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                { "type": "null" }
+              ],
+              "description": "联系频率"
+            },
+            "active_hours": {
+              "anyOf": [
+                { "allOf": [ { "$ref": "#/$defs/claim" }, { "properties": { "value": { "type": ["string", "null"] } } } ] },
+                { "type": "null" }
+              ],
+              "description": "活跃时段：深夜型/白天型…"
+            },
+            "boundaries": {
+              "type": "array",
+              "items": {
+                "allOf": [
+                  { "$ref": "#/$defs/claim" },
+                  { "properties": { "value": { "type": "string" } } }
+                ]
+              },
+              "description": "ta 的底线与不能接受的事"
+            }
+          }
+        }
+      }
+    },
+
+    "memory": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["core_facts", "timeline", "shared_experiences", "conflicts", "happy_memories", "breakup", "inside_jokes"],
+      "properties": {
+        "core_facts": { "$ref": "#/$defs/memoryItemArray", "description": "关系级基本盘：认识时间、常去地点等短事实。个人稳定属性（职业/城市/MBTI 等）只进 persona.identity，不在此重复。" },
+        "timeline": { "$ref": "#/$defs/memoryItemArray", "description": "只存里程碑短条目 + event_time，不重复叙述完整经历（避免与 shared_experiences 重复）" },
+        "shared_experiences": { "$ref": "#/$defs/memoryItemArray", "description": "共同经历的具体场景与故事" },
+        "conflicts": { "$ref": "#/$defs/memoryItemArray", "description": "争吵档案：起因/反应/冷战/和好" },
+        "happy_memories": { "$ref": "#/$defs/memoryItemArray", "description": "甜蜜瞬间与心动时刻" },
+        "breakup": { "$ref": "#/$defs/memoryItemArray", "description": "分手相关：原因/最后一次对话/分手后状态" },
+        "inside_jokes": { "$ref": "#/$defs/memoryItemArray", "description": "只有两个人懂的梗与暗号" },
+        "preferences": { "$ref": "#/$defs/memoryItemArray", "description": "可选：饮食/爱好/音乐电影偏好。有生活温度，聊天时最常用。偏好随时间变化用 history/valid_period 表达。" },
+        "daily_patterns": { "$ref": "#/$defs/memoryItemArray", "description": "可选：联系习惯/约会模式/谁更主动。供运行时塑造关系节奏" }
+      }
+    },
+
+    "corrections": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/correctionItem" },
+      "description": "用户纠正记录（可选，overlay）。correction 永不修改/删除原始 Evidence；它叠加在 base(evidence 派生) 之上，优先级：user correction > strong evidence > weak evidence > inference。persona 构建与运行时优先消费 active corrections。"
+    }
+  },
+
+  "$defs": {
+    "sourceType": {
+      "type": "string",
+      "enum": ["wechat_log", "qq_log", "social", "photo", "user_narration", "user_input", "correction", "unknown"],
+      "description": "wechat_log/qq_log 客观证据权重最高；user_narration 主观可能被美化，程序据此辅助定 confidence"
+    },
+    "claim": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_id", "value", "evidence_ids", "confidence", "basis"],
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "description": "稳定寻址锚（persona claim id）：claim_id = 'pc_' + sha1hex(canonical_persona_claim)[:16]。canonical_persona_claim 至少包含：persona field path + 规范化 value（NFKC、去空白、去标点、小写）。明确规则：(1) 同一 persona 字段 + 同一规范化 value → 相同 claim_id；(2) value 改变 → 新 claim_id；(3) LLM 改写自然语言但 canonical value 相同 → 不产生无意义新 id；(4) correction.target_id 可长期指向它；(5) claim_id 不依赖 evidence_ids / supporting_message_ids / created_at / extraction run / LLM 输出顺序。它是稳定寻址锚，不承担语义理解，不是永久实体 ID。"
+        },
+        "value": {
+          "description": "结论值。类型/枚举由所属 persona 字段经 allOf 叠加约束，通用 claim 本身不限定——不得因使用通用 claim 而绕过原字段的类型与 enum。"
+        },
+        "evidence_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "支撑本结论的 evidence candidate 稳定 id。可空仅限 basis=user_report_only/inferred 的情形；其余 basis 应有证据。"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "该结论作为当前解释依据的可信程度。不是数学概率，也不是模型内部概率。"
+        },
+        "basis": {
+          "enum": ["direct_quote", "multi_evidence", "single_weak", "user_report_only", "inferred", "correction"]
+        }
+      }
+    },
+    "layer0claim": {
+      "description": "Layer0 专用 claim：继承 claim，但 basis 收窄为 direct_quote/user_report_only/correction，且 evidence_ids 至少 1 条。不允许 multi_evidence/single_weak/inferred。additionalProperties:false 行为由内嵌 claim 分支保证（多余属性在分支①即被拒，覆盖分支不新增属性）。",
+      "allOf": [
+        { "$ref": "#/$defs/claim" },
+        { "properties": { "basis": { "enum": ["direct_quote", "user_report_only", "correction"] } } },
+        { "properties": { "evidence_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 } } }
+      ]
+    },
+    "typedValue": {
+      "description": "correction.corrected_value 的类型化值：string/number/boolean/null（null=抑制该结论）/标量数组（对应 enum[] 等）。整数是 number 的子集，故不单列 integer 分支以避免 oneOf 与 number 重叠。禁止任意 JSON 对象，从 Schema 形状上防止绕过目标字段约束。目标字段的类型/枚举由应用期用其自身 value 子约束校验（JSON Schema 无法跨 target_id 引用目标字段）。",
+      "oneOf": [
+        { "type": "string" },
+        { "type": "number" },
+        { "type": "boolean" },
+        { "type": "null" },
+        { "type": "array", "items": { "type": ["string", "number", "boolean"] } }
+      ]
+    },
+    "timeBoundary": {
+      "type": ["object", "null"],
+      "additionalProperties": false,
+      "required": ["value", "precision"],
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "时间边界取值。优先 ISO：YYYY-MM-DD / YYYY-MM / YYYY；无法精确时用人类可读原文（如“大三冬天”）。"
+        },
+        "precision": {
+          "enum": ["exact", "year", "fuzzy", "unknown"],
+          "description": "时间精度，复用 memoryItem.event_time_precision 的 v1.1 词表。"
+        }
+      }
+    },
+    "historySlice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "valid_from", "valid_to", "evidence_ids"],
+      "properties": {
+        "value": { "type": "string", "description": "该时期成立的状态表述。与 v1.1 memoryItem.content 同属 string 域。" },
+        "valid_from": { "$ref": "#/$defs/timeBoundary", "description": "本段起点。null=起点未知。" },
+        "valid_to": { "$ref": "#/$defs/timeBoundary", "description": "本段终点。null=至今/仍在成立。" },
+        "evidence_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1, "description": "本段支撑证据，必须 ≥1，可追溯（候选 → 消息）。" },
+        "note": { "type": ["string", "null"] }
+      }
+    },
+    "memoryItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "content", "importance", "confidence", "source_type"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "确定性派生 ID / 去重辅助键（非最终永久实体 ID）：memoryItem.id = 'mi_' + sha1hex(bucket + sorted(cited candidate ids)[≤5] + canonical(content))[:16]。局限：content 被改写或证据束变化会得到新 id；同桶同证据束同内容则同 id 以便去重。语义同一性由 Merge/Builder 层处理。"
+        },
+        "content": { "type": "string", "description": "事实/经历的一句话描述（当前解释一句话），写成可直接被 AI 复述的形态。" },
+        "event_time": { "type": ["string", "null"], "description": "尽量 ISO 日期 YYYY-MM-DD；模糊如“大三冬天”可配合 event_time_precision" },
+        "event_time_precision": { "type": "string", "enum": ["exact", "year", "fuzzy", "unknown"], "default": "unknown" },
+        "importance": { "type": "integer", "minimum": 1, "maximum": 5, "description": "运行时策略：>=4 常驻上下文，其余按 token 预算取 top-N" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1, "description": "<0.4 不进 persona 抽取，标记待确认" },
+        "source_type": { "$ref": "#/$defs/sourceType" },
+        "source_ref": { "type": ["string", "null"], "description": "来源文件路径或导入批次 id，可追溯" },
+        "status": {
+          "type": "string",
+          "enum": ["active", "superseded", "rejected", "pending_confirmation"],
+          "default": "active",
+          "description": "条目生命周期。增量不覆盖：新证据不删旧条目。supersede_kind 仅在 status==superseded 时有意义。"
+        },
+        "supersede_kind": {
+          "type": ["string", "null"],
+          "enum": ["corrected", "evolved", null],
+          "default": null,
+          "description": "仅当 status==superseded 时非空。corrected=旧解释被证明错误（当时即不该成立）；evolved=旧事实当时成立、后来发生变化（时间演变）。evolved 绝不自动当作 corrected；真正表达时间变化的是 history + valid_period，不是本字段。"
+        },
+        "superseded_by": { "type": ["string", "null"], "description": "被哪条 id 取代（memoryItem.id / correction id）。冲突/纠正在程序层可追踪" },
+        "corrected": { "type": "boolean", "description": "快速标记是否被用户纠正过；详细记录放顶层 corrections" },
+        "evidence_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "支撑本 memory item 的 evidence candidate 稳定 id（可追溯）。"
+        },
+        "conflicts_with": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "存在潜在冲突/时间关联的其他 memoryItem.id 或 candidate id。仅记录关系，不在此裁决。"
+        },
+        "history": {
+          "type": ["array", "null"],
+          "items": { "$ref": "#/$defs/historySlice" },
+          "description": "时间演变历史（evolved 用）。每段必须能回答：value 是什么 / 何时成立 / 哪些 evidence 支撑 / 时间精度。不把 history 退化成字符串列表。"
+        },
+        "valid_period": {
+          "type": ["object", "null"],
+          "additionalProperties": false,
+          "properties": {
+            "from": { "$ref": "#/$defs/timeBoundary" },
+            "to": { "$ref": "#/$defs/timeBoundary" }
+          },
+          "description": "当前解释适用的时间区间（null=未知）。与 history 配合表达时间演变；不是 supersede_kind 的替代。"
+        },
+        "created_at": { "type": ["string", "null"], "format": "date-time" },
+        "updated_at": { "type": ["string", "null"], "format": "date-time" },
+        "tags": { "type": "array", "items": { "type": "string" }, "description": "自由标签；词表建议后续阶段收敛（地点/餐厅/旅行/争吵/甜蜜…）" }
+      }
+    },
+    "memoryItemArray": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/memoryItem" }
+    },
+    "correctionItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "target_kind", "target_id", "user_statement", "corrected_value", "status", "created_at"],
+      "properties": {
+        "id": { "type": "string", "description": "由程序生成的稳定标识（corr_…）。" },
+        "target_kind": { "type": "string", "enum": ["candidate", "persona_claim", "memory_item"], "description": "correction 作用对象类型（v1.2 起取代旧版 persona/memory 二分定位，改为稳定锚寻址）。" },
+        "target_id": { "type": "string", "description": "稳定逻辑锚：candidate_id（c_…）/ persona claim_id（pc_…）/ memory item id（mi_…）。correction 长期指向它，跨重新生成继续生效；禁止指向数组下标或临时对象。" },
+        "target_path": { "type": ["string", "null"], "description": "人读定位提示（可选）。例：persona.speech_style.punctuation 或 memory/preferences/{id}。" },
+        "original_value": { "type": ["string", "null"], "description": "纠正前的值（保留 v1.1），用于回滚与审计。原始 Evidence 永不被修改。" },
+        "corrected_value": { "$ref": "#/$defs/typedValue", "description": "类型化纠正值：string/integer/boolean/enum/enum[]/null。null=抑制该结论（从解释移除，不删证据）。应用时用目标字段自身的 value 子约束校验，不得绕过原类型/enum。" },
+        "basis_override": { "type": "string", "enum": ["correction"], "default": "correction", "description": "应用 correction 后，目标结论的 basis 提升为 correction。" },
+        "user_statement": { "type": "string", "description": "用户原话，如：她不会这么说。" },
+        "status": { "type": "string", "enum": ["active", "superseded"], "default": "active", "description": "撤销 = 新 correction 将其 supersede（不物理删除）。" },
+        "superseded_by": { "type": ["string", "null"] },
+        "created_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

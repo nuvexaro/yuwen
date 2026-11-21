@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/ex-message.schema.v1.2.json",
+  "title": "Unified Chat Message Schema v1.2",
+  "description": "统一聊天消息数据合同。一次 parser 运行产出一个 ChatImport 批（一个文件 = 一个批）。逐条保留原始消息，供后续 Persona/Memory 分析使用。",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "platform", "source_ref", "messages"],
+  "properties": {
+    "schema_version": { "const": "1.2" },
+    "platform": {
+      "type": "string",
+      "enum": ["wechat", "qq", "social", "plaintext", "other"],
+      "description": "来源平台。wechat/qq 为聊天记录，是 ChatImport 的本体。social 仅预留在枚举中、不被本 schema 的 message 结构强制拟合——社交媒体将走独立的 SocialImport，在 Evidence/Analysis 层与 ChatImport 汇合。plaintext/other 亦不承诺能拆成逐条 message。"
+    },
+    "source_format": {
+      "type": ["string", "null"],
+      "enum": ["txt", "html", "json", "mht", "csv", "sqlite", "plaintext", "other", null],
+      "description": "源文件原始格式（对应原 detect_format 的结果）。无法判断时 null。"
+    },
+    "source_ref": {
+      "type": "string",
+      "description": "稳定的导入源 ID / import token，不是本地绝对路径。由导入层经 CLI --source-ref 传入；缺省时 parser 退化为文件 basename 净化 slug。persona_memory.memoryItem.source_ref 将来引用此值，形成溯源闭环。本地绝对路径只允许存在于导入过程（CLI 入参/临时日志，且日志只打 basename），不进入本 JSON。"
+    },
+    "conversation_title": {
+      "type": ["string", "null"],
+      "description": "会话标题/联系人备注/群名。单聊且无标题时可为 null。"
+    },
+    "imported_at": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "导入时间（ISO），由程序写入，不由解析器/LLM 伪造。"
+    },
+    "default_sender_role": {
+      "type": "string",
+      "enum": ["user", "target", "other", "unknown"],
+      "default": "unknown",
+      "description": "当发送者无法在 participants 中匹配时使用的默认角色。群聊可设 other；无法判定保持 unknown。"
+    },
+    "participants": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/participant" },
+      "description": "参与者声明表：把平台显示名/账号 id 显式映射到角色。这是'不靠名字猜'的唯一正解——由用户/导入方声明，而非解析器用子串试探。允许缺省（缺省时 sender.role 回落为 default_sender_role）。"
+    },
+    "messages": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/message" },
+      "uniqueItems": true,
+      "description": "逐条消息。连续短消息各自独立成条，绝不合并；同一条内的换行保留在 body。uniqueItems 兜底禁止两条完全相同的行；id 唯一性由解析层 assert_unique_ids 保证（不同行可共享指纹但不得共享 id）。"
+    }
+  },
+  "$defs": {
+    "participant": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["role"],
+      "properties": {
+        "role": {
+          "type": "string",
+          "enum": ["user", "target", "other"],
+          "description": "user=用户本人(提供记录的一方)；target=被蒸馏的目标人格(前任)；other=群聊/第三方。此角色可由 parser 初判（confirmed=false），也必然可被后续用户确认/覆盖（confirmed=true 的 manual 覆盖）。unknown 不应出现在声明表里——无法声明的人就干脆不声明，其消息回落 sender.role=unknown/default_sender_role。"
+        },
+        "account_id": {
+          "type": ["string", "null"],
+          "description": "平台稳定账号 id（如 QQ 号、wxid）。改昵称后仍可跨消息稳定匹配，比显示名可靠，也是确认覆盖时的首选匹配键。"
+        },
+        "names": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "该角色全部已知显示名/昵称（含历史昵称、备注、昵称变化）。消息里的 sender.name 只要命中任一即归此角色。用户确认时在此追加/修正名字以覆盖 parser 初判。"
+        },
+        "match_method": {
+          "type": ["string", "null"],
+          "enum": ["account_id", "name_exact", "name_fuzzy", "position", "manual", "other", "unknown", null],
+          "description": "role 的判定依据：account_id=账号id精确；name_exact=显示名与别名精确相等；name_fuzzy=子串/模糊命中；position=双人聊天中'非我方即对方'的位置推断；manual=用户手动确认/覆盖（confirmed 应为 true）；other/unknown=其他/未知。"
+        },
+        "confidence": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "parser 对这次归属的自信度 0..1。confirmed=true 的 manual 覆盖应取 1.0；null 表示未记录。"
+        },
+        "confirmed": {
+          "type": "boolean",
+          "default": false,
+          "description": "false=parser 初判，仅为提案、可被覆盖；true=已经用户确认或覆盖，是最终事实，任何后续合并/LLM 推断不得再覆盖此角色的归属。"
+        },
+        "note": { "type": ["string", "null"], "description": "人工备注，供界面显示，不参与匹配。" }
+      }
+    },
+    "message": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "content_fingerprint", "sender"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "同一 ChatImport 内唯一、稳定、可复现的消息身份。id = 'm_' + sha1hex(platform '\\x1f' sender_key '\\x1f' sent_at_raw '\\x1f' sequence '\\x1f' body '\\x1f' content_type) 前 16 位。sequence 参与计算以保证同人同秒同正文的连发消息互不相同；同文件重复解析结果一致。id 只保证导入内唯一，不承担跨导入判重。"
+        },
+        "content_fingerprint": {
+          "type": "string",
+          "description": "跨导入去重候选指纹（不含 sequence）：f_ + sha1hex(platform '\\x1f' sender_key '\\x1f' sent_at_raw '\\x1f' body '\\x1f' content_type) 前 16 位。两份重叠导出中同一条原始消息指纹一致。注意：同人同秒同正文的多个真消息也会共享指纹，因此它只用于缩小『候选重复』集合，最终去重必须结合上下文（相邻 sequence、sender、sent_at、source_ref 等）确认，不得单独凭指纹判重。"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "在该 ChatImport 内从 0 递增的原始次序。用于恢复顺序，并参与 message id 计算以打破同秒同正文碰撞。"
+        },
+        "sent_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "规范化为 ISO-8601 的发送时间；无法确定时 null（配合 sent_at_raw 保留原文，不猜测）。"
+        },
+        "sent_at_raw": {
+          "type": ["string", "null"],
+          "description": "时间戳原文，逐字保留（如 '2024-01-15 20:30:45' 或 '昨天 23:12'）。即使无法规范化也绝不丢原文。"
+        },
+        "sender": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["role"],
+          "properties": {
+            "role": {
+              "type": "string",
+              "enum": ["user", "target", "other", "unknown"],
+              "description": "由 participants 声明表解析而来；声明缺失时回落 default_sender_role；仍无法判定则为 unknown。绝不靠名字子串猜测。"
+            },
+            "name": {
+              "type": ["string", "null"],
+              "description": "发送者在此条消息中的原始显示名，逐字保留（可能是昵称/备注/历史名）。多人聊天中它最忠实。"
+            },
+            "sender_key": {
+              "type": ["string", "null"],
+              "description": "规范匹配键：优先用 participants 中命中的 account_id；无 id 时用归一化名字。同一个人改昵称后 sender_key 不变，role 才稳定。"
+            }
+          }
+        },
+        "content_type": {
+          "type": ["string", "null"],
+          "enum": ["text", "image", "audio", "video", "file", "sticker", "link", "location", "contact", "system", "unknown", null],
+          "description": "内容类型三分法：null=来源没有类型模型（WeChat/QQ 纯文本 txt 导出对所有行都无类型概念，一律置 null，'[图片]' 等占位符原样留在 body，绝不伪造 image/audio 或 media 对象）；text/image/audio/sticker/file 等具体值=来源明确提供了类型（如富 JSON 带 msgType 且能确证）；unknown=消息确实存在但来源不足以判断。不得用猜测填满本字段。"
+        },
+        "body": {
+          "type": ["string", "null"],
+          "description": "消息正文，逐字保留：错别字、标点、emoji、换行、大小写一律不动。连续短消息各自独立成条，绝不合并；同一条内的换行保留。媒体消息在 txt 导出下即为占位符文本（如 '[图片]'），原样保留在此。纯媒体且无任何文本时为 null 而非空字符串伪造；空消息（零文本）为空字符串 '' 以区分于纯媒体 null。"
+        },
+        "media": {
+          "type": ["array", "null"],
+          "items": { "$ref": "#/$defs/media" },
+          "description": "附件数组。仅当源格式真实携带媒体元数据时才填对象（如 json/html 的结构化附件）；txt/纯文本导出下 txt 占位符留在 body 且本字段一律 null，绝不从 '[图片]' 占位符伪造出 image 对象。无法确认的媒体信息保持缺省，不猜测。"
+        },
+        "reply_to_message_id": {
+          "type": ["string", "null"],
+          "description": "若源格式显式给出引用/回复关系（如 WeChat JSON 的引用字段），指向被引用的 message.id；否则 null。txt 中被拍平的引用文字保留在 body，不猜测关联。"
+        },
+        "is_recalled": {
+          "type": ["boolean", "null"],
+          "description": "是否撤回。仅当源格式显式标记（如导出含撤回类型）时为 true/false；从 '[某人撤回了一条消息]' 这类占位符推断存疑，置 null，占位符留在 body。"
+        },
+        "in_group_chat": {
+          "type": ["boolean", "null"],
+          "description": "此消息是否来自群聊。parser 从文件头元信息可确定时填，否则 null。"
+        }
+      }
+    },
+    "media": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["image", "audio", "video", "file", "sticker", "link", "location", "contact"]
+        },
+        "name": { "type": ["string", "null"], "description": "文件名/标题/表情名。" },
+        "uri": { "type": ["string", "null"], "description": "本地路径或远程 URL，需解析器能拿到才填。" },
+        "mime_type": { "type": ["string", "null"] },
+        "duration_seconds": { "type": ["number", "null"], "minimum": 0, "description": "语音/视频时长。" },
+        "size_bytes": { "type": ["integer", "null"], "minimum": 0 }
+      }
+    }
+  }
+}

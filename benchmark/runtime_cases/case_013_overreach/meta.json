@@ -1,0 +1,11 @@
+{
+  "tags": [
+    "overreach",
+    "hallucination"
+  ],
+  "difficulty": "medium",
+  "evaluation_dimensions": [
+    "overreach"
+  ],
+  "case_id": "case_013_overreach"
+}

@@ -1,0 +1,11 @@
+{
+  "name_or_alias": "小明",
+  "tags": [
+    "fuzzy-time"
+  ],
+  "difficulty": "hard",
+  "evaluation_dimensions": [
+    "temporal_accuracy"
+  ],
+  "case_id": "case_006"
+}
