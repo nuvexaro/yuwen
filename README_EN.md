@@ -1,5 +1,10 @@
 # yuwen
 
+[![tests](https://github.com/nuvexaro/yuwen/actions/workflows/tests.yml/badge.svg)](https://github.com/nuvexaro/yuwen/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/nuvexaro/yuwen)](https://github.com/nuvexaro/yuwen/releases/latest)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://python.org)
+
 Distill an ex into a conversational AI skill — their catchphrases, their tone, the places you went together.
 
 [中文](README.md) · [Changelog](CHANGELOG.md) · [Privacy & data flow](docs/COMPLIANCE.md) · [Install guide](INSTALL.md)
@@ -14,6 +19,20 @@ The original is MIT © therealXiaomanChu. This repository keeps that copyright n
 **See [CHANGELOG.md](CHANGELOG.md) for what actually changed.**
 
 For personal reflection and emotional healing only. **Not for harassment, stalking, impersonation, or privacy invasion.**
+
+---
+
+## Download
+
+⬇️ **[Latest release](https://github.com/nuvexaro/yuwen/releases/latest)**
+
+| Build | Who it's for | Notes |
+|---|---|---|
+| **Windows installer** (`yuwen-v*-setup-windows-x64.exe`) | Most users | Double-click to install, adds a Start-menu shortcut (desktop shortcut optional), uninstalls from Settings → Apps |
+| **Portable zip** (`yuwen-v*-windows-x64.zip`) | No install / carry on a USB stick | Unzip and run `ex-ai-pilot.exe`; Python not required |
+
+- **Just want to use it**: install, then read [Quick start](#quick-start) — all you need is a DeepSeek API key
+- **Developer**: run from source — see [Run the CLI from source](#b-run-the-cli-from-source), tests in [Running tests](#running-tests)
 
 ---
 
@@ -80,12 +99,16 @@ cd stage6/cli
 python mvp_cli.py --help
 ```
 
-### C. Windows portable build
+### C. Windows installer / portable build
 
-Download `yuwen-v0.1.0-windows-x64.zip` from [https://github.com/nuvexaro/yuwen/releases](https://github.com/nuvexaro/yuwen/releases), unzip and double-click `ex-ai-pilot.exe`.
-Enter your own DeepSeek API key when prompted (input is hidden and never written to disk). No Python needed.
+Get the latest from the [releases page](https://github.com/nuvexaro/yuwen/releases/latest):
 
-**Just want to see the flow first (offline trial)?** Open `cmd` in the unzipped folder and run
+- **Installer**: `yuwen-v*-setup-windows-x64.exe` — double-click, choose a location (default `%LOCALAPPDATA%\Programs\yuwen`, **no admin rights needed**), and the final page offers "Launch yuwen" immediately.
+- **Portable**: `yuwen-v*-windows-x64.zip` — unzip and run `ex-ai-pilot.exe`. No Python required.
+
+Neither needs Python preinstalled. On first launch you'll be asked for a DeepSeek API key (hidden input, kept in memory only, never written to disk).
+
+**Just want to see the flow first (offline trial)?** Open `cmd` in the program folder and run
 
 ```bat
 set EX_REAL=0
@@ -94,11 +117,58 @@ ex-ai-pilot.exe
 
 Offline mode makes no network calls and needs no API key, but replies are a fixed placeholder
 (`[离线模式] 这是测试回复，未连接真实模型。`) — it only proves the pipeline works.
-For real conversations you still need a DeepSeek API key (the normal launch above).
+For real conversations you still need a DeepSeek API key (see [Get a DeepSeek API key](#get-a-deepseek-api-key)).
+
+---
+
+## Windows security warning
+
+The first time you run the installer or `ex-ai-pilot.exe`, Windows may show the blue
+"**Windows protected your PC**" (SmartScreen) dialog.
+
+**Why**: this is a free open-source project and does not pay for a code-signing certificate
+(a certificate costs hundreds to over a thousand dollars a year). Windows blocks unsigned
+executables with few downloads by default. It does **not** mean the file is malicious.
+
+**How to proceed**:
+
+1. Click "**More info**"
+2. Click "**Run anyway**"
+
+**If you'd rather verify it**, every release lists the SHA256 of each file — compute it yourself and compare:
+
+```powershell
+# In PowerShell, inside the download folder
+Get-FileHash .\yuwen-v0.1.1-setup-windows-x64.exe -Algorithm SHA256
+```
+
+A matching hash means the file wasn't tampered with. The full source is public at
+https://github.com/nuvexaro/yuwen — you can also build it yourself.
 
 ---
 
 ## Quick start
+
+### After installing (recommended for most users)
+
+1. Launch **yuwen** from the Start menu (or the desktop shortcut, if you ticked it)
+2. On first launch you'll be asked for a DeepSeek API key → paste it and press Enter (input is hidden)
+3. Follow the wizard: pick a slug → import a chat log → start chatting
+
+To skip the prompt, set the key as an environment variable before launching:
+
+```bat
+set DEEPSEEK_API=your-key
+```
+
+```powershell
+# PowerShell
+$env:DEEPSEEK_API='your-key'
+```
+
+> `set` / `$env:` only affect **the current terminal window**. For a permanent setting use
+> Environment Variables in Windows — but note that Windows then stores the key on disk
+> (see the key-handling notes below).
 
 ### Offline trial (no API key, no network)
 
@@ -148,6 +218,64 @@ The key stays in process memory only and is never written to disk. You can also 
 
 ---
 
+## Get a DeepSeek API key
+
+yuwen talks to DeepSeek by default. You need your own key (not shared, billed by usage).
+
+1. Open <https://platform.deepseek.com>
+2. Sign up / log in
+3. Top up your balance (top-up is in the console; exact thresholds and promos are on the official site)
+4. Go to **API Keys** → **Create API key** → copy it (**shown only once**)
+
+**How to give it to yuwen** — pick one:
+
+- **At launch**: run `ex-ai-pilot.exe` (or `python start.py`). If no key is found it prompts
+  `DeepSeek API Key:` — paste and press Enter. Input is not echoed.
+- **Via environment variable**: the program reads `DEEPSEEK_API` first, then `OPENAI_API_KEY`:
+
+  ```bat
+  :: Windows cmd
+  set DEEPSEEK_API=your-key
+  ```
+
+  ```powershell
+  # Windows PowerShell
+  $env:DEEPSEEK_API='your-key'
+  ```
+
+  ```bash
+  # macOS / Linux
+  export DEEPSEEK_API='your-key'
+  ```
+
+**How the key is handled** (per `docs/COMPLIANCE.md` and the code):
+
+- It lives **only in process memory** (`os.environ`) and disappears when the process exits.
+  It is never written to `.env`, a config file, `persona_memory.json`, or logs.
+- Anything key-shaped in logs is redacted to `[REDACTED]`.
+- **If you set `DEEPSEEK_API` as a system environment variable yourself**, Windows stores it on
+  disk — that's the OS, not this project.
+- Trade-off: without the env var you'll re-enter the key on every launch.
+
+**Cost**: DeepSeek bills per token (input and output priced separately). See
+<https://platform.deepseek.com> for current pricing — this README deliberately doesn't hardcode
+numbers. A chat turn is typically a few hundred to a few thousand tokens, so a small top-up is
+enough to try it out.
+
+---
+
+## Preparing your chat logs
+
+Two WeChat export formats are supported: **txt exported by WeChatMsg-style tools** and **JSON exported
+by 留痕-style tools** (QQ supports txt / mht).
+
+How to export, what the files look like, and how to handle common errors: see
+**[docs/IMPORT_GUIDE.md](docs/IMPORT_GUIDE.md)**.
+
+> Only import conversations you took part in — chat logs contain the other person's personal data.
+
+---
+
 ## Running tests
 
 ```bash
@@ -182,6 +310,44 @@ CI: `.github/workflows/tests.yml` (ubuntu-latest / windows-latest × Python 3.10
 ├─ CHANGELOG.md               # changes vs upstream
 └─ CLAUDE.md / AGENTS.md      # project constraints (AGENTS.md points to CLAUDE.md)
 ```
+
+---
+
+## Uninstall & delete your data
+
+### Uninstalling
+
+- **Installer build**: Settings → Apps → Installed apps → **yuwen** → Uninstall; or the
+  "Uninstall yuwen" entry in the Start menu.
+- **Portable build**: just delete the unzipped folder (no registry entries, no services).
+
+**Uninstalling never deletes your data.** The wizard shows a final notice telling you where it is.
+
+### Where your data lives
+
+| What | Path |
+|---|---|
+| Data root | `%USERPROFILE%\.ex_ai\` (i.e. `C:\Users\<you>\.ex_ai\`) |
+| Persona + memory (one per Ex) | `.ex_ai\exes\<slug>\persona_memory.json` |
+| Version snapshots | `.ex_ai\exes\<slug>\versions\` |
+| Conversation logs | `.ex_ai\sessions\<slug>\<session-id>.json` |
+| Pilot questionnaire records (test builds only) | `.ex_ai\pilot_data\` |
+
+> In Claude Code skill mode, data lives in `./exes/` **inside your own project**, not in `.ex_ai`.
+
+### Removing everything
+
+1. Uninstall the program first
+2. Delete the whole `%USERPROFILE%\.ex_ai\` folder (**this cannot be undone**)
+
+To delete just one persona and keep the rest:
+
+```bash
+cd stage6/cli
+python mvp_cli.py delete --ex <slug>
+```
+
+That also removes its sessions and version history.
 
 ---
 

@@ -1,5 +1,10 @@
 # yuwen（余温）
 
+[![tests](https://github.com/nuvexaro/yuwen/actions/workflows/tests.yml/badge.svg)](https://github.com/nuvexaro/yuwen/actions/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Latest release](https://img.shields.io/github/v/release/nuvexaro/yuwen)](https://github.com/nuvexaro/yuwen/releases/latest)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://python.org)
+
 把前任的聊天记录、照片和你的描述，蒸馏成一个能对话的 AI Skill —— 用 ta 的口头禅、ta 的语气，记得你们一起去过的地方。
 
 [English](README_EN.md) · [改动记录](CHANGELOG.md) · [隐私与数据流向](docs/COMPLIANCE.md) · [安装详解](INSTALL.md)
@@ -13,6 +18,20 @@
 **具体改了什么见 [CHANGELOG.md](CHANGELOG.md)。**
 
 本项目仅用于个人回忆与情感疗愈，**不用于骚扰、跟踪、冒充或侵犯他人隐私**。
+
+---
+
+## 下载
+
+⬇️ **[最新版本下载页](https://github.com/nuvexaro/yuwen/releases/latest)**
+
+| 版本 | 适合谁 | 说明 |
+|---|---|---|
+| **Windows 安装版**（`yuwen-v*-setup-windows-x64.exe`） | 普通用户 | 双击安装，自动创建开始菜单快捷方式（桌面快捷方式可选），可在「设置 → 应用」里卸载 |
+| **免安装版**（`yuwen-v*-windows-x64.zip`） | 不想安装 / 想放 U 盘 | 解压后双击 `ex-ai-pilot.exe`，不用装 Python |
+
+- **普通用户**：装好之后先看 [快速开始](#快速开始)，只需要一个 DeepSeek API Key
+- **开发者**：从源码跑见 [从源码运行 CLI](#b-从源码运行-cli)，跑测试见 [运行测试](#运行测试)
 
 ---
 
@@ -79,22 +98,68 @@ cd stage6/cli
 python mvp_cli.py --help
 ```
 
-### C. Windows 免安装版
+### C. Windows 安装版 / 免安装版
 
-到 [https://github.com/nuvexaro/yuwen/releases](https://github.com/nuvexaro/yuwen/releases) 下载 `yuwen-v0.1.0-windows-x64.zip`，解压后双击 `ex-ai-pilot.exe`，按提示输入自己的 DeepSeek API Key（输入不回显、不落盘）。不需要安装 Python。
+去 [下载页](https://github.com/nuvexaro/yuwen/releases/latest) 取最新版：
 
-**只想先看看流程（离线试用）**：在解压出来的目录里打开 cmd，运行
+- **安装版**：`yuwen-v*-setup-windows-x64.exe`，双击 → 选择安装位置（默认 `%LOCALAPPDATA%\Programs\yuwen`，**不需要管理员权限**）→ 安装完可以直接勾选「立即运行 yuwen」。
+- **免安装版**：`yuwen-v*-windows-x64.zip`，解压后双击 `ex-ai-pilot.exe`。不需要安装 Python。
+
+两种方式都不需要预装 Python；第一次启动会提示输入 DeepSeek API Key（输入不回显、只存在内存里，不落盘）。
+
+**只想先看看流程（离线试用）**：在程序目录里打开 cmd，运行
 
 ```bat
 set EX_REAL=0
 ex-ai-pilot.exe
 ```
 
-离线模式不联网、不需要 API Key，但回复是固定的占位句（`[离线模式] 这是测试回复，未连接真实模型。`），**只能确认流程能走通**。要真实对话，仍然需要提供 DeepSeek API Key（就是上面那种启动方式）。
+离线模式不联网、不需要 API Key，但回复是固定的占位句（`[离线模式] 这是测试回复，未连接真实模型。`），**只能确认流程能走通**。要真实对话，仍然需要提供 DeepSeek API Key（见 [获取 DeepSeek API Key](#获取-deepseek-api-key)）。
+
+---
+
+## Windows 安全提示
+
+第一次运行安装包或 `ex-ai-pilot.exe` 时，Windows 可能弹出蓝色的「**Windows 已保护你的电脑**」（SmartScreen）。
+
+**原因**：这是一个免费开源项目，没有购买代码签名证书（一张证书一年几百到上千元），Windows 对"下载量少、无签名"的新程序默认拦截。**不是**因为程序有毒。
+
+**处理方法**：
+
+1. 点弹窗里的「**更多信息**」
+2. 点右下角出现的「**仍要运行**」
+
+**如果还是不放心**，可以核对文件哈希：Release 页面会公布每个文件的 SHA256，下载后自己算一遍对比。
+
+```powershell
+# 在下载文件所在目录打开 PowerShell
+Get-FileHash .\yuwen-v0.1.1-setup-windows-x64.exe -Algorithm SHA256
+```
+
+哈希一致说明文件没被替换过。代码全部公开在 https://github.com/nuvexaro/yuwen ，也可以直接自己从源码构建。
 
 ---
 
 ## 快速开始
+
+### 用安装包装好之后（推荐普通用户）
+
+1. 装完在开始菜单里找到 **yuwen** 打开（安装时勾了桌面快捷方式的话，桌面上也有）
+2. 第一次运行会提示输入 DeepSeek API Key → 粘贴，回车（输入不回显）
+3. 按引导走：起个代号 → 导入聊天记录 → 开始聊天
+
+想要更省事的做法是提前把 key 设成环境变量，这样启动时就不再询问：
+
+```bat
+set DEEPSEEK_API=你的key
+```
+
+```powershell
+# PowerShell
+$env:DEEPSEEK_API='你的key'
+```
+
+> 注意：`set` / `$env:` 只对**当前这个命令行窗口**有效。想永久生效要到「系统属性 → 环境变量」里加，但那样 key 会被 Windows 保存到磁盘（见第 2 条的说明）。
 
 ### 离线体验（不需要 API Key，不联网）
 
@@ -144,6 +209,56 @@ Key 只在当前进程内存里，不写盘。也可以用 `python mvp_cli.py ch
 
 ---
 
+## 获取 DeepSeek API Key
+
+yuwen 默认走 DeepSeek。你需要自己的 key（不共享、按量计费）。
+
+1. 打开 <https://platform.deepseek.com>
+2. 注册 / 登录
+3. 充值（充值入口在控制台里；具体活动与门槛以官网为准）
+4. 进入 **API Keys** 页面 → **创建 API key** → 复制（**只显示一次**，关掉就看不到了）
+
+**怎么填给 yuwen**，两种方式，任选其一：
+
+- **启动时输入**：直接运行 `ex-ai-pilot.exe`（或 `python start.py`），程序检测不到 key 时会提示 `DeepSeek API Key:`，粘贴后回车。输入不回显。
+- **提前设环境变量**：程序会优先读 `DEEPSEEK_API`（其次 `OPENAI_API_KEY`）：
+
+  ```bat
+  :: Windows cmd
+  set DEEPSEEK_API=你的key
+  ```
+
+  ```powershell
+  # Windows PowerShell
+  $env:DEEPSEEK_API='你的key'
+  ```
+
+  ```bash
+  # macOS / Linux
+  export DEEPSEEK_API='你的key'
+  ```
+
+**key 会被怎么处理**（依据 `docs/COMPLIANCE.md` 与代码，如实说明）：
+
+- **只存在当前进程的内存里**（`os.environ`），进程退出就没了；不会写进 `.env`、配置文件、`persona_memory.json`，也不会写进日志。
+- 日志里出现的疑似 key 会被脱敏成 `[REDACTED]`。
+- **如果你自己把 `DEEPSEEK_API` 加成了系统环境变量**，那是 Windows 存到磁盘上的，和本项目无关 —— 安全性取决于你这台电脑。
+- 代价：不设环境变量的话，每次启动都要重新输入一次 key。
+
+**费用**：DeepSeek 按 token 计费（输入/输出分别计价），具体单价以 <https://platform.deepseek.com> 官方价格页为准，这里不写死数字。日常聊天是"每轮几百到几千 token"的量级，先充一点点就够试。
+
+---
+
+## 怎么准备聊天记录
+
+支持两种微信导出格式：**WeChatMsg 类工具导出的 txt** 和 **留痕类工具导出的 JSON**（QQ 支持 txt / mht）。
+
+怎么导出、导出后长什么样、常见报错怎么处理，全部写在 **[docs/IMPORT_GUIDE.md](docs/IMPORT_GUIDE.md)**。
+
+> 只导入你自己参与过的对话，聊天记录里有对方的个人信息。
+
+---
+
 ## 运行测试
 
 ```bash
@@ -178,6 +293,43 @@ CI：`.github/workflows/tests.yml`（ubuntu-latest / windows-latest × Python 3.
 ├─ CHANGELOG.md               # 相对上游的改动
 └─ CLAUDE.md / AGENTS.md      # 项目约束（AGENTS.md 指向 CLAUDE.md）
 ```
+
+---
+
+## 卸载与删除数据
+
+### 卸载程序
+
+- **安装版**：打开「设置 → 应用 → 已安装的应用」，找到 **yuwen（余温）** → 卸载；或开始菜单里的「卸载 yuwen」。
+- **免安装版**：直接删掉解压出来的那个文件夹就行（不写注册表、不装服务）。
+
+**卸载不会删除你的数据。** 卸载向导最后会弹一个提示，告诉你数据在哪。
+
+### 你的数据存在哪
+
+| 内容 | 路径 |
+|---|---|
+| 全部数据根目录 | `%USERPROFILE%\.ex_ai\`（即 `C:\Users\<你的用户名>\.ex_ai\`） |
+| 人格 + 记忆（每个 Ex 一份） | `.ex_ai\exes\<代号>\persona_memory.json` |
+| 历史版本快照 | `.ex_ai\exes\<代号>\versions\` |
+| 对话记录 | `.ex_ai\sessions\<代号>\<会话id>.json` |
+| Pilot 问卷记录（如果用测试版跑过） | `.ex_ai\pilot_data\` |
+
+> 用 Claude Code Skill 模式时，数据在**你自己项目**的 `./exes/` 下，不在 `.ex_ai`。
+
+### 怎么彻底删掉
+
+1. 先卸载程序（上面那步）
+2. 手动删掉 `%USERPROFILE%\.ex_ai\` 整个文件夹（**删除后不可恢复**）
+
+只想删某一个人格、保留其它的话，用命令行删单个 Ex：
+
+```bash
+cd stage6/cli
+python mvp_cli.py delete --ex <代号>
+```
+
+它会一起清掉这个人格、对应的会话记录和历史版本。
 
 ---
 
