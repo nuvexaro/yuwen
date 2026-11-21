@@ -21,6 +21,35 @@ from typing import Optional
 # 绝不默认落到 OpenAI 官方 endpoint（https://api.openai.com/v1）——那会用 DeepSeek key 打错 host。
 DEEPSEEK_DEFAULT_BASE_URL = "https://api.deepseek.com"
 
+# ---------------------------------------------------------------------------
+# 本地后端（Ollama，OpenAI 兼容接口）。YUWEN_BACKEND=local 时启用。
+# 只新增一个开关；其余全部复用已有变量（OPENAI_BASE_URL / EX_MODEL / OPENAI_API_KEY），
+# 且用 setdefault —— 用户手动设过的一律不覆盖。
+# ---------------------------------------------------------------------------
+LOCAL_BACKEND = "local"
+DEEPSEEK_BACKEND = "deepseek"
+LOCAL_BASE_URL_DEFAULT = "http://localhost:11434/v1"
+LOCAL_MODEL_DEFAULT = "yuwen-4b-q4"
+# openai SDK 要求 api_key 非空；本地 Ollama 不校验 key，用占位串满足构造条件。
+LOCAL_KEY_PLACEHOLDER = "local-no-key"
+
+
+def backend() -> str:
+    """当前后端：'deepseek'（默认）或 'local'。大小写/空白不敏感。"""
+    v = (os.environ.get("YUWEN_BACKEND") or "").strip().lower()
+    return LOCAL_BACKEND if v == LOCAL_BACKEND else DEEPSEEK_BACKEND
+
+
+def is_local() -> bool:
+    return backend() == LOCAL_BACKEND
+
+
+def apply_local_defaults() -> None:
+    """把已有变量指向本机 Ollama。setdefault：用户设过的值不覆盖。"""
+    os.environ.setdefault("OPENAI_BASE_URL", LOCAL_BASE_URL_DEFAULT)
+    os.environ.setdefault("EX_MODEL", LOCAL_MODEL_DEFAULT)
+    os.environ.setdefault("OPENAI_API_KEY", LOCAL_KEY_PLACEHOLDER)
+
 
 class RealLLMUnavailable(Exception):
     pass
@@ -150,25 +179,33 @@ def anthropic_adapter(prompt: str, *, model: Optional[str] = None, max_tokens: i
 
 def openai_adapter(prompt: str, *, model: Optional[str] = None, max_tokens: int = 512,
                    temperature: float = 0.7):
-    """OpenAI adapter。key=OPENAI_API_KEY。"""
-    _require_env("OPENAI_API_KEY")
+    """OpenAI 兼容 adapter。key=OPENAI_API_KEY（local 后端用占位串，Ollama 不校验）。"""
+    _local = is_local()
+    if _local:
+        api_key = os.environ.get("OPENAI_API_KEY") or LOCAL_KEY_PLACEHOLDER
+    else:
+        api_key = _require_env("OPENAI_API_KEY")
     try:
         import openai  # noqa: WPS433
     except ImportError as e:
         raise RealLLMUnavailable("openai SDK 未安装") from e
     _base = os.environ.get("OPENAI_BASE_URL") or DEEPSEEK_DEFAULT_BASE_URL
     client = openai.OpenAI(
-        api_key=os.environ["OPENAI_API_KEY"],
+        api_key=api_key,
         # 显式传 base_url：尊重 OPENAI_BASE_URL 配置；缺省安全默认 DeepSeek。
         # 不依赖 client 构造时 env 是否已被正确读取；绝不默认落 OpenAI 官方 endpoint。
         base_url=_base,
     )
     mdl = model or "gpt-4o-mini"
+    # local：先尝试从接口层关掉 Qwen 的思考模式（Ollama 支持 chat_template_kwargs 透传）。
+    # 关不掉时由 LLMGateway 的 strip_think 兜底。
+    extra = {"extra_body": {"chat_template_kwargs": {"enable_thinking": False}}} if _local else {}
     t0 = time.time()
     try:
         resp = client.chat.completions.create(
             model=mdl, max_tokens=max_tokens, temperature=temperature,
             messages=[{"role": "user", "content": prompt}],
+            **extra,
         )
     except Exception as e:
         _record_error(e)
@@ -208,7 +245,9 @@ def make_provider_adapter(provider: str):
             return r["text"]
         return _a
     if provider == "openai":
-        _require_env("OPENAI_API_KEY")
+        # local 后端不要求 key（Ollama 不校验），其它情况仍然 eager 校验
+        if not is_local():
+            _require_env("OPENAI_API_KEY")
         try:
             import openai  # noqa: WPS433
         except ImportError as e:

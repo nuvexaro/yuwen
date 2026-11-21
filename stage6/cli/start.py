@@ -37,6 +37,71 @@ def _offline() -> bool:
     return os.environ.get("EX_REAL", "1") == "0"
 
 
+# ---------------- 本地模型（Ollama）----------------
+
+def _ollama_base() -> str:
+    """OpenAI 兼容 base_url；默认本机 Ollama。"""
+    return (os.environ.get("OPENAI_BASE_URL") or "http://localhost:11434/v1").rstrip("/")
+
+
+def _ollama_ready(model: str) -> tuple:
+    """检查 Ollama 是否在跑、模型是否存在。返回 (ok, reason)。纯 stdlib，不抛异常。"""
+    import json as _json
+    import urllib.request as _req
+    base = _ollama_base()
+    tags_url = (base[:-3] if base.endswith("/v1") else base) + "/api/tags"
+    try:
+        with _req.urlopen(tags_url, timeout=2) as resp:
+            data = _json.loads(resp.read().decode("utf-8", "replace"))
+    except Exception as e:  # noqa: BLE001
+        return False, "连不上 Ollama（%s）" % type(e).__name__
+    names = {m.get("name", "") for m in (data.get("models") or [])}
+    short = {n.split(":")[0] for n in names}
+    if model in names or model.split(":")[0] in short:
+        return True, ""
+    return False, "已连上 Ollama，但找不到模型 %s" % model
+
+
+def _local_help(model: str) -> str:
+    return (
+        "\n本地模型模式需要先把 Ollama 跑起来，并且有对应的模型。\n\n"
+        "1) 安装 Ollama（只需一次）：https://ollama.com/download\n"
+        "2) 确认它在后台运行（安装后一般会自动启动）\n"
+        "3) 拉取模型（约 2.6 GB）：\n"
+        "     ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q4_K_M\n"
+        "4) 建一个 4096 上下文的别名（只需一次）。新建文本文件 Modelfile，内容两行：\n"
+        "     FROM modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q4_K_M\n"
+        "     PARAMETER num_ctx 4096\n"
+        "   然后在同一个目录执行：\n"
+        "     ollama create %s -f Modelfile\n"
+        "5) 重新启动本程序，再选一次「2) 本地模型」\n\n"
+        "想换成 Q8_0（更准、更占显存）：把上面的 Q4_K_M 换成 Q8_0，\n"
+        "别名换成 yuwen-4b-q8，然后设置环境变量 EX_MODEL=yuwen-4b-q8。\n"
+        % model
+    )
+
+
+def _choose_backend(argv) -> str:
+    """后端选择：--backend > YUWEN_BACKEND > 交互提问（默认云端）。"""
+    if "--backend" in argv:
+        i = argv.index("--backend")
+        if i + 1 < len(argv):
+            v = argv[i + 1].strip().lower()
+            if v in ("local", "deepseek"):
+                return v
+    env = (os.environ.get("YUWEN_BACKEND") or "").strip().lower()
+    if env in ("local", "deepseek"):
+        return env
+    print("\n请选择使用的模型：")
+    print("  1) 云端 DeepSeek（需要 API key，效果更好）")
+    print("  2) 本地模型（免费、无需 key、数据不出本机；需要先装 Ollama）")
+    try:
+        ans = input("输入 1 或 2 [1]: ").strip()
+    except (EOFError, KeyboardInterrupt):
+        ans = ""
+    return "local" if ans == "2" else "deepseek"
+
+
 def _resolve_key() -> str:
     """返回 key（来自 env 或用户输入）。只存内存，不落盘。"""
     env_key = os.environ.get("DEEPSEEK_API") or os.environ.get("OPENAI_API_KEY") or ""
@@ -160,7 +225,22 @@ def main(argv=None) -> int:
         i = argv.index("--user")
         if i + 1 < len(argv):
             user = argv[i + 1]
-    key = _resolve_key()
+    backend = _choose_backend(argv)
+    os.environ["YUWEN_BACKEND"] = backend
+    if backend == "local":
+        # 复用已有变量（OPENAI_BASE_URL / EX_MODEL / OPENAI_API_KEY），setdefault 不覆盖用户设置
+        import real_llm_adapter as _rla
+        _rla.apply_local_defaults()
+        local_model = os.environ.get("EX_MODEL") or _rla.LOCAL_MODEL_DEFAULT
+        ok, why = _ollama_ready(local_model)
+        if not ok:
+            print("\n[本地模型不可用] %s" % why)
+            print(_local_help(local_model))
+            return 3
+        print("（本地模型：%s @ %s）" % (local_model, _ollama_base()))
+        key = ""
+    else:
+        key = _resolve_key()
     _apply_defaults(key)
     if _offline():
         print("（离线模式：EX_REAL=0，不联网、不发请求；回复是固定占位文本）")

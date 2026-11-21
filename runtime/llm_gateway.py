@@ -9,11 +9,26 @@ mock 模式供 5.6 评测与 determinism 测试。
 
 from __future__ import annotations
 
+import re
 import time
 from typing import Callable, List, Optional
 
 DEFAULT_TIMEOUT_S = 30
 DEFAULT_RETRY = 1
+
+# 本地模型（Qwen 系列）可能带 思考过程，个别版本关不掉。
+# 网关是最后一道关：无论哪个 adapter，输出都过一遍这里。
+_THINK_RE = re.compile(r"<think\b[^>]*>.*?</think\s*>", re.S | re.I)
+_THINK_OPEN_RE = re.compile(r"<think\b[^>]*>.*\Z", re.S | re.I)
+
+
+def strip_think(text: str) -> str:
+    """去掉 <think>...</think> 整段；未闭合的 <think> 从该处截断。"""
+    if not text:
+        return ""
+    out = _THINK_RE.sub("", text)
+    out = _THINK_OPEN_RE.sub("", out)
+    return out.strip()
 
 
 class GatewayError(Exception):
@@ -55,7 +70,7 @@ class LLMGateway:
                 self.usage["calls"] += 1
                 self.usage["tokens"] += max_tokens
                 self.latency_ms = (time.time() - t0) * 1000
-                return out
+                return strip_think(out) if isinstance(out, str) else out
             except Exception as e:  # noqa: BLE001
                 last_exc = e
                 time.sleep(0.05 * (attempt + 1))
