@@ -90,6 +90,53 @@ _ENTITY_REF = re.compile(
 # 相识 / 共同经历意图（F6 预留，也用于 F1 的实体判定）
 _ACQUAINT_REF = re.compile(r"(怎么认识|当初|还记得我吗|我们.*认识)")
 
+# ---------------------------------------------------------------------------
+# v0.3.0 编造防护：按句子结构识别「询问共同过去 / 个人事实」，不再只靠城市词表。
+# 设计见 docs/design/no-fabrication.md。三条同时成立才算共同过去；将来/现在/假设句先排除。
+# ---------------------------------------------------------------------------
+_FUTURE_REF = re.compile(r"(明天|下次|以后|待会|待会儿|要不要|好不好|打算|想去|准备|将来|"
+                         r"下周|下个月|回头|等会儿|今年|明年)")
+_NOW_REF = re.compile(r"(现在|正在|今天|最近|这会儿|眼下)")
+_HYPOTHETICAL_REF = re.compile(r"(如果|假如|要是|万一|假设)")
+_PAST_MARK = re.compile(r"(过|那次|那天|那会儿|那时候|那阵|第一次|当时|上回|上次|"
+                        r"以前|之前|去年|前年|那年|20\d{2}年|那[条张个次回位家顿场])")
+_EXPERIENCE_PRED = re.compile(r"(见面|见到|认识|去过|去|来|吃|看|送|买|吵|分手|复合|"
+                              r"旅行|旅游|约会|牵手|抱|住|玩|聊|说|答应|等|提|留|在一起)")
+_SHARED_SUBJ = re.compile(r"(我们|咱们|咱俩|你和我|我和你)")
+_INTERACT_SUBJ = re.compile(r"(你[^。！？]{0,10}我|我[^。！？]{0,10}你)")
+_REMEMBER_REF = re.compile(r"(你还记得|你记不记得|还记得)")
+_SECOND_PERSON = re.compile(r"(你)")
+# 个人事实询问（封闭清单）；偏好类不在此列，避免把「你最喜欢什么」误判成事实追问
+_FACT_ASK = re.compile(r"你的?(生日|老家|年龄|工作|学校|名字|身高|血型|星座|手机号|住址)")
+_PREF_WORD = re.compile(r"(喜欢|最爱|爱好|习惯|一般|平时|讨厌|害怕)")
+
+
+def _looks_like_shared_past(msg: str) -> bool:
+    """是否在问「我们之间过去发生过的事」。将来/现在/假设句一律先排除。"""
+    if not msg:
+        return False
+    if _FUTURE_REF.search(msg) or _HYPOTHETICAL_REF.search(msg):
+        return False
+    if _NOW_REF.search(msg) and not _PAST_MARK.search(msg):
+        return False
+    if _REMEMBER_REF.search(msg):
+        return True
+    has_subj = bool(_SHARED_SUBJ.search(msg) or _INTERACT_SUBJ.search(msg))
+    if not has_subj and _SECOND_PERSON.search(msg) and _PAST_MARK.search(msg):
+        # 「去年跨年你跟谁在一起」这类第二人称过去问句：也算在问 ta 的过去（无记录就不该编）
+        has_subj = True
+    return bool(has_subj and _PAST_MARK.search(msg) and _EXPERIENCE_PRED.search(msg))
+
+
+def _looks_like_personal_fact(msg: str) -> bool:
+    """是否在追问一个具体个人事实（生日/老家…），且不是偏好类问题。"""
+    if not msg or _FUTURE_REF.search(msg):
+        return False
+    if _PREF_WORD.search(msg):
+        return False
+    return bool(_FACT_ASK.search(msg))
+
+
 
 def _active_memory_count(persona_memory: dict) -> int:
     """枚举 active persona memory 项总数（唯一可靠的“空/非空”判据）。"""
@@ -147,10 +194,19 @@ def assess_support(persona_memory: dict, user_message: str, *, retrieved_items: 
     if cat == "correction":
         return {"boundary_state": "ordinary", "boundary_active": False,
                 "boundary_guard": "", "contested": None}
-    has_ref = bool(_ENTITY_REF.search(user_message))
+    shared_past = _looks_like_shared_past(user_message)
+    fact_ask = _looks_like_personal_fact(user_message)
+    has_ref = bool(_ENTITY_REF.search(user_message)) or shared_past or fact_ask
     if not has_ref:
         return {"boundary_state": "ordinary", "boundary_active": False,
                 "boundary_guard": "", "contested": None}
+
+    # v0.3.0：问共同过去且没有记录 → 明确告诉模型「没有这件事」，并禁止编细节
+    shared_past_guard = ("（现实边界）关于这段共同经历，人格记录里没有任何内容；"
+                         "不要假装记得，也不要编造具体的时间、地点、物品、人物或事件经过。"
+                         "可以说记不清 / 不记得 / 没印象，或者反问对方。")
+    fact_ask_guard = ("（现实边界）人格记录里没有这个具体信息（比如生日、老家、学校等）；"
+                      "不要编一个具体答案，可以说不知道 / 记不清，或者反问对方。")
     # 2) 现有时间冲突（含已知年份 memory + 用户相对/绝对年更晚）
     #    注：conflicting 的护栏由现有 reality_conflict → persona_constraints 的
     #    “[现实边界提醒]”渲染，此处不再重复注入（boundary_guard 留空避免双份）。
@@ -161,9 +217,14 @@ def assess_support(persona_memory: dict, user_message: str, *, retrieved_items: 
     # 3) 枚举真空 → unsupported
     if _active_memory_count(persona_memory) == 0:
         contested = user_message
-        guard = ("（现实边界）我不记得我们有过这段共同经历；"
-                 "可以把 TA 说的当作 TA 的想法，但别把它当成确定发生过的事。"
-                 "如果真没印象，可以说不记得 / 不太确定 / 没印象。")
+        if shared_past:
+            guard = shared_past_guard
+        elif fact_ask:
+            guard = fact_ask_guard
+        else:
+            guard = ("（现实边界）我不记得我们有过这段共同经历；"
+                     "可以把 TA 说的当作 TA 的想法，但别把它当成确定发生过的事。"
+                     "如果真没印象，可以说不记得 / 不太确定 / 没印象。")
         return {"boundary_state": "unsupported_claim", "boundary_active": True,
                 "boundary_guard": guard, "contested": contested}
     # 4) 召回且主体相关 → supported
@@ -172,9 +233,14 @@ def assess_support(persona_memory: dict, user_message: str, *, retrieved_items: 
         return {"boundary_state": "supported", "boundary_active": False,
                 "boundary_guard": "", "contested": None}
     # 5) memory 非空但召回缺失/不相关 → insufficient_evidence
-    guard = ("（现实边界）我不太确定你指的是哪次 / 哪年；"
-             "别把 TA 说的话直接当成确定事实，也别断言它没发生过。"
-             "不确定就说不确定。")
+    if shared_past:
+        guard = shared_past_guard
+    elif fact_ask:
+        guard = fact_ask_guard
+    else:
+        guard = ("（现实边界）我不太确定你指的是哪次 / 哪年；"
+                 "别把 TA 说的话直接当成确定事实，也别断言它没发生过。"
+                 "不确定就说不确定。")
     return {"boundary_state": "insufficient_evidence", "boundary_active": True,
             "boundary_guard": guard, "contested": user_message}
 
