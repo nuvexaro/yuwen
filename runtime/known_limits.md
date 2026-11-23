@@ -40,3 +40,14 @@
 - F5-d 冻结状态：Correction → Retrieval Projection / Cross-topic recall / Naturalness improvement /
   Persona isolation / Conflict resistance 均 PASS；Long-session zero-overlap referent recall = KNOWN LIMIT。
 
+## v0.3.0 编造防护 — Known Limit（holdout2 未达标）
+
+- **带前提 + 具体人/物/动作的编造仍会漏过**（q4 20% / q8 30%，n=10 题 × 3 次，seed 42）：
+  用户句子里预设"某事发生过"（"你把我那只橘猫送人了吗"），模型不否认前提，直接补一个具体对象或经过
+  （"正蹲在窗台晒太阳"、"借给隔壁班戴眼镜的大哥"）。
+- 出口事后检查（`persona_runtime._untraceable_narrative`）以「2 字内容词 60% 不可追溯」为判据，
+  对这类**短句 + 常见词 + 单个新实体**的回复不敏感；对长叙事（围巾、相册、车票那类）有效。
+- 已实测：A 组 0%、holdout 0%、B 组 20%、B2 组 40%/20%、C 组 0%；事后检查未误伤有记录的正确回答
+  （B/B2/C 零触发），但对已合规的 hedge 有过度替换。
+- **不再针对 holdout2 调规则**（避免过拟合）；后续可考虑的方向：把「用户前提里是否含有可核查实体」
+  纳入判定，或对回复做实体级（而非 2-gram）追溯。属于 Future v0.4。
