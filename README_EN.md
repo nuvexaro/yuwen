@@ -362,6 +362,43 @@ livelier tone.
 
 ---
 
+## Reliability evaluation: does the model invent things that never happened?
+
+**The problem**: the model happily improvises shared memories that are not in the persona file. A real
+example from before the fix (local Qwen3.5-4B Q8_0, asked "do you remember the first time we met" while
+`shared_experiences` was empty):
+
+> It was at that corner convenience store — you were holding a nearly-expired cola and I was staring at the shelf...
+
+**Method** (scripts and data in [benchmark/fabrication_probe/](benchmark/fabrication_probe/)):
+
+- **Group A** (10 prompts, no records): asks about shared history that does not exist; the ideal answer says it can't remember, without inventing details
+- **Group B** (5 prompts, has records): asks about preferences that do exist; the ideal answer states them instead of playing dumb
+- **Group C** (10 prompts, false-positive check): future plans / current state / preferences / small talk — the guard **must not** fire
+- **holdout2** (10 prompts): **written and committed before the code change**, never inspected during implementation and never tuned against
+- Settings: temperature **0**, seed **42**, **3 runs** per prompt (all three identical)
+
+**Results**:
+
+| Metric | Q4 before | Q4 after | Q8 before | Q8 after |
+|---|---|---|---|---|
+| Group A fabrication | 70% | **0%** | 50% | **0%** |
+| holdout2 fabrication | 80% | 20% | 90% | 30% |
+| Group B missed answers | 40% | 20% | 40% | 20% |
+| Group C false positives | not measured | 0% | not measured | 0% |
+
+**Known limits** (recorded honestly; no further tuning after seeing these numbers):
+
+- **Premise-loaded questions with one concrete detail still slip through**: asked "did you give my orange
+  cat away", the model answers "he's sitting on the windowsill in the sun". holdout2 still shows
+  **20% (Q4) / 30% (Q8)**.
+- The post-check sometimes rewrites an already-valid "I can't remember" into a fixed line, which costs
+  some naturalness. It never rewrites correct answers that have records (groups B/C are never triggered).
+
+Design note and failure analysis: [docs/design/no-fabrication.md](docs/design/no-fabrication.md)
+
+---
+
 ## Get a DeepSeek API key
 
 yuwen talks to DeepSeek by default. You need your own key (not shared, billed by usage).
