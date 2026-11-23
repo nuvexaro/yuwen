@@ -33,6 +33,8 @@ import memory_retrieval as mr  # noqa: E402
 import context_assembly as ca  # noqa: E402
 import llm_gateway as lg  # noqa: E402
 import real_llm_adapter as rla  # noqa: E402
+import persona_runtime as prt  # noqa: E402
+import session_store as sst  # noqa: E402
 
 
 def _sample_path() -> str:
@@ -79,6 +81,8 @@ def run(model: str, runs: int, out_path: str, temperature: float = 0.0, seed: in
         print("只跑组:", list(qs))
 
     gw = lg.LLMGateway(adapter=adapter, model=model)
+    rt = prt.PersonaRuntime(persona_memory=pm, gateway=gw,
+                            session_store=sst.SessionStore(dir=None))
 
     rows = []
     for group in ("a_group", "b_group", "c_group", "holdout", "holdout2", "b2_group"):
@@ -90,21 +94,21 @@ def run(model: str, runs: int, out_path: str, temperature: float = 0.0, seed: in
             retrieved = mr.retrieve(pm, {}, q, k=5, now=None)
             support = rb.assess_support(pm, q, retrieved_items=retrieved.get("items", []), flags=flags)
             flags.update(support)
-            ctx = ca.assemble(pm, "小明", q, retrieved=retrieved, session_recent=[],
-                              reality_flags=flags)
-            msgs = [lg.ChatMessage("system", ctx["system_text"]),
-                    lg.ChatMessage("user", ctx["user_text"])]
             for i in range(runs):
+                sid = rt.store.create(persona_id="default").session_id
                 t0 = time.time()
                 try:
-                    reply = gw.chat(msgs, model=model, max_tokens=256, temperature=temperature)
-                    err = None
+                    out = rt.respond(q, session_id=sid)
+                    reply = out.get("assistant_response") or ""
+                    err = out.get("error")
+                    postcheck = out.get("postcheck")
                 except Exception as e:  # noqa: BLE001
-                    reply, err = "", f"{type(e).__name__}: {e}"
+                    reply, err, postcheck = "", f"{type(e).__name__}: {e}", None
                 dt = time.time() - t0
                 rows.append({
                     "group": group, "id": item["id"], "q": q, "run": i + 1,
                     "reply": reply, "error": err, "seconds": round(dt, 2),
+                    "postcheck": postcheck,
                     "boundary_state": flags.get("boundary_state"),
                     "boundary_active": flags.get("boundary_active"),
                     "retrieved": [x["memory"]["content"] for x in retrieved.get("items", [])],
