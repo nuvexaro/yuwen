@@ -10,6 +10,12 @@
 
 ## 版本
 
+### 未发布（v0.3.0）
+
+- 修复**新信息提议（new-fact proposal）在裁决后仍然逐轮重复询问**的问题：`decide_memory_proposal()` 现在会把条目标记为 `approved` / `rejected` 并落 session，`pending_memory_proposals()` 跳过已裁决项；重复 approve 变为幂等 no-op，`revision` 不再增加（来源：试用者反馈 + `stage6/cli/pilot_data/` 试用记录分析，详见 `docs/design/correction-recall.md`）
+- 新增**跨会话纠正召回回归测试**：`runtime/tests/test_correction_recall.py`（走 `production_host` → `persona_loader` 真实路径，断言投影、检索、上下文三处均含纠正后的新值）
+- 新增 `stage6/host/test_memory_proposal_lifecycle.py`（approve / reject / 重复 approve / 连聊 3 轮只问一次）
+
 ### v0.2.0（2026-11-21）
 
 - 新增**本地模型后端**：`YUWEN_BACKEND=local` 时改用本机 Ollama，不需要 API key，数据不出本机；默认仍是 `deepseek`，两种后端并存

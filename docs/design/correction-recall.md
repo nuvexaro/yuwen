@@ -87,9 +87,11 @@
 **d) 结论**
 - 试用者抱怨的真实原因是 **CLI 逐轮重复弹出确认提示**（当时是纠正提议重复；用户按 4 次 y），
   不是纠正结果丢失——问卷自己就回答了"记得"。
-- 当前版本：**纠正提议的重复弹出已修复**；**新信息提议的重复弹出仍存在**（上面 c 的三处位置）。
-  属实存缺陷，但按本任务约定（"如果还会出现，先汇报，不要修"）**不在本次修**，
-  建议作为 v0.3.0 的独立条目另行立项：裁决后从 `pending_confirmations` 移除（或导出侧过滤已裁决项）。
+- 当前版本：**纠正提议的重复弹出已修复**；**新信息提议的重复弹出**也已于 **v0.3.0 修复**
+  （commit `1e5b060`）：`decide_memory_proposal()` 裁决后把条目标记为 `approved` / `rejected`
+  并落 session（`stage6/host/production_host.py:396-402`），`pending_memory_proposals()`
+  导出时跳过已裁决项（`:344-346`）；重复 approve 变幂等 no-op，`revision` 不再增加。
+  回归测试：`stage6/host/test_memory_proposal_lifecycle.py`（7 断言，含 a/b/c/d 四场景）。
 
 ## 7. 原"待确认"占位（已被上节取代）
 
