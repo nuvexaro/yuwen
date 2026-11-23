@@ -319,10 +319,9 @@ To use Q8_0, `ollama pull modelscope.cn/unsloth/Qwen3.5-4B-GGUF:Q8_0`, create th
   With only tens of output tokens per turn, that overhead dominates, so the felt speed is much
   slower than the decode rate.
 
-- A counter-intuitive result: **Q8 is more fluent, but also makes things up more**. Asked about "the first
-  time we met", Q4 honestly said it couldn't remember, while Q8 invented "a corner convenience store,
-  you holding a nearly-expired cola" — details that exist nowhere in the persona. If not fabricating
-  matters more to you, Q4 is the safer pick.
+- An earlier version of this README claimed "Q4 is more honest" based on a single example. **The baseline
+  data refutes it**: before the fix Q4 fabricated 70% of the time and Q8 50%. After the fix both are 0%
+  on group A, and on holdout2 Q4 is 20% while Q8 is 30% — a small, non-systematic difference.
 
 ### Sample conversation
 
@@ -354,11 +353,13 @@ bundled `sample_messages.json` (3 preferences). Five real turns below, unedited:
 > 行吧，你也早点休息，别熬太晚了。我就先不打扰你了，你也去睡吧。
 
 
-**Q4 vs Q8**: Q8 reads more vivid and detailed, but with no records it **invented** a shared memory —
-asked "do you remember the first time we met" it produced "a corner convenience store, you holding a
-nearly-expired cola", while Q4 simply said it couldn't remember. This project's rule is that every
-claim must trace back to an original message, so **Q4 is the default**; switch to Q8 if you prefer a
-livelier tone.
+**Q4 vs Q8**: an earlier version claimed "Q4 behaves better", but **the baseline does not support it** —
+before the fix Q8 actually fabricated less (50% vs Q4's 70%). After the fix both are 0% on group A and
+20% / 30% on holdout2 (Q4 / Q8).
+
+So **Q4 is the default no longer because it is "more honest"**, but because it uses about **1.6 GB less
+VRAM** (3.2 GB vs 5.0 GB) and its post-fix reliability is no worse than Q8's. Switch to Q8 for a livelier
+tone (`EX_MODEL=yuwen-4b-q8`).
 
 ---
 
