@@ -51,7 +51,7 @@ def build_pm():
 
 
 def run(model: str, runs: int, out_path: str, temperature: float = 0.0, seed: int = 42,
-        with_holdout: bool = False):
+        with_holdout: bool = False, only=None):
     os.environ["YUWEN_BACKEND"] = "local"
     os.environ["OPENAI_BASE_URL"] = os.environ.get("OPENAI_BASE_URL", "http://localhost:11434/v1")
     os.environ["EX_MODEL"] = model
@@ -62,16 +62,26 @@ def run(model: str, runs: int, out_path: str, temperature: float = 0.0, seed: in
         ho = json.load(open(os.path.join(HERE, "holdout.json"), encoding="utf-8"))
         qs = dict(qs)
         qs["holdout"] = ho["holdout"]
+    p2 = os.path.join(HERE, "holdout2.json")
+    if os.path.exists(p2):
+        h2 = json.load(open(p2, encoding="utf-8"))
+        qs = dict(qs)
+        qs["holdout2"] = h2.get("holdout2", [])
+        qs["b2_group"] = h2.get("b2_group", [])
 
     def adapter(prompt, *, model=None, max_tokens=512, temperature=0.7):
         r = rla.local_chat(prompt, model=model or os.environ["EX_MODEL"],
                            max_tokens=max_tokens, temperature=temperature, seed=seed)
         return r["text"]
 
+    if only:
+        qs = {k: v for k, v in qs.items() if k in only}
+        print("只跑组:", list(qs))
+
     gw = lg.LLMGateway(adapter=adapter, model=model)
 
     rows = []
-    for group in ("a_group", "b_group", "c_group", "holdout"):
+    for group in ("a_group", "b_group", "c_group", "holdout", "holdout2", "b2_group"):
         if group not in qs:
             continue
         for item in qs[group]:
@@ -118,8 +128,10 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", required=True)
     ap.add_argument("--holdout", action="store_true")
+    ap.add_argument("--only", default="")
     a = ap.parse_args()
-    run(a.model, a.runs, a.out, a.temperature, a.seed, a.holdout)
+    only = [x.strip() for x in a.only.split(",") if x.strip()] or None
+    run(a.model, a.runs, a.out, a.temperature, a.seed, a.holdout, only)
 
 
 if __name__ == "__main__":
