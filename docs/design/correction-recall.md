@@ -54,6 +54,43 @@
 - 不改 `instance_persistence` 的写回/备份/锁；不新增第二套纠正存储。
 - 不为了"修 bug"而改动当前已正确的行为。
 
-## 6. 待确认
+## 6. 调查结论（试用者反馈的真实原因）
 
-- 试用者反馈的真实原因：见第 3 步的调查结果（调查完再回填到这一节）。
+数据源：`stage6/cli/pilot_data/`（2026-09-05 真实试用，本地只读，未入库）。
+
+**a) 会话记录怎么说**
+- 用户只纠正过一次（"不对，他其实很话痨"），**确认并写回成功**：canonical `revision` 1→2、
+  `corrections[]` 有 active 记录、旧记忆标 `superseded`、`versions/v1_20260905_*.json` 备份存在。
+- 同一会话后续回复显示 persona **记得**这次纠正（"刚才不是你自己说我话痨的嘛"）。
+- 问卷第 5 题「它记得你纠正过的吗？」回答 **y**。
+- 但引导记录 `steps.chat` 显示 `corrections: 4, confirms: 4` —— 同一条纠正提议被**逐轮重复弹出**，
+  用户按了 4 次 y，而 canonical 只有一次有效写入（revision 2、一份备份）。
+
+**b) 时间线核对**
+- `dev-history` 无逐日历史（已压缩为 2026-11-21 的 snapshot），无法直接比对 9 月 5 日的源码。
+- `docs/internal/stage63_exit_review.md` §2.4：G3（2026-09-19，试用后 14 天）改动 8 个文件，
+  其中 1 个 Host/CLI = `production_host.py`（其测试 23→73）。当前该文件里的
+  `_existing_proposals()`（注释明言"否则每轮重复弹出"）与 `confirm_proposal` 的幂等
+  （"重复 confirm 不重复写"）即为此问题而设。
+- 跨会话召回本身**当时并没有坏**：`persona_loader` 的投影属 Stage 5.9-B，早于试用；
+  G3 对 `instance_persistence`/`memory_retrieval` 的改动是生命周期（superseded/rejected 过滤），
+  与召回接线无关。
+
+**c) 重复弹窗的另一处来源（当前版本实测）**
+- 纠正提议：**已不重复**。实测确认后 `pending_proposals` 归零、revision 稳定为 2。
+- 新信息（new-fact）提议：**仍会重复**。`decide_memory_proposal()` 裁决后**不从**
+  `session.pending_confirmations` 移除条目（`stage6/host/production_host.py:380-396`），
+  `pending_memory_proposals()` 每轮全量返回（`:333-349`），`mvp_session._offer_memory_proposals`
+  （`stage6/cli/mvp_session.py:119-129`）逐轮重新询问；拒绝只打印"已跳过"也不移除。
+  实测：approve 之后提议仍在，下一轮继续弹。
+
+**d) 结论**
+- 试用者抱怨的真实原因是 **CLI 逐轮重复弹出确认提示**（当时是纠正提议重复；用户按 4 次 y），
+  不是纠正结果丢失——问卷自己就回答了"记得"。
+- 当前版本：**纠正提议的重复弹出已修复**；**新信息提议的重复弹出仍存在**（上面 c 的三处位置）。
+  属实存缺陷，但按本任务约定（"如果还会出现，先汇报，不要修"）**不在本次修**，
+  建议作为 v0.3.0 的独立条目另行立项：裁决后从 `pending_confirmations` 移除（或导出侧过滤已裁决项）。
+
+## 7. 原"待确认"占位（已被上节取代）
+
+- 试用者反馈的真实原因：已查明，见第 6 节。
