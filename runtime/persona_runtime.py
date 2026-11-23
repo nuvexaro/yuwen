@@ -141,6 +141,12 @@ class PersonaRuntime:
         final = raw
         if rflags.get("boundary_active") and _detect_confirmation(raw, rflags):
             final = "……我不太确定是不是你说的那次/那年。你具体说说？"
+        # 5b) 事后检查：记录里没有这件事时，回复若编出大量查不到的具体内容 → 换成中性回应
+        postcheck = None
+        if rflags.get("boundary_state") in ("insufficient_evidence", "unsupported_claim"):
+            if _untraceable_narrative(final, _source_text(self.persona_memory, retrieved, user_message)):
+                final = "……具体的事我记不清了。你愿意的话，跟我说说？"
+                postcheck = "untraceable_narrative"
 
         # 6) session update
         session.add_turn("user", user_message)
@@ -171,6 +177,8 @@ class PersonaRuntime:
         # 对齐既有 context_budget_exceeded 的 error 先例；success 路径无此字段。
         if gateway_fallback:
             ret["error"] = "gateway_fallback"
+        if postcheck:
+            ret["postcheck"] = postcheck
         return ret
 
     def _handle_correction(self, session: Session, user_message: str) -> Dict:
@@ -227,6 +235,56 @@ class PersonaRuntime:
                                          "old_claim_id": tgt.get("target_id"),
                                          "at": datetime.now().isoformat()})
         return result
+
+
+_STOP_BIGRAMS = {
+    "我们", "你们", "他们", "什么", "怎么", "这个", "那个", "时候", "现在", "觉得",
+    "知道", "可以", "就是", "但是", "因为", "所以", "已经", "还是", "其实", "真的",
+    "有点", "一下", "一个", "这样", "那样", "不是", "没有", "不能", "应该", "如果",
+    "然后", "而且", "只是", "这么", "那么", "心里", "感觉", "事情", "地方", "东西",
+    "起来", "出来", "过来", "下来", "可能", "大概", "也许", "好像", "记得", "不清",
+    "不记", "确定", "印象", "告诉", "说说", "聊聊", "要不", "愿意", "情况", "具体",
+}
+
+
+def _content_bigrams(text: str) -> set:
+    """抽 2 字内容词（去标点、去停用/虚词），用于判断"回复里有没有新东西"。"""
+    import re
+    segs = re.sub(r"[^\u4e00-\u9fff]+", " ", text or "").split()
+    out = set()
+    for seg in segs:
+        for i in range(len(seg) - 1):
+            g = seg[i:i + 2]
+            if g in _STOP_BIGRAMS:
+                continue
+            if any(ch in "的了是在有和就都也我你他她它们这那么什怎" for ch in g):
+                continue
+            out.add(g)
+    return out
+
+
+def _untraceable_narrative(reply: str, sources_text: str) -> bool:
+    """回复里的具体内容能否在「人格 + 命中记忆 + 用户原话」里找到。
+
+    只在 boundary_active（记录里没有这件事）时调用：此时任何**大段新内容**都不可信——
+    包括"先说记不清、再补细节"的写法。规则刻意与具体词表无关：
+    2 字内容词里，超过 60% 在来源中找不到、且新词 ≥6 个 → 判为不可追溯叙事。
+    """
+    if not isinstance(reply, str) or len(reply) < 30:
+        return False
+    grams = _content_bigrams(reply)
+    if len(grams) < 6:
+        return False
+    novel = [g for g in grams if g not in sources_text]
+    return len(novel) >= 6 and len(novel) / len(grams) >= 0.6
+
+
+def _source_text(persona_memory: dict, retrieved: dict, user_message: str) -> str:
+    import json
+    parts = [user_message or "", json.dumps(persona_memory, ensure_ascii=False)]
+    for it in (retrieved or {}).get("items", []):
+        parts.append((it.get("memory") or {}).get("content") or "")
+    return "\n".join(parts)
 
 
 def _detect_confirmation(reply: str, flags: dict) -> bool:
