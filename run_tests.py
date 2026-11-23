@@ -47,6 +47,7 @@ TEST_FILES = [
     "runtime/tests/test_gateway_fallback_signal.py",
     "runtime/tests/test_instance_persistence.py",
     "runtime/tests/test_local_backend.py",
+    "runtime/tests/test_correction_recall.py",
     "runtime/tests/test_runtime.py",
     "runtime/tests/test_stage59_f1.py",
     "runtime/tests/test_stage59_f2f3.py",
