@@ -99,10 +99,16 @@ STAGE 6.3 = CLOSED / HANDOFF COMPLETE（Repo-side）
 > `runtime/mock_responders.py` 单列为 Testing / Benchmark Support（不属于 Product Frozen Core）。
 > 本同步**未重新生成或改变任何 SHA**，仅记录既有值并修正分类语义。
 
+> **2026-11-23 v0.3.0 编造防护（经用户批准 reopen）**：
+> 修改 `runtime/reality_boundary.py`（新增「共同过去 / 个人事实」结构识别 + 强化 `boundary_guard`）。
+> `runtime/persona_runtime.py` 本轮未改（事后检查待定）；其余 13 个 runtime、5 个 schema 未变。
+> 仅下列 1 行 SHA 更新。原因与验收数据见 `docs/design/no-fabrication.md`、
+> `benchmark/fabrication_probe/after_summary.md`（A 组 70%/50% → 10%/10%，holdout 30% 未达标，待讨论）。
+
 **Frozen Core（runtime，14 个）**：
 ```
 runtime/persona_runtime.py            bba7079012df   (Stage 6.1 failure-observability reopen 后)
-runtime/reality_boundary.py           39e4631363ef
+runtime/reality_boundary.py           00aef0cb8323   (v0.3.0 no-fabrication reopen 后)
 runtime/persona_constraints.py        c90a342a0a2f
 runtime/context_assembly.py           fc72bd181019
 runtime/session_store.py              26ffbc7432a2
