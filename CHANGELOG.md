@@ -10,11 +10,14 @@
 
 ## 版本
 
-### 未发布（v0.3.0）
+### v0.3.0（2026-11-23）
 
 - 修复**新信息提议（new-fact proposal）在裁决后仍然逐轮重复询问**的问题：`decide_memory_proposal()` 现在会把条目标记为 `approved` / `rejected` 并落 session，`pending_memory_proposals()` 跳过已裁决项；重复 approve 变为幂等 no-op，`revision` 不再增加（来源：试用者反馈 + `stage6/cli/pilot_data/` 试用记录分析，详见 `docs/design/correction-recall.md`）
 - 新增**跨会话纠正召回回归测试**：`runtime/tests/test_correction_recall.py`（走 `production_host` → `persona_loader` 真实路径，断言投影、检索、上下文三处均含纠正后的新值）
 - 新增 `stage6/host/test_memory_proposal_lifecycle.py`（approve / reject / 重复 approve / 连聊 3 轮只问一次）
+- 修复**模型编造没有记录的共同经历**：`reality_boundary` 增加「共同过去 / 个人事实」的**结构化识别**（不再靠城市词表）、护栏补上"带前提"条款（不确认、不否认、不补细节）、`persona_runtime` 增加出口**事后检查**（回复里的具体内容能否在人格 / 命中记忆 / 用户原话里找到）。核心数据（A 组无记录题，每句 3 次，temp 0 / seed 42）：A 组编造率 70%/50% → **0%/0%**；holdout2（改代码前写好的验证题）80%/90% → **20%/30%**；C 组误判 0%
+- 新增评测集与脚本：`benchmark/fabrication_probe/`（A / B / C 组、holdout、holdout2、基线与修复后原始数据），并给 `local_chat` 增加 seed 透传以便复现
+- **已知局限**：带前提的问题 + 单个具体细节的短回复仍会漏（holdout2 剩 20%/30%）；事后检查会把部分本来就合格的"记不清"替换成固定说法，牺牲一些自然度（有记录的正确回答不受影响）
 
 ### v0.2.0（2026-11-21）
 
