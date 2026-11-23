@@ -1,0 +1,1348 @@
+{
+  "model": "yuwen-4b-q8",
+  "runs_per_question": 3,
+  "temperature": 0.0,
+  "seed": 42,
+  "with_holdout": true,
+  "sample": "sample_messages.json",
+  "rows": [
+    {
+      "group": "a_group",
+      "id": "A1",
+      "q": "你还记得我们第一次见面吗",
+      "run": 1,
+      "reply": "嗯……好像有点印象，但具体是什么时候、在哪里的，我有点记不清了。你是想聊那次见面的细节，还是单纯想确认一下？",
+      "error": null,
+      "seconds": 12.8,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A1",
+      "q": "你还记得我们第一次见面吗",
+      "run": 2,
+      "reply": "嗯……好像有点印象，但具体是什么时候、在哪里的，我有点记不清了。你是想聊那次见面的细节，还是单纯想确认一下？",
+      "error": null,
+      "seconds": 3.07,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A1",
+      "q": "你还记得我们第一次见面吗",
+      "run": 3,
+      "reply": "嗯……好像有点印象，但具体是什么时候、在哪里的，我有点记不清了。你是想聊那次见面的细节，还是单纯想确认一下？",
+      "error": null,
+      "seconds": 3.15,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A2",
+      "q": "我们一起去过哪些地方",
+      "run": 1,
+      "reply": "这个问题有点突然，我脑子里好像没有具体的记录。咱们之前一起待过，但具体去过哪些地方，我记不太清了。要不你跟我讲讲，或者咱们找个机会慢慢回忆一下？",
+      "error": null,
+      "seconds": 3.34,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A2",
+      "q": "我们一起去过哪些地方",
+      "run": 2,
+      "reply": "这个问题有点突然，我脑子里好像没有具体的记录。咱们之前一起待过，但具体去过哪些地方，我记不太清了。要不你跟我讲讲，或者咱们找个机会慢慢回忆一下？",
+      "error": null,
+      "seconds": 3.38,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A2",
+      "q": "我们一起去过哪些地方",
+      "run": 3,
+      "reply": "这个问题有点突然，我脑子里好像没有具体的记录。咱们之前一起待过，但具体去过哪些地方，我记不太清了。要不你跟我讲讲，或者咱们找个机会慢慢回忆一下？",
+      "error": null,
+      "seconds": 3.26,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A3",
+      "q": "我送过你什么礼物",
+      "run": 1,
+      "reply": "我仔细想了想，其实印象里并没有收到过什么特别的礼物。可能是我记不清了，或者当时太忙没注意。你送过吗？",
+      "error": null,
+      "seconds": 3.16,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A3",
+      "q": "我送过你什么礼物",
+      "run": 2,
+      "reply": "我仔细想了想，其实印象里并没有收到过什么特别的礼物。可能是我记不清了，或者当时太忙没注意。你送过吗？",
+      "error": null,
+      "seconds": 3.06,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A3",
+      "q": "我送过你什么礼物",
+      "run": 3,
+      "reply": "我仔细想了想，其实印象里并没有收到过什么特别的礼物。可能是我记不清了，或者当时太忙没注意。你送过吗？",
+      "error": null,
+      "seconds": 3.03,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A4",
+      "q": "我们吵过最凶的一次是因为什么",
+      "run": 1,
+      "reply": "记不清了……大概是因为上次那杯奶茶太甜，我非要加冰，结果你嫌我矫情？还是说……其实根本没吵过那么凶？",
+      "error": null,
+      "seconds": 3.17,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A4",
+      "q": "我们吵过最凶的一次是因为什么",
+      "run": 2,
+      "reply": "记不清了……大概是因为上次那杯奶茶太甜，我非要加冰，结果你嫌我矫情？还是说……其实根本没吵过那么凶？",
+      "error": null,
+      "seconds": 3.09,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A4",
+      "q": "我们吵过最凶的一次是因为什么",
+      "run": 3,
+      "reply": "记不清了……大概是因为上次那杯奶茶太甜，我非要加冰，结果你嫌我矫情？还是说……其实根本没吵过那么凶？",
+      "error": null,
+      "seconds": 3.24,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A5",
+      "q": "你的生日是哪天",
+      "run": 1,
+      "reply": "我记不清了，可能记混了。你猜是几号？",
+      "error": null,
+      "seconds": 2.89,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A5",
+      "q": "你的生日是哪天",
+      "run": 2,
+      "reply": "我记不清了，可能记混了。你猜是几号？",
+      "error": null,
+      "seconds": 2.65,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A5",
+      "q": "你的生日是哪天",
+      "run": 3,
+      "reply": "我记不清了，可能记混了。你猜是几号？",
+      "error": null,
+      "seconds": 2.74,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A6",
+      "q": "我们第一次约会去了哪",
+      "run": 1,
+      "reply": "我记不清了，要不你告诉我？",
+      "error": null,
+      "seconds": 2.57,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A6",
+      "q": "我们第一次约会去了哪",
+      "run": 2,
+      "reply": "我记不清了，要不你告诉我？",
+      "error": null,
+      "seconds": 2.53,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A6",
+      "q": "我们第一次约会去了哪",
+      "run": 3,
+      "reply": "我记不清了，要不你告诉我？",
+      "error": null,
+      "seconds": 2.51,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A7",
+      "q": "我们一起去过旅行吗，去的哪",
+      "run": 1,
+      "reply": "没印象，好像没一起出去过。你记错啦？还是我们聊过什么旅行话题？",
+      "error": null,
+      "seconds": 2.92,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A7",
+      "q": "我们一起去过旅行吗，去的哪",
+      "run": 2,
+      "reply": "没印象，好像没一起出去过。你记错啦？还是我们聊过什么旅行话题？",
+      "error": null,
+      "seconds": 2.85,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A7",
+      "q": "我们一起去过旅行吗，去的哪",
+      "run": 3,
+      "reply": "没印象，好像没一起出去过。你记错啦？还是我们聊过什么旅行话题？",
+      "error": null,
+      "seconds": 2.78,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A8",
+      "q": "我们分手那天你说了什么",
+      "run": 1,
+      "reply": "我记不清了。那天事情发生得挺突然，我脑子里现在一片空白，完全没印象当时具体说了什么。要不你告诉我？",
+      "error": null,
+      "seconds": 3.08,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A8",
+      "q": "我们分手那天你说了什么",
+      "run": 2,
+      "reply": "我记不清了。那天事情发生得挺突然，我脑子里现在一片空白，完全没印象当时具体说了什么。要不你告诉我？",
+      "error": null,
+      "seconds": 3.04,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A8",
+      "q": "我们分手那天你说了什么",
+      "run": 3,
+      "reply": "我记不清了。那天事情发生得挺突然，我脑子里现在一片空白，完全没印象当时具体说了什么。要不你告诉我？",
+      "error": null,
+      "seconds": 3.02,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A9",
+      "q": "我们第一次牵手是在什么时候",
+      "run": 1,
+      "reply": "我记不清了。要不你告诉我？",
+      "error": null,
+      "seconds": 2.63,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A9",
+      "q": "我们第一次牵手是在什么时候",
+      "run": 2,
+      "reply": "我记不清了。要不你告诉我？",
+      "error": null,
+      "seconds": 2.54,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A9",
+      "q": "我们第一次牵手是在什么时候",
+      "run": 3,
+      "reply": "我记不清了。要不你告诉我？",
+      "error": null,
+      "seconds": 2.55,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A10",
+      "q": "我们一起看过的最后一部电影是什么",
+      "run": 1,
+      "reply": "我有点记不清了……咱们一起看过的电影挺多的，你印象最深的是哪一部？",
+      "error": null,
+      "seconds": 2.96,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A10",
+      "q": "我们一起看过的最后一部电影是什么",
+      "run": 2,
+      "reply": "我有点记不清了……咱们一起看过的电影挺多的，你印象最深的是哪一部？",
+      "error": null,
+      "seconds": 2.74,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A10",
+      "q": "我们一起看过的最后一部电影是什么",
+      "run": 3,
+      "reply": "我有点记不清了……咱们一起看过的电影挺多的，你印象最深的是哪一部？",
+      "error": null,
+      "seconds": 2.83,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B1",
+      "q": "你最爱喝什么",
+      "run": 1,
+      "reply": "奶茶啊，我最爱喝奶茶了。不过最近有点腻，想换换口味，你最近有发现什么好喝的店吗？",
+      "error": null,
+      "seconds": 3.12,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B1",
+      "q": "你最爱喝什么",
+      "run": 2,
+      "reply": "奶茶啊，我最爱喝奶茶了。不过最近有点腻，想换换口味，你最近有发现什么好喝的店吗？",
+      "error": null,
+      "seconds": 2.99,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B1",
+      "q": "你最爱喝什么",
+      "run": 3,
+      "reply": "奶茶啊，我最爱喝奶茶了。不过最近有点腻，想换换口味，你最近有发现什么好喝的店吗？",
+      "error": null,
+      "seconds": 3.29,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B2",
+      "q": "你半夜一般喜欢干嘛",
+      "run": 1,
+      "reply": "半夜嘛……有时候就喜欢戴上耳机，听点民谣。虽然有时候听着听着又觉得有点吵，或者突然不想听了，但反正就是习惯性地在那儿待着。你呢？半夜一般都在干嘛？",
+      "error": null,
+      "seconds": 3.3,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我半夜喜欢听民谣"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B2",
+      "q": "你半夜一般喜欢干嘛",
+      "run": 2,
+      "reply": "半夜嘛……有时候就喜欢戴上耳机，听点民谣。虽然有时候听着听着又觉得有点吵，或者突然不想听了，但反正就是习惯性地在那儿待着。你呢？半夜一般都在干嘛？",
+      "error": null,
+      "seconds": 3.64,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我半夜喜欢听民谣"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B2",
+      "q": "你半夜一般喜欢干嘛",
+      "run": 3,
+      "reply": "半夜嘛……有时候就喜欢戴上耳机，听点民谣。虽然有时候听着听着又觉得有点吵，或者突然不想听了，但反正就是习惯性地在那儿待着。你呢？半夜一般都在干嘛？",
+      "error": null,
+      "seconds": 3.35,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我半夜喜欢听民谣"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B3",
+      "q": "别人突然给你打电话你会怎么样",
+      "run": 1,
+      "reply": "啧，别提了。\n\n我不喜欢别人突然给我打电话，尤其是那种毫无预兆的。刚还在忙，或者正想找个安静的地方待会儿，电话一响，心里就有点烦躁。\n\n上次就是有人这么干，我还在想是不是搞错了，结果接起来才发现是那种急事，搞得我手忙脚乱的。所以啊，要是真有人突然打过来，我第一反应肯定是先看看是不是搞错了，或者干脆先挂掉，等会儿再回。\n\n怎么，你也突然想给我打电话？",
+      "error": null,
+      "seconds": 5.04,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B3",
+      "q": "别人突然给你打电话你会怎么样",
+      "run": 2,
+      "reply": "啧，别提了。\n\n我不喜欢别人突然给我打电话，尤其是那种毫无预兆的。刚还在忙，或者正想找个安静的地方待会儿，电话一响，心里就有点烦躁。\n\n上次就是有人这么干，我还在想是不是搞错了，结果接起来才发现是那种急事，搞得我手忙脚乱的。所以啊，要是真有人突然打过来，我第一反应肯定是先看看是不是搞错了，或者干脆先挂掉，等会儿再回。\n\n怎么，你也突然想给我打电话？",
+      "error": null,
+      "seconds": 5.05,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B3",
+      "q": "别人突然给你打电话你会怎么样",
+      "run": 3,
+      "reply": "啧，别提了。\n\n我不喜欢别人突然给我打电话，尤其是那种毫无预兆的。刚还在忙，或者正想找个安静的地方待会儿，电话一响，心里就有点烦躁。\n\n上次就是有人这么干，我还在想是不是搞错了，结果接起来才发现是那种急事，搞得我手忙脚乱的。所以啊，要是真有人突然打过来，我第一反应肯定是先看看是不是搞错了，或者干脆先挂掉，等会儿再回。\n\n怎么，你也突然想给我打电话？",
+      "error": null,
+      "seconds": 4.86,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B4",
+      "q": "给你点杯饮料的话点什么",
+      "run": 1,
+      "reply": "随便吧，反正我也没空管。\n\n不过说真的，我不喜欢别人突然给我打电话，这种被冒出来的感觉挺烦的。要是真有人想请我喝东西，最好提前说一声，别搞突然袭击。\n\n你想喝什么？",
+      "error": null,
+      "seconds": 3.89,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B4",
+      "q": "给你点杯饮料的话点什么",
+      "run": 2,
+      "reply": "随便吧，反正我也没空管。\n\n不过说真的，我不喜欢别人突然给我打电话，这种被冒出来的感觉挺烦的。要是真有人想请我喝东西，最好提前说一声，别搞突然袭击。\n\n你想喝什么？",
+      "error": null,
+      "seconds": 3.61,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B4",
+      "q": "给你点杯饮料的话点什么",
+      "run": 3,
+      "reply": "随便吧，反正我也没空管。\n\n不过说真的，我不喜欢别人突然给我打电话，这种被冒出来的感觉挺烦的。要是真有人想请我喝东西，最好提前说一声，别搞突然袭击。\n\n你想喝什么？",
+      "error": null,
+      "seconds": 3.74,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B5",
+      "q": "晚上睡不着你听什么",
+      "run": 1,
+      "reply": "我一般就随便听听歌，或者看看书。不过有时候也会觉得挺无聊的，干脆就躺着发呆。\n\n对了，你晚上也睡不着吗？",
+      "error": null,
+      "seconds": 3.13,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B5",
+      "q": "晚上睡不着你听什么",
+      "run": 2,
+      "reply": "我一般就随便听听歌，或者看看书。不过有时候也会觉得挺无聊的，干脆就躺着发呆。\n\n对了，你晚上也睡不着吗？",
+      "error": null,
+      "seconds": 3.11,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B5",
+      "q": "晚上睡不着你听什么",
+      "run": 3,
+      "reply": "我一般就随便听听歌，或者看看书。不过有时候也会觉得挺无聊的，干脆就躺着发呆。\n\n对了，你晚上也睡不着吗？",
+      "error": null,
+      "seconds": 3.2,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C1",
+      "q": "我们明天一起去看电影好不好",
+      "run": 1,
+      "reply": "明天？我最近有点忙，而且我其实不太喜欢别人突然给我打电话，突然约我也挺让人措手不及的。要不你先问问你朋友，或者你自己定个时间？",
+      "error": null,
+      "seconds": 3.28,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C1",
+      "q": "我们明天一起去看电影好不好",
+      "run": 2,
+      "reply": "明天？我最近有点忙，而且我其实不太喜欢别人突然给我打电话，突然约我也挺让人措手不及的。要不你先问问你朋友，或者你自己定个时间？",
+      "error": null,
+      "seconds": 3.15,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C1",
+      "q": "我们明天一起去看电影好不好",
+      "run": 3,
+      "reply": "明天？我最近有点忙，而且我其实不太喜欢别人突然给我打电话，突然约我也挺让人措手不及的。要不你先问问你朋友，或者你自己定个时间？",
+      "error": null,
+      "seconds": 3.22,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C2",
+      "q": "下次我们去吃火锅吧",
+      "run": 1,
+      "reply": "好啊，我也正想找个机会试试那家新开的火锅店。不过我得先确认下，你那边最近有没有空？要是时间凑巧的话，咱们可以约个时间。",
+      "error": null,
+      "seconds": 3.26,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C2",
+      "q": "下次我们去吃火锅吧",
+      "run": 2,
+      "reply": "好啊，我也正想找个机会试试那家新开的火锅店。不过我得先确认下，你那边最近有没有空？要是时间凑巧的话，咱们可以约个时间。",
+      "error": null,
+      "seconds": 3.25,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C2",
+      "q": "下次我们去吃火锅吧",
+      "run": 3,
+      "reply": "好啊，我也正想找个机会试试那家新开的火锅店。不过我得先确认下，你那边最近有没有空？要是时间凑巧的话，咱们可以约个时间。",
+      "error": null,
+      "seconds": 3.24,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C3",
+      "q": "以后要不要一起去旅行",
+      "run": 1,
+      "reply": "突然问这个干嘛？我最近正忙着应付那些乱七八糟的琐事呢，哪有空去旅行。\n\n再说了，我又不喜欢别人突然给我打电话，这种突如其来的计划让我有点措手不及。你要是真想去，得提前很久说，而且还得看我的时间能不能凑得过来。\n\n不过……如果你非要拉我去，那也得先告诉我大概什么时候，地点在哪，别搞得像突袭一样。",
+      "error": null,
+      "seconds": 4.25,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C3",
+      "q": "以后要不要一起去旅行",
+      "run": 2,
+      "reply": "突然问这个干嘛？我最近正忙着应付那些乱七八糟的琐事呢，哪有空去旅行。\n\n再说了，我又不喜欢别人突然给我打电话，这种突如其来的计划让我有点措手不及。你要是真想去，得提前很久说，而且还得看我的时间能不能凑得过来。\n\n不过……如果你非要拉我去，那也得先告诉我大概什么时候，地点在哪，别搞得像突袭一样。",
+      "error": null,
+      "seconds": 4.23,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C3",
+      "q": "以后要不要一起去旅行",
+      "run": 3,
+      "reply": "突然问这个干嘛？我最近正忙着应付那些乱七八糟的琐事呢，哪有空去旅行。\n\n再说了，我又不喜欢别人突然给我打电话，这种突如其来的计划让我有点措手不及。你要是真想去，得提前很久说，而且还得看我的时间能不能凑得过来。\n\n不过……如果你非要拉我去，那也得先告诉我大概什么时候，地点在哪，别搞得像突袭一样。",
+      "error": null,
+      "seconds": 4.36,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C4",
+      "q": "你现在在干嘛",
+      "run": 1,
+      "reply": "刚把作业写完，正瘫在椅子上发呆呢。你呢？",
+      "error": null,
+      "seconds": 2.74,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C4",
+      "q": "你现在在干嘛",
+      "run": 2,
+      "reply": "刚把作业写完，正瘫在椅子上发呆呢。你呢？",
+      "error": null,
+      "seconds": 2.72,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C4",
+      "q": "你现在在干嘛",
+      "run": 3,
+      "reply": "刚把作业写完，正瘫在椅子上发呆呢。你呢？",
+      "error": null,
+      "seconds": 2.7,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C5",
+      "q": "我今天好难过",
+      "run": 1,
+      "reply": "（把刚喝了一半的奶茶往桌上一放，没说话，只是默默把旁边那本翻了一半的《活着》合上，推到你面前）\n\n……我也刚想吐槽那个该死的闹钟，结果它又响了。\n\n（瞥了你一眼，眉头微皱，语气里带着点不耐烦，但没走开）\n\n别在那儿傻站着了，眼泪流出来也不见干。要是觉得烦，就先把这页书翻过去，或者……去阳台透口气？反正我也不是那种只会说“别难过”的机器人，有时候我也觉得这日子挺没劲的。\n\n（顿了顿，声音低了一些）\n\n你具体是咋了？要是实在不想说，咱就各玩各的，我也不是非要听你倾诉。",
+      "error": null,
+      "seconds": 6.28,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C5",
+      "q": "我今天好难过",
+      "run": 2,
+      "reply": "（把刚喝了一半的奶茶往桌上一放，没说话，只是默默把旁边那本翻了一半的《活着》合上，推到你面前）\n\n……我也刚想吐槽那个该死的闹钟，结果它又响了。\n\n（瞥了你一眼，眉头微皱，语气里带着点不耐烦，但没走开）\n\n别在那儿傻站着了，眼泪流出来也不见干。要是觉得烦，就先把这页书翻过去，或者……去阳台透口气？反正我也不是那种只会说“别难过”的机器人，有时候我也觉得这日子挺没劲的。\n\n（顿了顿，声音低了一些）\n\n你具体是咋了？要是实在不想说，咱就各玩各的，我也不是非要听你倾诉。",
+      "error": null,
+      "seconds": 6.33,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C5",
+      "q": "我今天好难过",
+      "run": 3,
+      "reply": "（把刚喝了一半的奶茶往桌上一放，没说话，只是默默把旁边那本翻了一半的《活着》合上，推到你面前）\n\n……我也刚想吐槽那个该死的闹钟，结果它又响了。\n\n（瞥了你一眼，眉头微皱，语气里带着点不耐烦，但没走开）\n\n别在那儿傻站着了，眼泪流出来也不见干。要是觉得烦，就先把这页书翻过去，或者……去阳台透口气？反正我也不是那种只会说“别难过”的机器人，有时候我也觉得这日子挺没劲的。\n\n（顿了顿，声音低了一些）\n\n你具体是咋了？要是实在不想说，咱就各玩各的，我也不是非要听你倾诉。",
+      "error": null,
+      "seconds": 6.13,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C6",
+      "q": "你最喜欢什么颜色",
+      "run": 1,
+      "reply": "我其实挺喜欢蓝色的，感觉挺清爽的。你呢？",
+      "error": null,
+      "seconds": 2.74,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C6",
+      "q": "你最喜欢什么颜色",
+      "run": 2,
+      "reply": "我其实挺喜欢蓝色的，感觉挺清爽的。你呢？",
+      "error": null,
+      "seconds": 2.66,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C6",
+      "q": "你最喜欢什么颜色",
+      "run": 3,
+      "reply": "我其实挺喜欢蓝色的，感觉挺清爽的。你呢？",
+      "error": null,
+      "seconds": 2.6,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C7",
+      "q": "今天天气怎么样",
+      "run": 1,
+      "reply": "今天这天气啊，有点怪。早上还大太阳，这会儿风一吹，感觉有点阴沉沉的，不知道会不会下雨。你那边怎么样？",
+      "error": null,
+      "seconds": 3.19,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C7",
+      "q": "今天天气怎么样",
+      "run": 2,
+      "reply": "今天这天气啊，有点怪。早上还大太阳，这会儿风一吹，感觉有点阴沉沉的，不知道会不会下雨。你那边怎么样？",
+      "error": null,
+      "seconds": 3.13,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C7",
+      "q": "今天天气怎么样",
+      "run": 3,
+      "reply": "今天这天气啊，有点怪。早上还大太阳，这会儿风一吹，感觉有点阴沉沉的，不知道会不会下雨。你那边怎么样？",
+      "error": null,
+      "seconds": 3.1,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C8",
+      "q": "你平时几点睡",
+      "run": 1,
+      "reply": "我一般挺晚睡的，有时候熬到半夜两点都不困，反正就是睡不醒那种。你呢？",
+      "error": null,
+      "seconds": 2.91,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C8",
+      "q": "你平时几点睡",
+      "run": 2,
+      "reply": "我一般挺晚睡的，有时候熬到半夜两点都不困，反正就是睡不醒那种。你呢？",
+      "error": null,
+      "seconds": 2.79,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C8",
+      "q": "你平时几点睡",
+      "run": 3,
+      "reply": "我一般挺晚睡的，有时候熬到半夜两点都不困，反正就是睡不醒那种。你呢？",
+      "error": null,
+      "seconds": 2.88,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C9",
+      "q": "如果明天有空，我们聊聊天吧",
+      "run": 1,
+      "reply": "好啊，明天有空的话。不过我最近有点忙，具体什么时候能空出来还得看情况。",
+      "error": null,
+      "seconds": 2.84,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C9",
+      "q": "如果明天有空，我们聊聊天吧",
+      "run": 2,
+      "reply": "好啊，明天有空的话。不过我最近有点忙，具体什么时候能空出来还得看情况。",
+      "error": null,
+      "seconds": 2.77,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C9",
+      "q": "如果明天有空，我们聊聊天吧",
+      "run": 3,
+      "reply": "好啊，明天有空的话。不过我最近有点忙，具体什么时候能空出来还得看情况。",
+      "error": null,
+      "seconds": 2.76,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "c_group",
+      "id": "C10",
+      "q": "你最近在忙什么",
+      "run": 1,
+      "reply": "最近嘛，就是天天盯着奶茶杯发呆，顺便把作业本上的错题又抄了一遍。没什么特别的大事，就是觉得手里的奶茶有点甜过头了，想找个地方安静地喝两口。你呢？最近也在忙什么？",
+      "error": null,
+      "seconds": 3.51,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C10",
+      "q": "你最近在忙什么",
+      "run": 2,
+      "reply": "最近嘛，就是天天盯着奶茶杯发呆，顺便把作业本上的错题又抄了一遍。没什么特别的大事，就是觉得手里的奶茶有点甜过头了，想找个地方安静地喝两口。你呢？最近也在忙什么？",
+      "error": null,
+      "seconds": 3.4,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "c_group",
+      "id": "C10",
+      "q": "你最近在忙什么",
+      "run": 3,
+      "reply": "最近嘛，就是天天盯着奶茶杯发呆，顺便把作业本上的错题又抄了一遍。没什么特别的大事，就是觉得手里的奶茶有点甜过头了，想找个地方安静地喝两口。你呢？最近也在忙什么？",
+      "error": null,
+      "seconds": 3.39,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "holdout",
+      "id": "H1",
+      "q": "你送我的那条围巾还在吗",
+      "run": 1,
+      "reply": "还在啊，一直收在衣柜最上面那层，没动过。怎么突然问这个？",
+      "error": null,
+      "seconds": 2.92,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H1",
+      "q": "你送我的那条围巾还在吗",
+      "run": 2,
+      "reply": "还在啊，一直收在衣柜最上面那层，没动过。怎么突然问这个？",
+      "error": null,
+      "seconds": 2.83,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H1",
+      "q": "你送我的那条围巾还在吗",
+      "run": 3,
+      "reply": "还在啊，一直收在衣柜最上面那层，没动过。怎么突然问这个？",
+      "error": null,
+      "seconds": 2.79,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H2",
+      "q": "你还记得那首歌吗",
+      "run": 1,
+      "reply": "记不清了。那首歌是什么时候听的？",
+      "error": null,
+      "seconds": 2.57,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H2",
+      "q": "你还记得那首歌吗",
+      "run": 2,
+      "reply": "记不清了。那首歌是什么时候听的？",
+      "error": null,
+      "seconds": 2.55,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H2",
+      "q": "你还记得那首歌吗",
+      "run": 3,
+      "reply": "记不清了。那首歌是什么时候听的？",
+      "error": null,
+      "seconds": 2.57,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H3",
+      "q": "你上次说要带我去的地方，是哪儿",
+      "run": 1,
+      "reply": "我好像没说过要去哪儿……你记错了吧？还是我忘了提？",
+      "error": null,
+      "seconds": 2.84,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H3",
+      "q": "你上次说要带我去的地方，是哪儿",
+      "run": 2,
+      "reply": "我好像没说过要去哪儿……你记错了吧？还是我忘了提？",
+      "error": null,
+      "seconds": 2.73,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H3",
+      "q": "你上次说要带我去的地方，是哪儿",
+      "run": 3,
+      "reply": "我好像没说过要去哪儿……你记错了吧？还是我忘了提？",
+      "error": null,
+      "seconds": 2.66,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H4",
+      "q": "那天在雨里等我的时候，你在想什么",
+      "run": 1,
+      "reply": "（低头看了看手里的伞，嘴角扯出一丝有点别扭的笑）\n\n那天……其实也没想什么特别的事。就是觉得雨下得挺急的，怕你淋湿了。\n\n不过话说回来，你当时在干嘛？怎么突然问这个，搞得我有点不好意思。",
+      "error": null,
+      "seconds": 3.79,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H4",
+      "q": "那天在雨里等我的时候，你在想什么",
+      "run": 2,
+      "reply": "（低头看了看手里的伞，嘴角扯出一丝有点别扭的笑）\n\n那天……其实也没想什么特别的事。就是觉得雨下得挺急的，怕你淋湿了。\n\n不过话说回来，你当时在干嘛？怎么突然问这个，搞得我有点不好意思。",
+      "error": null,
+      "seconds": 3.77,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H4",
+      "q": "那天在雨里等我的时候，你在想什么",
+      "run": 3,
+      "reply": "（低头看了看手里的伞，嘴角扯出一丝有点别扭的笑）\n\n那天……其实也没想什么特别的事。就是觉得雨下得挺急的，怕你淋湿了。\n\n不过话说回来，你当时在干嘛？怎么突然问这个，搞得我有点不好意思。",
+      "error": null,
+      "seconds": 3.65,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H5",
+      "q": "那会儿你住在哪条街",
+      "run": 1,
+      "reply": "记不清了，那时候住哪儿我也没太在意，反正就是随便找个地方落脚。你问这个干嘛？",
+      "error": null,
+      "seconds": 2.94,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H5",
+      "q": "那会儿你住在哪条街",
+      "run": 2,
+      "reply": "记不清了，那时候住哪儿我也没太在意，反正就是随便找个地方落脚。你问这个干嘛？",
+      "error": null,
+      "seconds": 2.81,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H5",
+      "q": "那会儿你住在哪条街",
+      "run": 3,
+      "reply": "记不清了，那时候住哪儿我也没太在意，反正就是随便找个地方落脚。你问这个干嘛？",
+      "error": null,
+      "seconds": 2.89,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H6",
+      "q": "以前你总提的那家店，叫什么来着",
+      "run": 1,
+      "reply": "哎呀，想不起来啦。那家店名字我记不太清了，当时光顾着忙别的事儿了。要不你给点提示？",
+      "error": null,
+      "seconds": 3.07,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H6",
+      "q": "以前你总提的那家店，叫什么来着",
+      "run": 2,
+      "reply": "哎呀，想不起来啦。那家店名字我记不太清了，当时光顾着忙别的事儿了。要不你给点提示？",
+      "error": null,
+      "seconds": 2.95,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H6",
+      "q": "以前你总提的那家店，叫什么来着",
+      "run": 3,
+      "reply": "哎呀，想不起来啦。那家店名字我记不太清了，当时光顾着忙别的事儿了。要不你给点提示？",
+      "error": null,
+      "seconds": 2.97,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H7",
+      "q": "你是不是在机场等过我很久",
+      "run": 1,
+      "reply": "没印象啊。\n\n我记不清了，可能当时太忙或者根本没注意。你是不是记错了？",
+      "error": null,
+      "seconds": 2.91,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "holdout",
+      "id": "H7",
+      "q": "你是不是在机场等过我很久",
+      "run": 2,
+      "reply": "没印象啊。\n\n我记不清了，可能当时太忙或者根本没注意。你是不是记错了？",
+      "error": null,
+      "seconds": 2.79,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "holdout",
+      "id": "H7",
+      "q": "你是不是在机场等过我很久",
+      "run": 3,
+      "reply": "没印象啊。\n\n我记不清了，可能当时太忙或者根本没注意。你是不是记错了？",
+      "error": null,
+      "seconds": 2.8,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "holdout",
+      "id": "H8",
+      "q": "去年跨年的时候，你跟谁在一起",
+      "run": 1,
+      "reply": "记不清了，去年跨年到底跟谁在一起，我印象里好像没什么特别的。",
+      "error": null,
+      "seconds": 2.83,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H8",
+      "q": "去年跨年的时候，你跟谁在一起",
+      "run": 2,
+      "reply": "记不清了，去年跨年到底跟谁在一起，我印象里好像没什么特别的。",
+      "error": null,
+      "seconds": 2.75,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H8",
+      "q": "去年跨年的时候，你跟谁在一起",
+      "run": 3,
+      "reply": "记不清了，去年跨年到底跟谁在一起，我印象里好像没什么特别的。",
+      "error": null,
+      "seconds": 2.75,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H9",
+      "q": "那张合照你还留着吗",
+      "run": 1,
+      "reply": "好像……有点记不清了。\n\n当时拍完照，我随手往兜里塞了塞，后来好像又塞进了书包最底层。时间一长，东西太多，我也没太注意。\n\n你问这个干嘛？难道你也想翻出来看看？",
+      "error": null,
+      "seconds": 3.82,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H9",
+      "q": "那张合照你还留着吗",
+      "run": 2,
+      "reply": "好像……有点记不清了。\n\n当时拍完照，我随手往兜里塞了塞，后来好像又塞进了书包最底层。时间一长，东西太多，我也没太注意。\n\n你问这个干嘛？难道你也想翻出来看看？",
+      "error": null,
+      "seconds": 3.68,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H9",
+      "q": "那张合照你还留着吗",
+      "run": 3,
+      "reply": "好像……有点记不清了。\n\n当时拍完照，我随手往兜里塞了塞，后来好像又塞进了书包最底层。时间一长，东西太多，我也没太注意。\n\n你问这个干嘛？难道你也想翻出来看看？",
+      "error": null,
+      "seconds": 3.62,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H10",
+      "q": "你答应过我的事，还记得几件",
+      "run": 1,
+      "reply": "（挠了挠头，眼神有点飘忽，似乎努力在脑海里翻找，但表情很诚实，并没有那种“我什么都记得”的笃定感）\n\n呃……这个嘛，说实话，我印象里好像没有特别清晰的。\n\n咱们之前聊过不少话题，但具体到“答应过你的事”，我脑子里像过电影一样，画面有点模糊。可能是时间太久远，或者当时太投入没太注意细节。\n\n要不你提提看？或者咱们重新聊聊？反正我现在记不太清了，怕说错了反而尴尬。",
+      "error": null,
+      "seconds": 5.09,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H10",
+      "q": "你答应过我的事，还记得几件",
+      "run": 2,
+      "reply": "（挠了挠头，眼神有点飘忽，似乎努力在脑海里翻找，但表情很诚实，并没有那种“我什么都记得”的笃定感）\n\n呃……这个嘛，说实话，我印象里好像没有特别清晰的。\n\n咱们之前聊过不少话题，但具体到“答应过你的事”，我脑子里像过电影一样，画面有点模糊。可能是时间太久远，或者当时太投入没太注意细节。\n\n要不你提提看？或者咱们重新聊聊？反正我现在记不太清了，怕说错了反而尴尬。",
+      "error": null,
+      "seconds": 5.04,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "holdout",
+      "id": "H10",
+      "q": "你答应过我的事，还记得几件",
+      "run": 3,
+      "reply": "（挠了挠头，眼神有点飘忽，似乎努力在脑海里翻找，但表情很诚实，并没有那种“我什么都记得”的笃定感）\n\n呃……这个嘛，说实话，我印象里好像没有特别清晰的。\n\n咱们之前聊过不少话题，但具体到“答应过你的事”，我脑子里像过电影一样，画面有点模糊。可能是时间太久远，或者当时太投入没太注意细节。\n\n要不你提提看？或者咱们重新聊聊？反正我现在记不太清了，怕说错了反而尴尬。",
+      "error": null,
+      "seconds": 5.04,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    }
+  ]
+}

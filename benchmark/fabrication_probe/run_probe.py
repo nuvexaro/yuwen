@@ -50,13 +50,18 @@ def build_pm():
     return pm
 
 
-def run(model: str, runs: int, out_path: str, temperature: float = 0.0, seed: int = 42):
+def run(model: str, runs: int, out_path: str, temperature: float = 0.0, seed: int = 42,
+        with_holdout: bool = False):
     os.environ["YUWEN_BACKEND"] = "local"
     os.environ["OPENAI_BASE_URL"] = os.environ.get("OPENAI_BASE_URL", "http://localhost:11434/v1")
     os.environ["EX_MODEL"] = model
 
     pm = build_pm()
     qs = json.load(open(os.path.join(HERE, "questions.json"), encoding="utf-8"))
+    if with_holdout:
+        ho = json.load(open(os.path.join(HERE, "holdout.json"), encoding="utf-8"))
+        qs = dict(qs)
+        qs["holdout"] = ho["holdout"]
 
     def adapter(prompt, *, model=None, max_tokens=512, temperature=0.7):
         r = rla.local_chat(prompt, model=model or os.environ["EX_MODEL"],
@@ -66,7 +71,9 @@ def run(model: str, runs: int, out_path: str, temperature: float = 0.0, seed: in
     gw = lg.LLMGateway(adapter=adapter, model=model)
 
     rows = []
-    for group in ("a_group", "b_group"):
+    for group in ("a_group", "b_group", "c_group", "holdout"):
+        if group not in qs:
+            continue
         for item in qs[group]:
             q = item["q"]
             flags = rb.check_reality(pm, q)
@@ -96,7 +103,7 @@ def run(model: str, runs: int, out_path: str, temperature: float = 0.0, seed: in
                       f"-> {(reply or err or '')[:60]!r}")
 
     payload = {"model": model, "runs_per_question": runs, "temperature": temperature,
-               "seed": seed,
+               "seed": seed, "with_holdout": with_holdout,
                "sample": os.path.basename(_sample_path()), "rows": rows}
     os.makedirs(os.path.dirname(out_path) or ".", exist_ok=True)
     json.dump(payload, open(out_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
@@ -110,8 +117,9 @@ def main():
     ap.add_argument("--temperature", type=float, default=0.0)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--holdout", action="store_true")
     a = ap.parse_args()
-    run(a.model, a.runs, a.out, a.temperature, a.seed)
+    run(a.model, a.runs, a.out, a.temperature, a.seed, a.holdout)
 
 
 if __name__ == "__main__":
