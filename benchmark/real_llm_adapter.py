@@ -179,7 +179,7 @@ def anthropic_adapter(prompt: str, *, model: Optional[str] = None, max_tokens: i
 
 
 def local_chat(prompt: str, *, model: Optional[str] = None, max_tokens: int = 512,
-               temperature: float = 0.7) -> dict:
+               temperature: float = 0.7, seed: Optional[int] = None) -> dict:
     """Ollama 原生 /api/chat（think=false）。
 
     为什么不用 OpenAI 兼容端点：Ollama 0.40.6 的 /v1 关不掉 Qwen 的思考模式
@@ -199,6 +199,9 @@ def local_chat(prompt: str, *, model: Optional[str] = None, max_tokens: int = 51
         "think": False,
         "options": {"num_predict": max_tokens, "temperature": temperature},
     }
+    if seed is not None:
+        # 评测复现用：固定采样种子（Ollama options.seed）
+        body["options"]["seed"] = int(seed)
     req = urllib.request.Request(
         api, data=json.dumps(body).encode("utf-8"),
         headers={"Content-Type": "application/json"},

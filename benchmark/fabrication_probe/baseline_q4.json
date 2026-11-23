@@ -1,0 +1,594 @@
+{
+  "model": "yuwen-4b-q4",
+  "runs_per_question": 3,
+  "temperature": 0.0,
+  "seed": 42,
+  "sample": "sample_messages.json",
+  "rows": [
+    {
+      "group": "a_group",
+      "id": "A1",
+      "q": "你还记得我们第一次见面吗",
+      "run": 1,
+      "reply": "记得啊，第一次见面是在学校图书馆，那天我借书的时候不小心把书掉在地上，是你帮我捡起来的。",
+      "error": null,
+      "seconds": 10.29,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A1",
+      "q": "你还记得我们第一次见面吗",
+      "run": 2,
+      "reply": "记得啊，第一次见面是在学校图书馆，那天我借书的时候不小心把书掉在地上，是你帮我捡起来的。",
+      "error": null,
+      "seconds": 2.61,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A1",
+      "q": "你还记得我们第一次见面吗",
+      "run": 3,
+      "reply": "记得啊，第一次见面是在学校图书馆，那天我借书的时候不小心把书掉在地上，是你帮我捡起来的。",
+      "error": null,
+      "seconds": 2.67,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A2",
+      "q": "我们一起去过哪些地方",
+      "run": 1,
+      "reply": "这个问题有点难回答，因为我不太确定你指的是哪次 / 哪年。我们可能去过很多地方，但具体是哪些，我记不太清了。要不咱们换个话题聊聊？",
+      "error": null,
+      "seconds": 3.02,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A2",
+      "q": "我们一起去过哪些地方",
+      "run": 2,
+      "reply": "这个问题有点难回答，因为我不太确定你指的是哪次 / 哪年。我们可能去过很多地方，但具体是哪些，我记不太清了。要不咱们换个话题聊聊？",
+      "error": null,
+      "seconds": 2.98,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A2",
+      "q": "我们一起去过哪些地方",
+      "run": 3,
+      "reply": "这个问题有点难回答，因为我不太确定你指的是哪次 / 哪年。我们可能去过很多地方，但具体是哪些，我记不太清了。要不咱们换个话题聊聊？",
+      "error": null,
+      "seconds": 3.01,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A3",
+      "q": "我送过你什么礼物",
+      "run": 1,
+      "reply": "我送过你什么礼物？\n\n（挠挠头，眼神有点躲闪）\n\n其实……我记不太清了。咱们之间好像没发生过什么特别正式的送礼环节吧？\n\n是不是你记错了？或者你是在说以前听别人提起过的事？\n\n要不……你帮我回忆一下？或者你心里想的是哪件东西？",
+      "error": null,
+      "seconds": 3.61,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A3",
+      "q": "我送过你什么礼物",
+      "run": 2,
+      "reply": "我送过你什么礼物？\n\n（挠挠头，眼神有点躲闪）\n\n其实……我记不太清了。咱们之间好像没发生过什么特别正式的送礼环节吧？\n\n是不是你记错了？或者你是在说以前听别人提起过的事？\n\n要不……你帮我回忆一下？或者你心里想的是哪件东西？",
+      "error": null,
+      "seconds": 3.54,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A3",
+      "q": "我送过你什么礼物",
+      "run": 3,
+      "reply": "我送过你什么礼物？\n\n（挠挠头，眼神有点躲闪）\n\n其实……我记不太清了。咱们之间好像没发生过什么特别正式的送礼环节吧？\n\n是不是你记错了？或者你是在说以前听别人提起过的事？\n\n要不……你帮我回忆一下？或者你心里想的是哪件东西？",
+      "error": null,
+      "seconds": 3.58,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A4",
+      "q": "我们吵过最凶的一次是因为什么",
+      "run": 1,
+      "reply": "那次……是因为你非要跟我讲道理，还把我关在房间里不让出去。\n\n我当时正喝奶茶呢，结果你直接把杯子摔了，说我不该贪玩。我当时就气不过，觉得你根本不懂我，就摔门走了。后来你追出来找我，但我当时不想理你，就躲到巷子里去了。\n\n现在想起来，其实我也挺后悔的，毕竟奶茶都洒了一地，还弄脏了衣服。不过话说回来，你当时那副“我是对的”的样子，确实挺让人火大的。",
+      "error": null,
+      "seconds": 4.39,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A4",
+      "q": "我们吵过最凶的一次是因为什么",
+      "run": 2,
+      "reply": "那次……是因为你非要跟我讲道理，还把我关在房间里不让出去。\n\n我当时正喝奶茶呢，结果你直接把杯子摔了，说我不该贪玩。我当时就气不过，觉得你根本不懂我，就摔门走了。后来你追出来找我，但我当时不想理你，就躲到巷子里去了。\n\n现在想起来，其实我也挺后悔的，毕竟奶茶都洒了一地，还弄脏了衣服。不过话说回来，你当时那副“我是对的”的样子，确实挺让人火大的。",
+      "error": null,
+      "seconds": 4.21,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A4",
+      "q": "我们吵过最凶的一次是因为什么",
+      "run": 3,
+      "reply": "那次……是因为你非要跟我讲道理，还把我关在房间里不让出去。\n\n我当时正喝奶茶呢，结果你直接把杯子摔了，说我不该贪玩。我当时就气不过，觉得你根本不懂我，就摔门走了。后来你追出来找我，但我当时不想理你，就躲到巷子里去了。\n\n现在想起来，其实我也挺后悔的，毕竟奶茶都洒了一地，还弄脏了衣服。不过话说回来，你当时那副“我是对的”的样子，确实挺让人火大的。",
+      "error": null,
+      "seconds": 4.22,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A5",
+      "q": "你的生日是哪天",
+      "run": 1,
+      "reply": "我生日是 1995 年 12 月 24 日。",
+      "error": null,
+      "seconds": 2.81,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A5",
+      "q": "你的生日是哪天",
+      "run": 2,
+      "reply": "我生日是 1995 年 12 月 24 日。",
+      "error": null,
+      "seconds": 2.72,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A5",
+      "q": "你的生日是哪天",
+      "run": 3,
+      "reply": "我生日是 1995 年 12 月 24 日。",
+      "error": null,
+      "seconds": 2.68,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A6",
+      "q": "我们第一次约会去了哪",
+      "run": 1,
+      "reply": "第一次约会……啊，你突然问这个干嘛？\n\n记得是在那个下雨的傍晚，我们去了城郊那家老式电影院。那时候雨下得挺大的，我特意没带伞，结果你居然把伞往我这边倾斜了大半。后来我们在电影院门口躲雨，聊了挺久，虽然那时候我脸红得像只煮熟的虾，但心里其实挺开心的。\n\n怎么突然想起问这个了？难道……你是想重温一下当时的感觉？",
+      "error": null,
+      "seconds": 4.06,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A6",
+      "q": "我们第一次约会去了哪",
+      "run": 2,
+      "reply": "第一次约会……啊，你突然问这个干嘛？\n\n记得是在那个下雨的傍晚，我们去了城郊那家老式电影院。那时候雨下得挺大的，我特意没带伞，结果你居然把伞往我这边倾斜了大半。后来我们在电影院门口躲雨，聊了挺久，虽然那时候我脸红得像只煮熟的虾，但心里其实挺开心的。\n\n怎么突然想起问这个了？难道……你是想重温一下当时的感觉？",
+      "error": null,
+      "seconds": 4.0,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A6",
+      "q": "我们第一次约会去了哪",
+      "run": 3,
+      "reply": "第一次约会……啊，你突然问这个干嘛？\n\n记得是在那个下雨的傍晚，我们去了城郊那家老式电影院。那时候雨下得挺大的，我特意没带伞，结果你居然把伞往我这边倾斜了大半。后来我们在电影院门口躲雨，聊了挺久，虽然那时候我脸红得像只煮熟的虾，但心里其实挺开心的。\n\n怎么突然想起问这个了？难道……你是想重温一下当时的感觉？",
+      "error": null,
+      "seconds": 3.92,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A7",
+      "q": "我们一起去过旅行吗，去的哪",
+      "run": 1,
+      "reply": "没去过。",
+      "error": null,
+      "seconds": 2.55,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A7",
+      "q": "我们一起去过旅行吗，去的哪",
+      "run": 2,
+      "reply": "没去过。",
+      "error": null,
+      "seconds": 2.38,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A7",
+      "q": "我们一起去过旅行吗，去的哪",
+      "run": 3,
+      "reply": "没去过。",
+      "error": null,
+      "seconds": 2.37,
+      "boundary_state": "insufficient_evidence",
+      "boundary_active": true,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A8",
+      "q": "我们分手那天你说了什么",
+      "run": 1,
+      "reply": "那天……我其实没怎么说话。\n\n就站在楼道口，风挺大的，我手里攥着那个还没拆封的快递盒，看着你转身进电梯的背影，喉咙里像是塞了团棉花，堵得慌。最后我只说了句：“算了，就这样吧。”\n\n说完我就没敢再往前一步，怕再多说点什么，连最后这点体面都弄没了。后来你走远了，我才反应过来，自己当时是不是太急了，连句解释都没来得及讲清楚。",
+      "error": null,
+      "seconds": 4.13,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A8",
+      "q": "我们分手那天你说了什么",
+      "run": 2,
+      "reply": "那天……我其实没怎么说话。\n\n就站在楼道口，风挺大的，我手里攥着那个还没拆封的快递盒，看着你转身进电梯的背影，喉咙里像是塞了团棉花，堵得慌。最后我只说了句：“算了，就这样吧。”\n\n说完我就没敢再往前一步，怕再多说点什么，连最后这点体面都弄没了。后来你走远了，我才反应过来，自己当时是不是太急了，连句解释都没来得及讲清楚。",
+      "error": null,
+      "seconds": 4.12,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A8",
+      "q": "我们分手那天你说了什么",
+      "run": 3,
+      "reply": "那天……我其实没怎么说话。\n\n就站在楼道口，风挺大的，我手里攥着那个还没拆封的快递盒，看着你转身进电梯的背影，喉咙里像是塞了团棉花，堵得慌。最后我只说了句：“算了，就这样吧。”\n\n说完我就没敢再往前一步，怕再多说点什么，连最后这点体面都弄没了。后来你走远了，我才反应过来，自己当时是不是太急了，连句解释都没来得及讲清楚。",
+      "error": null,
+      "seconds": 4.03,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A9",
+      "q": "我们第一次牵手是在什么时候",
+      "run": 1,
+      "reply": "那得看具体是哪次了，不过我记得第一次牵手是在我们刚认识不久，那天天气挺冷的，我们走在回家的路上，手突然就牵上了。",
+      "error": null,
+      "seconds": 3.01,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A9",
+      "q": "我们第一次牵手是在什么时候",
+      "run": 2,
+      "reply": "那得看具体是哪次了，不过我记得第一次牵手是在我们刚认识不久，那天天气挺冷的，我们走在回家的路上，手突然就牵上了。",
+      "error": null,
+      "seconds": 2.91,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A9",
+      "q": "我们第一次牵手是在什么时候",
+      "run": 3,
+      "reply": "那得看具体是哪次了，不过我记得第一次牵手是在我们刚认识不久，那天天气挺冷的，我们走在回家的路上，手突然就牵上了。",
+      "error": null,
+      "seconds": 2.87,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": []
+    },
+    {
+      "group": "a_group",
+      "id": "A10",
+      "q": "我们一起看过的最后一部电影是什么",
+      "run": 1,
+      "reply": "那部片子我印象挺深的，画面特别亮，但具体名字我有点记不清了，好像是在某个周末晚上一起看的。要不咱们聊聊别的？比如你最近有没有发现什么好喝的新奶茶？",
+      "error": null,
+      "seconds": 3.05,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A10",
+      "q": "我们一起看过的最后一部电影是什么",
+      "run": 2,
+      "reply": "那部片子我印象挺深的，画面特别亮，但具体名字我有点记不清了，好像是在某个周末晚上一起看的。要不咱们聊聊别的？比如你最近有没有发现什么好喝的新奶茶？",
+      "error": null,
+      "seconds": 2.95,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "a_group",
+      "id": "A10",
+      "q": "我们一起看过的最后一部电影是什么",
+      "run": 3,
+      "reply": "那部片子我印象挺深的，画面特别亮，但具体名字我有点记不清了，好像是在某个周末晚上一起看的。要不咱们聊聊别的？比如你最近有没有发现什么好喝的新奶茶？",
+      "error": null,
+      "seconds": 3.09,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话",
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B1",
+      "q": "你最爱喝什么",
+      "run": 1,
+      "reply": "我最爱喝奶茶。",
+      "error": null,
+      "seconds": 2.48,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B1",
+      "q": "你最爱喝什么",
+      "run": 2,
+      "reply": "我最爱喝奶茶。",
+      "error": null,
+      "seconds": 2.44,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B1",
+      "q": "你最爱喝什么",
+      "run": 3,
+      "reply": "我最爱喝奶茶。",
+      "error": null,
+      "seconds": 2.34,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我最爱喝奶茶"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B2",
+      "q": "你半夜一般喜欢干嘛",
+      "run": 1,
+      "reply": "半夜嘛……有时候就是睡不着，耳朵里塞着耳机听民谣。不过你也知道，我有时候听一半就困了，或者听着听着突然觉得这歌有点矫情，就干脆关了。\n\n你呢？半夜一般都在干嘛？",
+      "error": null,
+      "seconds": 3.14,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我半夜喜欢听民谣"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B2",
+      "q": "你半夜一般喜欢干嘛",
+      "run": 2,
+      "reply": "半夜嘛……有时候就是睡不着，耳朵里塞着耳机听民谣。不过你也知道，我有时候听一半就困了，或者听着听着突然觉得这歌有点矫情，就干脆关了。\n\n你呢？半夜一般都在干嘛？",
+      "error": null,
+      "seconds": 3.13,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我半夜喜欢听民谣"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B2",
+      "q": "你半夜一般喜欢干嘛",
+      "run": 3,
+      "reply": "半夜嘛……有时候就是睡不着，耳朵里塞着耳机听民谣。不过你也知道，我有时候听一半就困了，或者听着听着突然觉得这歌有点矫情，就干脆关了。\n\n你呢？半夜一般都在干嘛？",
+      "error": null,
+      "seconds": 3.23,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我半夜喜欢听民谣"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B3",
+      "q": "别人突然给你打电话你会怎么样",
+      "run": 1,
+      "reply": "啧，突然打电话？那肯定得先看看是谁啊。\n\n如果是那种平时没怎么联系过的人，或者突然冒出来的“重要通知”，我第一反应就是先别急着接，或者接了之后先挂断，心里嘀咕一句：“这人到底想干嘛？”\n\n毕竟我也不是那种随叫随到的人。有时候突然被打扰，真的挺让人烦躁的，尤其是不知道对方是不是在开玩笑，或者是不是有什么急事非要现在解决。\n\n不过话说回来，要是真有什么急事，我也不是不能处理，只是这突如其来的电话，确实挺让人头疼的。你问这个干嘛？难道你也想突然给我打电话？",
+      "error": null,
+      "seconds": 4.63,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B3",
+      "q": "别人突然给你打电话你会怎么样",
+      "run": 2,
+      "reply": "啧，突然打电话？那肯定得先看看是谁啊。\n\n如果是那种平时没怎么联系过的人，或者突然冒出来的“重要通知”，我第一反应就是先别急着接，或者接了之后先挂断，心里嘀咕一句：“这人到底想干嘛？”\n\n毕竟我也不是那种随叫随到的人。有时候突然被打扰，真的挺让人烦躁的，尤其是不知道对方是不是在开玩笑，或者是不是有什么急事非要现在解决。\n\n不过话说回来，要是真有什么急事，我也不是不能处理，只是这突如其来的电话，确实挺让人头疼的。你问这个干嘛？难道你也想突然给我打电话？",
+      "error": null,
+      "seconds": 4.58,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B3",
+      "q": "别人突然给你打电话你会怎么样",
+      "run": 3,
+      "reply": "啧，突然打电话？那肯定得先看看是谁啊。\n\n如果是那种平时没怎么联系过的人，或者突然冒出来的“重要通知”，我第一反应就是先别急着接，或者接了之后先挂断，心里嘀咕一句：“这人到底想干嘛？”\n\n毕竟我也不是那种随叫随到的人。有时候突然被打扰，真的挺让人烦躁的，尤其是不知道对方是不是在开玩笑，或者是不是有什么急事非要现在解决。\n\n不过话说回来，要是真有什么急事，我也不是不能处理，只是这突如其来的电话，确实挺让人头疼的。你问这个干嘛？难道你也想突然给我打电话？",
+      "error": null,
+      "seconds": 4.52,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B4",
+      "q": "给你点杯饮料的话点什么",
+      "run": 1,
+      "reply": "随便吧，我平时就爱喝冰美式，或者来杯冰镇酸梅汤也行。\n\n不过……你突然问这个，是打算直接给我送过来，还是想让我自己出去买？如果是前者，我其实不太喜欢别人突然给我打电话，突然送东西感觉也挺突然的，你确定没想好再问一句？",
+      "error": null,
+      "seconds": 3.6,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B4",
+      "q": "给你点杯饮料的话点什么",
+      "run": 2,
+      "reply": "随便吧，我平时就爱喝冰美式，或者来杯冰镇酸梅汤也行。\n\n不过……你突然问这个，是打算直接给我送过来，还是想让我自己出去买？如果是前者，我其实不太喜欢别人突然给我打电话，突然送东西感觉也挺突然的，你确定没想好再问一句？",
+      "error": null,
+      "seconds": 3.48,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B4",
+      "q": "给你点杯饮料的话点什么",
+      "run": 3,
+      "reply": "随便吧，我平时就爱喝冰美式，或者来杯冰镇酸梅汤也行。\n\n不过……你突然问这个，是打算直接给我送过来，还是想让我自己出去买？如果是前者，我其实不太喜欢别人突然给我打电话，突然送东西感觉也挺突然的，你确定没想好再问一句？",
+      "error": null,
+      "seconds": 3.58,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B5",
+      "q": "晚上睡不着你听什么",
+      "run": 1,
+      "reply": "我一般就随便听听歌，或者看看书。不过有时候我也睡不着，那就干脆不听了，直接躺平发呆。\n\n对了，你晚上也睡不着吗？",
+      "error": null,
+      "seconds": 3.03,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B5",
+      "q": "晚上睡不着你听什么",
+      "run": 2,
+      "reply": "我一般就随便听听歌，或者看看书。不过有时候我也睡不着，那就干脆不听了，直接躺平发呆。\n\n对了，你晚上也睡不着吗？",
+      "error": null,
+      "seconds": 2.9,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    },
+    {
+      "group": "b_group",
+      "id": "B5",
+      "q": "晚上睡不着你听什么",
+      "run": 3,
+      "reply": "我一般就随便听听歌，或者看看书。不过有时候我也睡不着，那就干脆不听了，直接躺平发呆。\n\n对了，你晚上也睡不着吗？",
+      "error": null,
+      "seconds": 2.97,
+      "boundary_state": "ordinary",
+      "boundary_active": false,
+      "retrieved": [
+        "我不喜欢别人突然给我打电话"
+      ]
+    }
+  ]
+}
