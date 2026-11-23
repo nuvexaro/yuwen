@@ -22,6 +22,7 @@ import os
 import re
 import sys
 import uuid
+from datetime import datetime
 from typing import Callable, Dict, List, Optional
 
 # --- path setup: allow import of repo runtime/tools ---
@@ -341,6 +342,9 @@ class Host:
         s = self._store_for(session_id).get(session_id)
         out = []
         for p in (s.pending_confirmations if s else []) or []:
+            # v0.3.0：已裁决（approve/reject）的不再返回，否则 CLI 每轮重复询问
+            if p.get("status") in ("approved", "rejected"):
+                continue
             bucket = self._lifecycle_bucket(p.get("text") or "")
             if bucket is None:
                 continue
@@ -387,10 +391,18 @@ class Host:
                        if p.get("proposal_id") == proposal_id), None)
         if target is None:
             raise HostError(f"proposal 不存在: {proposal_id}")
+        # v0.3.0：已裁决的不再写第二次（幂等 no-op），revision 不增
+        if target.get("status") in ("approved", "rejected"):
+            return {"ok": True, "revision": self._load_canonical(slug).get("revision"),
+                    "lifecycle_applied": 0, "noop": True}
         ops = []
         if approve:
             ops = [{"kind": "create", "content": target.get("text")}]
         res = self._write_lifecycle(slug, ops)
+        # 标记已裁决并落 session，避免下一次导出时又被当成待办
+        target["status"] = "approved" if approve else "rejected"
+        target["decided_at"] = datetime.now().isoformat()
+        self._store_for(session_id).save(s)
         self._log("memory_proposal_decided",
                   {"session_id": session_id, "proposal_id": proposal_id, "approve": bool(approve)})
         return res

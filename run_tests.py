@@ -68,6 +68,7 @@ TEST_FILES = [
     "evaluation/tests/test_eval_framework.py",
     # stage6/ —— Production Host、Pilot CLI（2）
     "stage6/host/test_production_host.py",
+    "stage6/host/test_memory_proposal_lifecycle.py",
     "stage6/cli/test_mvp_cli.py",
 ]
 

@@ -139,6 +139,7 @@ def t_double_approve_writes_once():
 
 
 def t_asked_only_once_over_three_turns():
+    """模拟 mvp_session：每轮把 pending 展示给用户并当场裁决（等同按 y）。"""
     tmp = tempfile.mkdtemp(prefix="mp_d_")
     try:
         host, sid, pm_path = _new_host(tmp, "demo")
@@ -148,6 +149,9 @@ def t_asked_only_once_over_three_turns():
             props = host.pending_memory_proposals(sid)
             if any(p["text"] == FACT for p in props):
                 asked += 1
+                # mvp_session 在这里打印并读入 y/n；模拟用户按 y
+                target = next(p for p in props if p["text"] == FACT)
+                host.decide_memory_proposal(sid, target["proposal_id"], True)
             print(f"  第 {i} 轮：pending={[p['text'] for p in props]}")
         C.ok("d: 3 轮里只询问 1 次", asked == 1, f"实际询问 {asked} 次")
     finally:
