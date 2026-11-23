@@ -213,12 +213,13 @@ def t_frozen_sha():
                 #   Stage 5.9-A(F2/F3)   persona_runtime.py = a894dd7a8efd
                 #   Stage 5.9-B(F5)      persona_runtime.py = adcf73d14a71
                 #   Stage 5.9-B(F5-dD3)   persona_runtime.py = 85b335fb9876
-                #   Stage 6.1(fail-obsv) persona_runtime.py = bba7079012df  ← 当前（authorized minimal reopen）
-                "runtime/persona_runtime.py": "bba7079012df"}
+                #   Stage 6.1(fail-obsv) persona_runtime.py = bba7079012df
+                #   v0.3.0(no-fabrication) persona_runtime.py = c4b1b14c560f  ← 当前（authorized reopen）
+                "runtime/persona_runtime.py": "c4b1b14c560f"}
     sha = bh.frozen_sha()
     C.ok("14: frozen files have hashes", all(f in sha for f in expected))
     C.ok("14: core frozen match", sha["persona_memory.schema.json"][:12] == "27750ee4ace4")
-    C.ok("14: runtime persona_runtime match", sha["runtime/persona_runtime.py"][:12] == "bba7079012df")
+    C.ok("14: runtime persona_runtime match", sha["runtime/persona_runtime.py"][:12] == "c4b1b14c560f")
 
 
 # ---- 15 no modification of frozen files ----
